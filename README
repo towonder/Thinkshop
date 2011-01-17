@@ -21,7 +21,17 @@ SETUP:
 
 
 Place all files on an apache webserver,
+<<<<<<< HEAD
 and go to that url. If you have enough rights on the /app/config -folder, you'll be able to
 install the webshopsystem (like wordpress) within 5 minutes.
 
 Frontend-files views are here: /app/views/winkel/ and the frontend controller is here: /app/controllers/winkel_controller.php
+=======
+run the sql file on your database.
+
+change /app/config/database.php with your settings and
+change the 'HOME' and 'HOME_FOLDER' settings in the 
+database.
+
+Then you'll have a working copy.
+>>>>>>> c5b78533a4fb7300ae47b80d906469ecdf589520
