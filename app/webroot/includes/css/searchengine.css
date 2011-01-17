@@ -1,0 +1,10 @@
+#searchinput{
+	background-color:transparent;
+	background-image:url('../../img/frontside/searchbg.png');
+	border:0px;
+	height:26px;
+	width:168px;
+	padding-left:10px;
+	color:#474749;
+	margin-top:15px;
+}

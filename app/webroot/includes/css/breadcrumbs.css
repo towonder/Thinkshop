@@ -1,0 +1,143 @@
+/*	
+	BREADCRUMBS PANEL:
+*/
+
+#breadcrumbs{
+	background-image:url('../../img/frontside/topmenubg.jpg');
+	position:absolute;
+	left:285px;
+	top:63px;
+	width:608px;
+	height:32px;
+}
+
+#homelink{
+	float:left;
+	margin-left:4px;
+	margin-top:1px;
+	height:28px;
+	padding-left:42px;
+}
+
+#breadcrumbs span{
+	color:#9f9f9f;
+	float:left;
+	padding-top:7px;
+	padding-bottom:5px;
+	padding-left:15px;
+	padding-right:20px;
+	background-image:url('../../img/frontside/spanside.jpg');
+	background-repeat:no-repeat;
+	background-position:right 3px;
+	height:20px;
+}
+
+#breadcrumbs .crumb_span{
+	background-image:url('../../img/frontside/activespan.jpg');
+	background-repeat:no-repeat;
+	background-position:8px 12px;
+	padding-left:18px;
+}
+
+#breadcrumbs span p{
+	margin-top:3px;
+	color:#474749;
+}
+
+#breadcrumbs span a{
+	line-height:170%;
+	color:#9f9f9f;	
+}
+
+#breadcrumbs span a:hover{
+	color:#e9265e;
+}
+
+#accountbutton{
+	float:right;
+	padding-left:50px;
+	padding-right:20px;
+	margin-top:2px;
+	background-image:url('../../img/frontside/icons/accounticon.jpg');
+	background-repeat:no-repeat;
+	background-position:6px 1px;
+	cursor:pointer;
+}
+
+#cartbutton{
+	float:right;
+	padding-left:35px;
+	margin-top:2px;
+	width:100px;
+	background-image:url('../../img/frontside/icons/carticon.jpg');
+	background-repeat:no-repeat;
+	background-position:6px 4px;
+	border-left:1px solid #cccccc;
+	height:28px;
+	cursor:pointer;
+
+}
+
+#cartbutton img{
+	margin-left:4px;
+}
+
+#accountbutton p, #cartbutton p{
+	margin-top:7px;
+}
+
+a:hover #accountbutton, #accountbutton:hover{
+	text-decoration:none;
+}
+
+#cart{
+	display:none;
+	width:200px;
+	position:absolute;
+	top:92px;
+	right:62px;
+	z-index:999;
+}
+
+#cart table{
+	width:160px;
+}
+
+#cart .topcart{
+	padding-top:5px;
+	border-bottom:1px solid #cccccc;
+}
+
+#cart .cartnumber{
+	color:#e9265e;
+	font-family:'Georgia', 'Times', 'Sherif';
+	font-style:italic;
+	line-height:100%;
+	font-size:14px;
+	padding-right:3px;
+}
+
+#cart .bottomcart{
+	border-top:1px dotted #cccccc;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+#cartheader{
+	background-image:url('../../img/frontside/cartheader.png');
+	height:10px;
+	width:200px;
+}
+
+#cartmiddle{
+	background-image:url('../../img/frontside/cartbg.png');
+	background-repeat:repeat;
+	width:180px;
+	padding-left:20px;
+}
+
+#cartfooter{
+	background-image:url('../../img/frontside/cartfooter.png');
+	height:10px;
+	width:200px;
+}
