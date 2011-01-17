@@ -1,0 +1,102 @@
+/*
+Uploadify v2.1.0
+Release Date: August 24, 2009
+
+Copyright (c) 2009 Ronnie Garcia, Travis Nickels
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+#theuploader{
+	display:none;
+}
+
+
+.uploadifyQueueItem {
+	font: 11px Verdana, Geneva, sans-serif;
+	border-top: 1px solid #cccccc;
+	padding: 10px;
+	width: 560px;
+	padding-top:17px;
+	padding-bottom:17px;
+}
+
+.uploadifyQueue{
+	background-color:#fff;
+	border:1px solid #cccccc;
+	border-top:3px solid #cccccc;
+	border-top:0px;
+	border-bottom-left-radius: 14px;
+	border-bottom-right-radius: 14px;
+	-moz-border-radius-bottomleft: 14px;
+	-moz-border-radius-bottomright: 14px;
+	-webkit-border-bottom-left-radius: 14px;
+	-webkit-border-bottom-right-radius: 14px;
+	width: 580px;
+	min-height:50px;
+}
+
+.uploadifyError {
+	border: 2px solid #FBCBBC !important;
+	background-color: #e9265e !important;
+}
+.uploadifyQueueItem .cancel {
+	float: right;
+}
+.uploadifyProgress {
+	background-color: #FFFFFF;
+	border:1px solid #cccccc;
+	margin-top: 10px;
+	width: 100%;
+}
+
+.uploadifyProgressBar {
+	background-color: #e9265e;
+	width: 1px;
+	height: 6px;
+}
+
+#mainimageupload embed{
+	margin-left:20px;
+}
+
+#mainimageupload #theuploader{
+	margin-top:-15px;
+	margin-left:10px;
+	display:block;
+}
+
+#mainimageupload #theuploader .description_text{
+	width:490px;
+}
+
+#mainimageupload .uploadifyQueueItem{
+	width:480px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+#mainimageupload .uploadifyQueue{
+	width:500px;
+}
+
+#mainimageupload .uploadifyProgress{
+	width:450px;
+}
+

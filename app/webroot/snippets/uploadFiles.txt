@@ -1,0 +1,85 @@
+// FILE HANDELING:
+
+function uploadPhotos(){
+	if (!empty($_FILES)) {
+		$tempFile = $_FILES['Filedata']['tmp_name'];
+		$filename = $_FILES['Filedata']['name'];
+		$folder = 'files/';
+		$targetPath = WWW_ROOT . $folder .'/';
+		
+		$targetPath .= date('Y');
+		
+		//add year:
+		if(!is_dir($targetPath)) {
+			mkdir($targetPath);
+		}
+		//add month:
+		$targetPath .= '/'.date('m');
+		if(!is_dir($targetPath)) {
+			mkdir($targetPath);
+		}
+		
+		
+		$rel_url = $folder .'/'.date('Y').'/'.date('m');
+		
+		if(!file_exists($targetPath.'/'.$filename)){
+			// create full filename
+			$full_url = str_replace('//', '/', $targetPath).'/'.$filename;
+			$url = $rel_url.'/'.$filename;
+			// upload the file
+			$success = move_uploaded_file($tempFile, $url);
+		} else {
+			// create unique filename and upload file
+			ini_set('date.timezone', 'Europe/Amsterdam');
+			$now = date('YmdHis');
+			$full_url = str_replace('//', '/',$targetPath).'/'.$now."_".$filename;
+			$url = $rel_url.'/'.$now."_".$filename;
+			$success = move_uploaded_file($tempFile, $url);
+		}
+		
+		if($success) {
+			
+			$type = substr($filename,-4);				
+			
+			$thumbWidth = THUMB_SIZE;
+			$thumbHeight = THUMB_SIZE;
+			$thumbQuality = 70;
+			$thumbZoom = 4;
+			$thumb = $this->Thumb->generateThumbnail($url, WWW_ROOT.substr($url, 0, -4)."_thumb".$type, true, false, $thumbWidth, $thumbHeight, $thumbQuality, $thumbZoom);
+		
+			$mediumWith = MEDIUM_SIZE;
+			$mediumHeight = MEDIUM_SIZE;
+			$mediumQuality = 100;
+			$mediumZoom = 0;
+			$medium = $this->Thumb->generateThumbnail($url, WWW_ROOT.substr($url, 0, -4)."_medium".$type, true, false, $mediumWith, $mediumHeight, $mediumQuality, $mediumZoom);
+			
+
+			if($thumb && $medium){
+				$this->Photo->create();		
+				$this->data['Photo']['name'] = substr($filename, 0, -4);
+				$this->data['Photo']['thumb'] = '/'. substr($url, 0, -4).'_thumb'. $type;
+				$this->data['Photo']['medium'] = '/'. substr($url, 0, -4).'_medium'. $type;
+				$this->data['Photo']['large'] = '/'. $url;
+				if($this->Photo->save($this->data)){
+					echo "1";
+					//Header('Location: /think/admin/media/');				
+				}else{
+					//no save
+				}
+				
+			}else{
+				$this->Photo->create();
+				$this->data['Photo']['name'] = substr($filename, 0, -4);
+				$this->data['Photo']['thumb'] = 'error';
+				$this->data['Photo']['medium'] = 'error';
+				$this->data['Photo']['large'] = 'error';
+				$this->Photo->save($this->data);
+			}
+			
+		}else{
+			// no upload
+		}
+	}else{
+		//no files
+	}
+}

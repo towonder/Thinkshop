@@ -1,0 +1,30 @@
+/*
+
+ * Thinkshop :  The most userfriendly open source webshopssytem.
+ * Copyright 2010, To Wonder Multimedia
+ *	
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @filesource
+ * @copyright		To Wonder Multimedia
+ * @link			http://www.getthinkshop.com Thinkshop Project
+ * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+
+*/
+
+
+
+
+SETUP:
+
+
+Place all files on an apache webserver,
+run the sql file on your database.
+
+change /app/config/database.php with your settings and
+change the 'HOME' and 'HOME_FOLDER' settings in the 
+database.
+
+Then you'll have a working copy.
