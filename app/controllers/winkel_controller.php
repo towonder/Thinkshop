@@ -328,7 +328,7 @@ class WinkelController extends AppController {
 			$this->set('method', '');
 		}else if($method == 'ideal'){
 			$method = 'ideal';
-			Header('Location: '.HOME.'/ideal');
+			Header('Location: '.HOME.'/winkel/orderToDatabase/false/ideal');
 			
 		}else if($method == 'afterwards'){
 			$method = 'afterwards';
@@ -383,7 +383,12 @@ class WinkelController extends AppController {
 				}
 			}
 			$this->Session->del('Cart');
-			Header('Location: '.HOME.'/winkel/bevestigOrder/'.$order_id.'/'.$method);
+			if($method == 'overmaken'){
+				$this->Session->del('Cart');
+				Header('Location: '.HOME.'/winkel/bevestigOrder/'.$order_id.'/'.$method);
+			}else{
+				Header('Location: '.HOME.'/ideal');
+			}
 		}		
 	}
 	
