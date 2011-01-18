@@ -25,7 +25,5 @@ and go to that url. If you have enough rights on the /app/config -folder, you'll
 install the webshopsystem (like wordpress) within 5 minutes.
 
 Frontend-files views are here: /app/views/winkel/ and the frontend controller is here: /app/controllers/winkel_controller.php
-<<<<<<< HEAD
+
 Good Luck!
-=======
->>>>>>> 6cfadcd865774bbd207c368245540f8d3829c509
