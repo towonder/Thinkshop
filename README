@@ -11,14 +11,13 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @version			Thinkshop beta 2.1
 
 */
 
 
 
-
-SETUP:
-
+SETUP
 
 Place all files on an apache webserver,
 and go to that url. If you have enough rights on the /app/config -folder, you'll be able to
@@ -27,3 +26,30 @@ install the webshopsystem (like wordpress) within 5 minutes.
 Frontend-files views are here: /app/views/winkel/ and the frontend controller is here: /app/controllers/winkel_controller.php
 
 Good Luck!
+
+
+
+TEMPLATES
+
+Templates are not yet a part of Thinkshop 2.1 (sadly) but you can use the Cakephp template engine. Read all about it, here:
+http://book.cakephp.org/view/95/View-Templates
+
+
+
+CHANGELOG
+
+Thinkshop beta 2.1:
+Added easy 5-minute "Wordpress"-like install. Just have your database, login, password and host ready.
+
+
+Thinkshop beta 2.0:
+Added an extended pluginsystem on top of the CakePhp pluginsystem. Place your plugins inside /app/plugins/ and follow
+normal CakePhp 1.2 rules. If you want to add front-end functions, just add a file titled /app/plugins/plugin_name/vendors/front.php,
+same for the admin (only user vendors/admin.php), custom routes (vendors/routes.php) and custom menu-items (vendors/menu.php).
+
+
+Thinkshop beta 1.0:
+First beta copy of Thinkshop, contains easy productmanagement, mediamanagement, categories, product metadata, financial quarterly reviews,
+user management and some 'Wordpress'-like settings.
+
+
