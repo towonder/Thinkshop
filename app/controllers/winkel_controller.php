@@ -382,7 +382,6 @@ class WinkelController extends AppController {
 					endif;
 				}
 			}
-			$this->Session->del('Cart');
 			if($method == 'overmaken'){
 				$this->Session->del('Cart');
 				Header('Location: '.HOME.'/winkel/bevestigOrder/'.$order_id.'/'.$method);
