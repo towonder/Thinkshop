@@ -36,6 +36,16 @@ http://book.cakephp.org/view/95/View-Templates
 
 
 
+PLUGINS
+
+Place your plugins inside /app/plugins/ and follow normal CakePhp 1.2 rules. If you want to add front-end functions, just add a file titled /app/plugins/plugin_name/vendors/includes/front.php, same for the admin (only user vendors/includes/admin.php), custom routes (vendors/includes/routes.php) and custom menu-items (vendors/includes/menu.php).
+If you need any new databasetables, place the appropriate sql in: /app/plugins/plugin_name/vendors/includes/install.php and all the uninstall sql in vendors/includes/uninstall.php.
+
+More on this soon in the Thinkshop supportwiki. For now, check out Cake's awesome documentation on writing CakePhp plugins:
+http://book.cakephp.org/view/114/Plugins
+
+
+
 CHANGELOG
 
 Thinkshop beta 2.1:
@@ -43,9 +53,7 @@ Added easy 5-minute "Wordpress"-like install. Just have your database, login, pa
 
 
 Thinkshop beta 2.0:
-Added an extended pluginsystem on top of the CakePhp pluginsystem. Place your plugins inside /app/plugins/ and follow
-normal CakePhp 1.2 rules. If you want to add front-end functions, just add a file titled /app/plugins/plugin_name/vendors/front.php,
-same for the admin (only user vendors/admin.php), custom routes (vendors/routes.php) and custom menu-items (vendors/menu.php).
+Added an extended pluginsystem on top of the CakePhp pluginsystem. 
 
 
 Thinkshop beta 1.0:
