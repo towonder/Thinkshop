@@ -26,7 +26,7 @@
 </table>
 
 
-<table cellpadding="0" cellspacing="0" class="maintable_inout" style="margin-right:17px">
+<table cellpadding="0" cellspacing="0" class="maintable_inout"  style="margin-left:2%">
 	<tr class="tablehead">
 		<td colspan="3"><h3>In</h3></td>
 	</tr>
@@ -71,7 +71,7 @@
 	</tr>
 </table>
 
-<table cellpadding="0" cellspacing="0" class="maintable_inout">
+<table cellpadding="0" cellspacing="0" class="maintable_inout" style="margin-left:3%">
 	<tr class="tablehead">
 		<td colspan="2"><h3>Uit</h3></td>
 		<td style="text-align:right"><a href="<?php echo HOME?>/admin/addcost/" class="addcostbox" style="margin-right:10px;text-decoration:none"><small><img src="<?php echo HOME?>/img/icons/new.png" width="10px"> Nieuwe kostenpost</small></a></td>

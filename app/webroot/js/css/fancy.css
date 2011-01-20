@@ -14,6 +14,7 @@
  *   http://www.gnu.org/licenses/gpl.html
  */
 
+
 #fancybox-loading {
 	position: fixed;
 	top: 50%;
@@ -80,7 +81,7 @@
 	position: relative;
 	width: 100%;
 	height: 100%;
-	background: #FFF;
+	background: #e5e5e5;
 }
 
 #fancybox-inner {
@@ -93,6 +94,11 @@
 	margin: 0;
 	outline: none;
 	overflow: hidden;
+}
+
+#fancybox-inner iframe, #fancybox-inner html, #fancybox-inner body{
+	padding:0px;
+	margin:0px;
 }
 
 #fancybox-hide-sel-frame {

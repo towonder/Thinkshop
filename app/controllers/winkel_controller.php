@@ -3,7 +3,7 @@
 /*
 
  * Thinkshop :  The most userfriendly open source webshopssytem.
- * Copyright 2010, To Wonder Multimedia
+ * Copyright 2011, To Wonder Multimedia
  *	
  *
  * Licensed under The MIT License
@@ -13,6 +13,7 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @version			Thinkshop 2.2 - Hendrix
 
 */
 
@@ -89,11 +90,8 @@ class WinkelController extends AppController {
 		$this->pageTitle = $cat['Category']['name'];
 		$this->set('pageheader', $cat['Category']['name']);
 		
-		
-		$this->paginate = array('order' => array('Product.position' => 'ASC'), 'limit' => AMOUNT_ON_PAGE);
-		//$products = 
-		$this->set('products', $this->paginate('Product', array('Product.category_id' => $id, 'Product.parent_id' => 0, 'Product.hidden' => '0')));
-		
+	
+		$this->set('products', $this->Product->findInCategory($id, 'asc'));
 		$prods = $this->Product->find('all', array('Product.category_id' => $id, 'Product.parent_id' => 0, 'Product.hidden' => 0));
 		$this->set('amountProducts', $prods);
 	}
@@ -147,13 +145,12 @@ class WinkelController extends AppController {
 	}
 	
 	function pagina($id, $name = null){
-		
 		$pag = $this->Staticpage->read(null, $id);
 		$this->delCrumbs();
 		$this->setPage($pag['Staticpage']['title'], null, '1');
 		$this->pageTitle = $pag['Staticpage']['title'];
 		$this->set('pageheader', $pag['Staticpage']['title']);
-		
+		$this->set('page', $pag);
 	}
 
 
@@ -202,7 +199,6 @@ class WinkelController extends AppController {
 		if($alreadyin == false){
 			$i = 0;
 		}else{
-			
 			$i = array_pop(array_keys($this->Session->read('Cart.'.$id))) + 1;
 		}
 			
@@ -220,6 +216,7 @@ class WinkelController extends AppController {
 		
 		$cartArray['price'] = $product['Product']['price'];
 		$cartArray['vat'] = $product['Product']['vat'];
+		$cartArray['discount'] = $product['Product']['discount'];
 		$cartArray['sendcost'] = $product['Product']['sendcost'];
 		if($product['Product']['photo_id'] != '0'){ 
 			$cartArray['thumb'] = $product['Image']['thumb'];
@@ -307,7 +304,7 @@ class WinkelController extends AppController {
 		
 		if(!$this->checkLoggedIn()){
 			//De sessie is verlopen of bestaat niet eens:
-			Header('Location:/think/admin/login');
+			Header('Location:'.HOME.'/winkel/login');
 			exit();
 		}
 		$user_ses = $this->Session->read('User');
@@ -362,6 +359,7 @@ class WinkelController extends AppController {
 					$this->OrdersProducts->create();
 					$this->prod['OrdersProducts']['order_id'] = $order_id;
 					$this->prod['OrdersProducts']['product_id'] =	$item['id']; 
+					$this->prod['OrdersProducts']['discount'] = $item['discount'];
 					$this->OrdersProducts->save($this->prod);
 					$ord_id = $this->OrdersProducts->getLastInsertID();
 					
@@ -384,7 +382,8 @@ class WinkelController extends AppController {
 			}
 			if($method == 'overmaken'){
 				$this->Session->del('Cart');
-				Header('Location: '.HOME.'/winkel/bevestigOrder/'.$order_id.'/'.$method);
+				$this->Session->write('method', $method);
+				Header('Location: '.HOME.'/winkel/bevestigOrder/'.$order_id.'/false');
 			}else{
 				Header('Location: '.HOME.'/ideal');
 			}
@@ -392,17 +391,23 @@ class WinkelController extends AppController {
 	}
 	
 	
-	function bevestigOrder($order_id, $method){
+	function bevestigOrder($order_id, $mailssend = null){
 	
-		$sellerNotified = $this->notifySeller($order_id);
-		$buyerNotified = $this->notifyBuyer($order_id);
-		
-		if($sellerNotified == true && $buyerNotified == true){
+		if($mailssend == null || $mailssend == 'false'){
+			Header('Location: '.HOME.'/winkel/notifySeller/'.$order_id);
+			exit();
+			
+		}else{
+			
+			$method = $this->Session->read('method');
+			$this->Session->del('method');
+			
 			$this->set('pageheader','Bestelling geplaatst!');
 			$this->delCrumbs();
 			$this->setPage('Succes', null, 'auto');
 			$this->set('showSearch', true);
 			$this->set('method', $method);
+			
 		}
 	}
 	
@@ -421,13 +426,10 @@ class WinkelController extends AppController {
 		$this->Email->sendAs = 'both';
 		$this->Email->from = 'system@'.strtolower(WEBSITE_TITLE).'.nl';
         $this->Email->subject = 'Een nieuwe bestelling'; 
-
-		if($this->Email->send()){ 
-			return true;
-		}else{
-			return false;
-		}
-		
+		$this->Email->send();
+		$this->Email->reset();
+		Header('Location: '.HOME.'/winkel/notifyBuyer/'.$order_id);
+		exit();		
 	}
 	
 	function notifyBuyer($order_id){
@@ -443,12 +445,10 @@ class WinkelController extends AppController {
 		$this->Email->sendAs = 'both';
 		$this->Email->from = 'noreply@'.strtolower(WEBSITE_TITLE).'.nl';
 		$this->Email->subject = 'Bedankt voor uw bestelling';
+		$this->Email->send();
 		
-		if($this->Email->send()){
-			return true;
-		}else{
-			return false;
-		}
+		Header('Location: '.HOME.'/winkel/bevestigOrder/'.$order_id.'/true');
+		exit();
 	}
 
 
@@ -879,6 +879,65 @@ class WinkelController extends AppController {
 		$this->set('error', $error);
 	}
 	
+	/*
+	//
+		Contactpagina:
+	//
+	*/
+	
+	function contactcheck($email = null, $captcha = null){
+		
+		$this->layout = '';
+		$error = '';
+		
+		if($email == null || $captcha == null || $email == '' || $captcha == ''){
+			$error = 'Uw email of anti-spamveld is niet ingevuld!';
+		}else{		
+			if($this->isEmail($email)){
+				if($captcha == '9'){
+					$error = 'contact_okay';
+				}else{
+					$error = 'De anti-spam som is onjuist!';
+				}
+			}else{
+				$error = 'Uw emailadres is geen geldig emailadres.';
+			}
+		}
+		$this->set('error', $error);
+	}
+	
+	
+	function contactform(){
+		
+		if($this->data['Contact']['captcha'] == '9'){
+			$this->Email->to =  $this->data['Contact']['mail_to'];
+			$this->Email->from = $this->data['Contact']['email'];
+			$this->Email->subject = 'Bericht van het contactformulier'; 
+			$this->Email->template = 'contactform';
+			
+			$this->set('email', $this->data['Contact']['email']);
+			$this->set('opmerking', $this->data['Contact']['opmerking']);
+			$this->set('naam', $this->data['Contact']['naam']);
+			
+			if($this->Email->send()){ 
+				Header('location: '.HOME.'/winkel/confirmsend/');
+  			}
+            			
+		}else{
+			Header('Location: '.HOME.'/contact');
+			exit();
+		}
+	}
+	
+	function confirmsend(){
+		$this->pageTitle = 'Hartelijk dank voor uw bericht';
+		$this->set('pageheader','Hartelijk dank!');
+		$this->delCrumbs();
+		$this->setPage('Email verzonden', null, '1');
+		$this->set('showSearch', true);
+		
+		$this->pageTitle = 'Hartelijk dank voor uw bericht!';
+	}
 	
 	
 

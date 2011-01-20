@@ -2,7 +2,7 @@
 <h2>Bewerk categorie</h2>
 </div>
 
-<form id="OptionAddForm" method="post" action="<?php echo HOME?>/admin/editcategory/<?php echo $id?>">
+<form id="EditForm" method="post" action="<?php echo HOME?>/admin/editcategory/<?php echo $id?>">
 <table>
 	<input type="hidden" name="data[Category][id]" value="<?php echo $cat['Category']['id']?>">
 	<tr>
@@ -29,7 +29,12 @@
 		</td>
 	</tr>
 	<tr>
-		<td  colspan="2"style="text-align:right"><input type="submit" value="Bewerk" name="Bewerk" class="submitbutton"/></td>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="padding-left:450px">
+			<a href="#" class="pill giant button" onClick="submitForm('Category', 'none')">Bewerk</a>			
+		</td>
 	</tr>
 </table>
 

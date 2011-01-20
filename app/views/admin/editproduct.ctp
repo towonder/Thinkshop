@@ -1,14 +1,48 @@
+<script type="text/javascript" src="<?php echo HOME?>/js/jquery-ui/jquery-ui-1.8.9.custom.min.js"></script>
 <script type="text/javascript">
 
 	var count = 0;
 	var photocount = 0;
 	var videocount = 0;
 	
+	
 	function showVariant(){
 		if($('#variant').css('display','none')){
 			$('#variant').css('display','inline');
 		}			
 	};
+	
+	function createNewCategory(){
+		
+		$("#loading").ajaxStart(function(){
+			$(this).show();
+			$('#searchbtn').hide();
+		});
+		$("#loading").ajaxStop(function(){
+			$(this).hide();
+			$('#searchbtn').show();
+		});
+		
+		
+		var name = $('#newcatname').val();
+		$('#newcatname').val('Nieuwe categorie');
+		
+		$.ajax({
+			url: "<?php echo HOME?>/admin/quickaddcategory/"+name,
+			success: function(data){
+				var newid = data;
+				
+				var div = '<div class="catspan">';
+				div += "<div class='catselection' id='cate_"+newid+"'>";
+				div += "<input type='checkbox' name='data[ProdCats][c_"+newid+"]' checked value='"+newid+"'/>";
+				div += "<p style='display:inline;font-weight:bold'>"+name+"</p></div></div>";
+				
+				$('#oldcats').append(div);
+				$('#cate_'+newid).effect("highlight", { times:2 }, 300);
+				
+			}
+		});
+	}
 	
 	function doDeleteMeta(id) {
 		var name = "#meta_"+id;
@@ -39,18 +73,19 @@
 </script>
 
 <div class="productform">
-<form id="ProductEditForm" method="post" action="<?php echo HOME?>/admin/saveProduct/<?php echo $product['Product']['id']?>">
+<form id="EditForm" method="post" action="<?php echo HOME?>/admin/saveProduct/<?php echo $product['Product']['id']?>">
 <input type="hidden" name="data[Product][id]" value="<?php echo $product['Product']['id']?>">
 <?php if($product['Product']['name'] == 'Product naam'):?>
 	<h2>Nieuw Product</h2>
 <?php else: ?>
 	<h2>Bewerk Product</h2>
 <?php endif; ?>
+<div  id="fluidtable">
 <table>
 	<tr>
 		<td colspan="2"><input type="text" name="data[Product][name]" class="title_text" value="<?php echo $product['Product']['name']?>" id="productname" onclick="doSmartEmpty('#productname', 'Product naam');"></td>		
 	</tr>
-	<?php if(empty($product['Children'])):?>
+	<?php if(empty($product['Children']) && !empty($products)):?>
 	<tr>
 		<td colspan="2">
 			<input type="checkbox" name="data[Product][parent]" <?php if($product['Product']['parent_id'] != '0'){ echo 'checked'; }?> onclick="showVariant();">
@@ -80,6 +115,7 @@
 				</textarea>
 		</td>
 	</tr>
+	<?php if(1 == 0):?>
 	<tr>
 		<td colspan="2">
 			<div  class="description_text" style="margin-top:10px;border:1px solid #cccccc; border-bottom:0px">
@@ -88,16 +124,21 @@
 				<textarea name="data[Product][excerpt]" class="mceEditor">
 					<?php echo $product['Product']['excerpt'];?>
 				</textarea>
+			
 		</td>
 	</tr>
 	<?php endif; ?>
+	<?php endif; ?>
 	<tr>
 		<td colspan="2">
-			<div id="fotos" >
-				<div  class="description_text">Media <a href="<?php echo HOME?>/admin/medialibrary/<?php echo $product['Product']['id']?>" class="medialibary"><div id="addfoto">media toevoegen</div></a></div>
+			<div id="fotos">
+				<div  class="description_text">Media <a href="<?php echo HOME?>/admin/medialibrary/<?php echo $product['Product']['id']?>" class="medialibrary pillsmall button" style="float:right;margin-top:-3px;margin-right:3px;padding-left:3px"><span class="plus icon"></span> media toevoegen</a></div>
+				
+				<?php if(!empty($product['Photo']) || !empty($product['Video'])):?>
 					<div id="fotofiller">
 						<?php foreach($product['Photo'] as $foto):?>
 							<div class="photoitem" id="p_<?php echo $foto['id']?>" onclick="deleteMedia(<?php echo $foto['id']?>,<?php echo $product['Product']['id']?>,'photo')">
+								<div class="deletethismedia"></div>	
 								<img src="<?php echo HOME .'/'. $foto['thumb']?>" alt="<?php echo $foto['name']?>"><br/>
 								<small>verwijder</small>
 							</div>
@@ -109,10 +150,77 @@
 							</div>
 						<?php endforeach;?>
 					</div>
+					<?php else: ?>
+					<div id="fotofiller" style="text-align:center">	
+						<p>Dit product heeft nog geen media-items</p>
+					</div>
+					<?php endif;?>
 			</div>
 		</td>
 	</tr>
-	
+	<tr>
+		<td colspan="2" id="cats">
+			<div  class="description_text" style="margin-top:10px;border:1px solid #cccccc; border-bottom:0px;">
+				Categorieën
+			</div>
+			<div id="productcategories">
+				<div id="productcategoriesinner">
+				<input type="text" name="data[Category][name]" class="field_text" style="width:65%;margin-left:5px" value="Nieuwe categorie" onClick="doSmartEmpty('#newcatname', 'Nieuwe categorie');" id="newcatname"/>
+				<a class='pillsmall button' style="padding-left:3px;" href='#cats' id="searchbtn" onclick="createNewCategory()"><span class="plus icon"></span> Aanmaken</a>
+				<div id="loading" style="display:none">
+					<img src="<?php echo HOME?>/img/spinner.gif" width="30px">
+				</div>
+				<div id="oldcats">
+				<?php foreach($categories as $category):?>
+					<?php
+					
+						$inProd = false;
+						foreach($product['Category'] as $cat){
+							if($cat['id'] == $category['Category']['id']){
+								$inProd = true;
+							}
+						}
+					
+					?>
+				<div class="catspan">
+					<div class="catselection">
+						<?php if($inProd == false):?>
+							<input type="checkbox" name="data[ProdCats][c_<?php echo $category['Category']['id']?>]" value="<?php echo $category['Category']['id']?>">
+						<?php else: ?>
+							<input type="checkbox" name="data[ProdCats][c_<?php echo $category['Category']['id']?>]" checked value="<?php echo $category['Category']['id']?>"/>
+						<?php endif;?>
+						<p style="display:inline;font-weight:bold"><?php echo $category['Category']['name']?></p>
+					</div>
+					<?php foreach($category['Kids'] as $kid):?>
+						<?php
+
+							$nProd = false;
+							foreach($product['Category'] as $cat){
+								if($cat['id'] == $kid['id']){
+									$nProd = true;
+								}
+							}
+
+						?>
+						
+					<!-- all subcategories too: -->
+						<div class="catselection">
+							<?php if($nProd == false):?>
+								<input type="checkbox" name="data[ProdCats][c_<?php echo $kid['id']?>]" value="<?php echo $kid['id']?>">
+							<?php else: ?>
+								<input type="checkbox" name="data[ProdCats][c_<?php echo $kid['id']?>]" checked value="<?php echo $kid['id']?>"/>
+							<?php endif;?>
+							<p style="display:inline;"><?php echo $kid['name']?></p>	
+						</div>
+					
+					<?php endforeach;?>
+					</div>
+				<?php endforeach;?>
+				</div>
+				</div>
+			</div>
+		</td>
+	</tr>
 	<?php if(ADVANCED == "true"):?>
 	
 	<!--- EXTRA FIELDS: -->
@@ -153,7 +261,7 @@
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<?php endif; ?>
 	
-	<?php if($product['Product']['parent_id'] == '0'):?>
+	<?php if($product['Product']['parent_id'] == '0' && !empty($metaterms)):?>
 	<!--- Product options: -->
 	<tr>
 		<td colspan="2"><div id="opties">Keuzelijsten <small>(Selecteer welke keuzes bij dit product van toepassing zijn)</small></div></td>
@@ -205,51 +313,71 @@
 	<?php endif; ?>
 	<?php endif; ?>
 </table>
-
+</div>
 <div id="editsidebar">
 
 	<div id="publish">
 		<div class="description_text">Publiceer</div>
-		<table id="publishtable" style="width:240px; margin-left:10px">
-			<?php if($product['Product']['parent_id'] == '0'):?>
-			
+		<table id="publishtable" style="width:240px; margin-left:10px;margin-top:0px">
 			<tr>
-				<td>In categorie:</td>
-				<td style="text-align:right">
-					<select name="data[Product][category_id]" style="margin-right:10px">
-					<?php foreach($categories as $category):?>
-						<option value="<?php echo $category['Category']['id']?>" <?php if($category['Category']['id'] == $product['Product']['category_id']){ echo 'selected'; }?>><?php echo $category['Category']['name']?></option>
-					<?php endforeach; ?>
-					</select>
-				</td>
-				
+				<td colspan="2" style="padding-top:15px;padding-bottom:15px"><small>Als u dit product publiceert verschijnt het meteen op de site. Bij opslaan als concept gebeurt dit niet.</small></td>
 			</tr>
-			<?php else:?>
-			<input type="hidden" name="data[Product][category_id]" value="<?php echo $product['Product']['category_id']?>">
-			<?php endif;?>
 			<tr>
-				<td colspan="2" style="padding-top:15px;padding-bottom:15px"><small>Als u dit product publiceert verschijnt het meteen op de site. Bij opslaan gebeurt dit niet.</small></td>
+				<td colspan="2">
+					<?php
+						
+						if($product['Product']['hidden'] == 0){
+							$status = 'Gepubliceerd';
+						}else{
+							$status = 'Concept';
+						}
+					
+					
+					?>
+					Huidige status: <b><?php echo $status?></b>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><br/></td>
 			</tr>
 			<tr>
 				<td>
-					<input type="submit" name="data[Product][publish]" value="Publiceer" class="submitbutton" style="margin-left:0px">
+					<a href="#" class="medium pill button" style="float:left" onClick="submitForm('Product', false)">Publiceer</a>
 				</td>
-				<td style="text-align:right">
-					<input type="submit" name="data[Product][save]" value="Bewaar" class="submitbutton">		
+				<td>
+					<a href="#" class="pill button" style="float:left" onClick="submitForm('Product', true)">Opslaan als concept</a>
 				</td>
 			</tr>
 		</table>
 	</div>
 	
 	<div id="mainimage">
-		<div class="description_text">Hoofdafbeelding</div>
-		<?php if(!empty($product['Image']['large'])):?>
-			<img src="<?php echo HOME . $product['Image']['large']?>" height="243px">
+		<div class="description_text">
+			Hoofdafbeelding
+			<a href="<?php echo HOME?>/admin/editmainpicture/<?php echo $product['Product']['id']?>/product" class="pillsmall button medialibrary2">
+				<span class="icon pen"></span>Wijzig
+			</a>
+		</div>
+		<?php if(!empty($product['Image']['large'])):?>			
+			<?php
+				
+				$wh = getimagesize(HOME . $product['Image']['large']);
+				$width = $wh[0];
+				$height = $wh[1];				
+				if($height > $width):
+			?>
+					<img src="<?php echo HOME . $product['Image']['large']?>" height="243px" id="mainimgbig">
+				<?php else: ?>
+					<img src="<?php echo HOME . $product['Image']['large']?>" width ="250px" id="mainimgbig" style="margin-top:10px">
+				<?php endif; ?>
 		<?php else: ?>
-			<img src="<?php echo HOME?>/img/no_picture_large.png" height="243px">
+			<img src="<?php echo HOME?>/img/no_picture_large.png" height="243px" id="mainimgbig">
 		<?php endif;?>
 		<div id="editimage">
-			<a href="<?php echo HOME?>/admin/editproductpicture/<?php echo $product['Product']['id']?>" class="medialibary">Wijzig hoofdafbeelding &raquo;</a>
+			<a href="<?php echo HOME?>/admin/editmainpicture/<?php echo $product['Product']['id']?>/product" class="pillsmall button medialibrary2" style="float:none;padding-left:16px;padding-right:16px">
+				<span class="icon pen"></span>Wijzig
+			</a>
+			
 		</div>
 	</div>
 	
@@ -260,7 +388,7 @@
 	<div id="price" style="height:150px">
 	<?php endif;?>
 		<div class="description_text">Prijs</div>
-			<table width="200px" style="width:250px">
+			<table style="width:250px;margin-top:10px">
 				<tr>
 					<td style="text-align:right">Prijs <small>(ex. BTW)</small>: €</td>
 					<td><input type="text" class="nano_text" name="data[Product][price]" value="<?php echo str_replace('.', ',',$product['Product']['price'])?>"></td>
@@ -271,6 +399,11 @@
 					<td><input type="text" class="nano_text" name="data[Product][sendcost]" value="<?php echo str_replace('.', ',', $product['Product']['sendcost'])?>"></td>
 				</tr>
 				<?php endif; ?>
+				<tr>
+					<td style="text-align:right">Korting:</td>
+					<td><input type="text" class="nano_text" style="text-align:right" name="data[Product][discount]" value="<?php echo ($product['Product']['discount'] * 100)?>"> %</td>
+				</tr>
+				
 				<tr>
 					<td valign="top" style="text-align:right">Btw:</td>
 					<td><input type="radio" class="price_radio" name="data[Product][vat]" value="0.19" <?php if($product['Product']['vat'] == '0.19'){ echo 'checked';}?>><small>19%</small><br/>
@@ -301,7 +434,7 @@
 			}
 			
 			?>
-			<table width="200px" style="width:200px">
+			<table width="200px" style="width:200px; margin-top:10px">
 				<tr>
 					<td>URL naam <small>(slug)</small></td>
 				</tr>

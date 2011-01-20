@@ -1,8 +1,8 @@
 <div class="productform">
-<h2><img src="<?php echo HOME?>/img/icons/users.png"/> Gebruikers <a href="<?php echo HOME?>/admin/adduser/" class="addnewbutton">Nieuwe gebruiker</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/users.png"/> Gebruikers <a href="<?php echo HOME?>/admin/adduser/" class="pill add button"><span class="icon plus"></span>Nieuwe gebruiker</a></h2>
 </div>
 
-<table cellpadding="0" cellspacing="0" class="maintable_orders">
+<table cellpadding="0" cellspacing="0" class="maintable">
 	<tr class="tablehead">
 		<td><p>Naam</p></td>
 		<td><p>Acties</p></td>

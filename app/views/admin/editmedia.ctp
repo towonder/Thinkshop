@@ -1,54 +1,55 @@
-<?php
-
-	$filesizes = getimagesize(HOME . $photo['Photo']['large']);
-	$orWidth = $filesizes[0];
-	$orHeight = $filesizes[1];
-
-
-?>
-
-<script src="<?php echo HOME?>/js/jCrop.min.js"></script>
-<link rel="stylesheet" href="<?php echo HOME?>/js/css/jCrop.css" type="text/css" />
-
-<script language="Javascript">
-
-	// Remember to invoke within jQuery(window).load(...)
-	// If you don't, Jcrop may not initialize properly
-	jQuery(window).load(function(){
-
-		jQuery('#cropbox').Jcrop({
-			onChange: showPreviewAndUpdate,
-			onSelect: showPreviewAndUpdate,
-			bgColor: 'transparent',
-			aspectRatio: 1
-		});
-
-	});
-
-	function showPreviewAndUpdate(coords)
-	{
-		if (parseInt(coords.w) > 0)
-		{
-			var rx = <?php echo THUMB_SIZE ?> / coords.w;
-			var ry = <?php echo THUMB_SIZE ?> / coords.h;
-
-			jQuery('#preview').css({
-				width: Math.round(rx * <?php echo $orWidth?>) + 'px',
-				height: Math.round(ry * <?php echo $orHeight?>) + 'px',
-				marginLeft: '-' + Math.round(rx * coords.x) + 'px',
-				marginTop: '-' + Math.round(ry * coords.y) + 'px'
-			});
-			
-			$('#x').val(coords.x);
-			$('#y').val(coords.y);
-			$('#w').val(coords.w);
-			$('#h').val(coords.h);
-		}
-	}
-
-</script>
 
 <?php if($type == 'photo'):?>
+	<?php
+
+		$filesizes = getimagesize(HOME . $photo['Photo']['large']);
+		$orWidth = $filesizes[0];
+		$orHeight = $filesizes[1];
+
+
+	?>
+
+	<script src="<?php echo HOME?>/js/jcrop/jCrop.min.js"></script>
+	<link rel="stylesheet" href="<?php echo HOME?>/js/css/jCrop.css" type="text/css" />
+
+	<script language="Javascript">
+
+		// Remember to invoke within jQuery(window).load(...)
+		// If you don't, Jcrop may not initialize properly
+		jQuery(window).load(function(){
+
+			jQuery('#cropbox').Jcrop({
+				onChange: showPreviewAndUpdate,
+				onSelect: showPreviewAndUpdate,
+				bgColor: 'transparent',
+				aspectRatio: 1
+			});
+
+		});
+
+		function showPreviewAndUpdate(coords)
+		{
+			if (parseInt(coords.w) > 0)
+			{
+				var rx = <?php echo THUMB_SIZE ?> / coords.w;
+				var ry = <?php echo THUMB_SIZE ?> / coords.h;
+
+				jQuery('#preview').css({
+					width: Math.round(rx * <?php echo $orWidth?>) + 'px',
+					height: Math.round(ry * <?php echo $orHeight?>) + 'px',
+					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+					marginTop: '-' + Math.round(ry * coords.y) + 'px'
+				});
+
+				$('#x').val(coords.x);
+				$('#y').val(coords.y);
+				$('#w').val(coords.w);
+				$('#h').val(coords.h);
+			}
+		}
+
+	</script>
+
 
 <h2>Bewerk Foto</h2>
 <?php else: ?>
@@ -57,7 +58,7 @@
 
 
 <?php if($type == 'photo'):?>
-<form name="editMedia" action="<?php echo HOME?>/admin/editMedia/<?php echo $photo['Photo']['id']?>/<?php echo $type?>" method="post">
+<form id="editMedia" action="<?php echo HOME?>/admin/editMedia/<?php echo $photo['Photo']['id']?>/<?php echo $type?>" method="post">
 <!-- PHOTOS: -->
 <table>
 	<input type="hidden" name="data[Photo][id]" value="<?php echo $photo['Photo']['id']?>">
@@ -88,12 +89,14 @@
 		<td colspan="2">Groot:</td>
 		<td><?php echo HOME . $photo['Photo']['large']?></td>
 	</tr>
-			
+<!--			
 </table>
+
 <table>	
 	<tr>
 		<td colspan="3"><div id="opties">Thumbnail bewerken <small>(Wijzig de compositie van het kleine plaatje)</small></div></td>
 	</tr>
+
 	<tr>
 		<td>&nbsp;</td>
 	</tr>	 
@@ -117,14 +120,21 @@
 
 	</tr>
 	<tr>
-		<td>&nbsp;</td><td>&nbsp;</td>
-		<td style="text-align:right"><input type="submit" name="Voeg toe" value="Bewerk" class="submitbutton"></td>
+		<td colspan="3">&nbsp;</td>
+	</tr>-->
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td><a href="#" class="pill giant button" onClick="submitForm('Media', 'none')">Bewerk</a></td>
 	</tr>
 </table>
 
 
 <?php else:?>
-<form name="editMedia" action="<?php echo HOME?>/admin/editMedia/<?php echo $video['Video']['id']?>/<?php echo $type?>" method="post">
+<form id="editMedia" action="<?php echo HOME?>/admin/editMedia/<?php echo $video['Video']['id']?>/<?php echo $type?>" method="post">
 <!-- VIDEO: -->
 <table>
 	<input type="hidden" name="data[Video][id]" value="<?php echo $video['Video']['id']?>">
@@ -138,8 +148,11 @@
 		<td valign="bottom"><input type="text" name="data[Video][title]" class="semi_text" id="videotitle" value="<?php echo $video['Video']['title']?>" ></td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td><td>&nbsp;</td>
-		<td style="text-align:right"><input type="submit" value="Bewerk" class="submitbutton" /></td>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td colspan="3" style="padding-left:10px"><a href="#" class="pill giant button" onClick="submitForm('Media', 'none')">Bewerk</a></td>
 	</tr>
 </table>
 

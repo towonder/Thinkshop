@@ -1,5 +1,5 @@
 <div class="productform">
-<h2>Categorieën	<a href="<?php echo HOME?>/admin/addcategory/" class="addnewbutton">Nieuwe categorie</a></h2>
+<h2>Categorieën	<a href="<?php echo HOME?>/admin/addcategory/" class="pill add button"><span class="icon plus"></span>Nieuwe categorie</a></h2>
 </div>
 
 

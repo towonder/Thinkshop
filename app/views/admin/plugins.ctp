@@ -1,5 +1,5 @@
 <div class="productform">
-<h2><img src="<?php echo HOME?>/img/icons/plugin.png"/>  Plugins</h2>
+<h2><img src="<?php echo HOME?>/img/icons/plugins.png"/>  Plugins</h2>
 </div>
 
 <div class="tabs">

@@ -1,8 +1,8 @@
-<script type="text/javascript" src="<?php echo HOME?>/js/quickflip.js"></script>
+<script type="text/javascript" src="<?php echo HOME?>/js/quickflip/quickflip.js"></script>
 
 
 <div class="productform">
-<h2>Keuzelijsten	<a href="<?php echo HOME?>/admin/addoption/" class="addnewbutton">Nieuwe Keuzelijst</a></h2>
+<h2>Keuzelijsten	<a href="<?php echo HOME?>/admin/addoption/" class="pill add button"><span class="icon plus"></span>Nieuwe Keuzelijst</a></h2>
 </div>
 
 

@@ -1,9 +1,8 @@
 <?php
-
 	$sizes = getimagesize(HOME . $product['Image']['large']);
 	$width = $sizes[0];
-
 ?>
+
 
 <div id="mainimage">
 	<?php if($width < 330):?>
@@ -33,10 +32,19 @@
 		<?php
 			
 			$prijs = $product['Product']['price'] + ($product['Product']['price'] * $product['Product']['vat']);
-		
+			if($product['Product']['discount'] > 0){
+				$discount = 1 - $product['Product']['discount'];
+				$prijs = $prijs * $discount;
+			}
 		?>
-		<td style="width:270px" valign="bottom">Prijs:</td>
-		<td><b class="big"><?php echo $number->currency($prijs, 'EUR')?></b></td>
+		<td style="width:270px" valign="top">Prijs:</td>
+		<td style="width:300px">
+			<b class="big"><?php echo $number->currency($prijs, 'EUR')?>
+			<?php if($product['Product']['discount'] > 0):?>
+			<br/><small class="discountamount">(<?php echo $product['Product']['discount'] * 100?>% Korting)</small>	
+			<?php endif;?>
+			</b>
+		</td>
 	</tr>
 	<?php else: ?>
 	<tr>
@@ -73,16 +81,10 @@
 	<tr>
 		<td colspan="2" style="border:0px;text-align:center">
 			<?php foreach($product['Photo'] as $photo):?>
-			<?php
-			
-				$sizes = getimagesize(HOME . $photo['large']);
-				$width = $sizes[0];
-				$height = $sizes[1];
-			
-			
-			?>
 			<div class="photoitem">
-				<img src="<?php echo HOME . $photo['thumb']?>" width="50px" onclick="fancybox('<?php echo HOME?>/winkel/viewPhoto/<?php echo $photo['id']?>', <?php echo $width?>, <?php echo $height?>)"/>
+				<a href="<?php echo HOME?>/winkel/viewPhoto/<?php echo $photo['id']?>" class="viewphoto">
+					<img src="<?php echo HOME . $photo['thumb']?>" width="50px" />
+				</a>
 			</div>
 			
 			<?php endforeach;?>

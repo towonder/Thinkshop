@@ -1,8 +1,8 @@
 <div class="productform">
 <?php if($movie == false):?>
-<h2><img src="<?php echo HOME?>/img/icons/media.png"/> Media <a href="<?php echo HOME?>/admin/addmedia/" class="addnewbutton">Nieuwe foto</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/media.png"/> Media <a href="<?php echo HOME?>/admin/addmedia/" class="pill add button"><span class="icon plus"></span>Nieuwe foto</a></h2>
 <?php else: ?>
-<h2><img src="<?php echo HOME?>/img/icons/media.png"/> Media <a href="<?php echo HOME?>/admin/addmedia/video" class="addnewbutton">Nieuwe video</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/media.png"/> Media <a href="<?php echo HOME?>/admin/addmedia/video" class="pill add button"><span class="icon plus"></span>Nieuwe video</a></h2>
 <?php endif;?>
 </div>
 
@@ -23,7 +23,7 @@
 	</tr>
 	<?php if($amount > AMOUNT_ON_PAGE):?>
 	<tr class="tablefooter" style="height:10px">
-		<td colspan="4" class="tablefooter" style="height:10px">	
+		<td colspan="4" class="tablefooter" style="height:10px;r">	
 			<div class="paginator_normal">
 				<?php echo str_replace('|', ' ', $paginator->numbers(array('class' => 'numbers')));?>
 			</div>
@@ -32,10 +32,10 @@
 	</tr>
 	<?php endif; ?>
 	<tr class="tablehead">
-		<td></td>
-		<td width="230px"><p>Titel</p></td>
+		<td width="110px"></td>
+		<td><p>Titel</p></td>
 		<td><p>Datum</p></td>
-		<td><p>Acties</p></td>
+		<td width="200px"><p>Acties</p></td>
 	</tr>	
 	<tr class="altrow">
 		<td colspan="4">&nbsp;</td>

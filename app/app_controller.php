@@ -2,7 +2,7 @@
 /*
 
  * Thinkshop :  The most userfriendly open source webshopssytem.
- * Copyright 2010, To Wonder Multimedia
+ * Copyright 2011, To Wonder Multimedia
  *	
  *
  * Licensed under The MIT License
@@ -12,6 +12,7 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @version			Thinkshop 2.2 - Hendrix
 
 */
 
@@ -34,14 +35,34 @@ class AppController extends Controller {
 	function checkSession()
 	{
 		// If the session info hasn't been set...
-			if (!$this->Session->check('admin') && $this->action != 'login' && $this->action != 'passwordforgot' && $this->action != 'confirm'){
-				// Force the user to login
-				Header('Location:'.HOME.'/admin/login');
-				exit();
-			}
-				
+		if (!$this->Session->check('admin') && $this->isGreenListed() == false){
+			// Force the user to login
+			Header('Location:'.HOME.'/admin/login');
+			exit();
+		}
 	}
 	
+
+	function isGreenListed(){
+		$greenlisted = false;
+		$baseArray = array('login', 'passwordforgot', 'confirm', 'checkLogin', 'checkadminemail');
+		$mediaArray = array('medialibrary', 'editmainpicture', 'addMediaToProduct', 'savemainpicture','getproductpictures','getmainpicture');
+		
+		foreach($baseArray as $ba){
+			if($this->action == $ba){
+				$greenlisted = true;
+			}
+		}
+				
+		foreach($mediaArray as $ma){
+			if($this->action == $ma){
+				$greenlisted = true;
+			}
+		}
+		
+		return $greenlisted;
+	}
+
 
 	function fetchSettings(){
 	   //Loading model on the fly
@@ -224,6 +245,11 @@ class AppController extends Controller {
 	function uploadPhotos($id = null){
 		//Make sure we know what the HOME folder is
 		$this->fetchSettings();
+		$this->layout = '';
+		
+		//set errorstring to empty:
+		$error = '';
+		
 	
 		$this->loadModel('Photo');
 		if(!empty($id)){
@@ -313,38 +339,29 @@ class AppController extends Controller {
 							$this->data['Product']['photo_id'] = $this->Photo->getLastInsertId();
 							$this->Product->save($this->data);
 							//echo 1 for uploadify:
-							echo "1";
+							$error = 'upload_okay';
 						}else{
 							//echo 1 for uploadify:
-							echo "1";
+							$error = 'upload_okay';
 						}
 					}
 				
 				}else{
 					//thumb + medium uploads didn't work
-					$this->Photo->create();
-					$this->data['Photo']['name'] = substr($filename, 0, -4);
-					$this->data['Photo']['thumb'] = 'error';
-					$this->data['Photo']['medium'] = 'error';
-					$this->data['Photo']['large'] = 'error';
-					$this->Photo->save($this->data);
+					$error = 'Het genereren van de thumbnails lukt niet (waarschijnlijk een probleem met PHP safe-mode)';
 				}
 			
 			}else{
 				// no upload
-				
-				//
-				//	NEED TO FIND A WAY TO GET A CORRECT ERROR MESSAGE TO UPLOADIFY
-				//
-				
+				$error = 'Upload slaagt niet (waarschijnlijk een probleem met PHP safe-mode)';				
 			}
 		}else{
 			//no files
-			
-			//
-			//	NEED TO FIND A WAY TO GET A CORRECT ERROR MESSAGE TO UPLOADIFY
-			//
+			$error = 'Dit zijn geen geldige bestanden';
 		}
+		
+		$this->set('error', $error);
+		
 	}
 
 
@@ -354,6 +371,7 @@ class AppController extends Controller {
 		HELPER FUNCTIONS:
 	//
 	*/
+	
 	
 	function addMetatermsToProduct($product){
 		//just a function to make acces to metaterms & values a little simpler:
@@ -430,6 +448,7 @@ class AppController extends Controller {
 				$products[$i]['Product']['price'] = $product['Product']['price'];
 				$products[$i]['Product']['vat'] = $product['Product']['vat'];
 				$products[$i]['Product']['sendcost'] = $product['Product']['sendcost'];
+				$products[$i]['Product']['discount'] = $prod['OrdersProducts']['discount'];
 			
 				if($product['Product']['parent_id'] != '0'){
 					$parent = $this->Product->read(null, $product['Product']['parent_id']);

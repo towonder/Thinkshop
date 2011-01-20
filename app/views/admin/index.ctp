@@ -3,9 +3,9 @@
 <div id="thinkshopoverview">
 <div class="description_text">Uw Thinkshop</div>
 
-<table id="overviewtable">
+<table id="overviewtable" style="width:100%">
 	<tr>
-	<td id="overview" valign="top">
+	<td id="overview" valign="top" style="width:30%">
 		<h4>Inhoud</h4>
 		<table style="width:185px; height:130px; border-right:1px solid #f0a7bc;">
 			<tr>
@@ -41,9 +41,9 @@
 		</table>
 	</td>
 
-	<td id="actueel" valign="top">
+	<td id="actueel" valign="top" style="width:40%">
 		<h4>Actueel</h4>
-		<table style="width:261px; height:130px; border-right:1px solid #f0a7bc;" cellpadding="0" cellspacing="0">
+		<table style="width:90%; height:130px; border-right:1px solid #f0a7bc;" cellpadding="0" cellspacing="0">
 			<tr>
 				<td valign="top"><p class="amount_order"><?php echo $amountOrders; ?></p></td>
 			</tr>
@@ -53,9 +53,9 @@
 		</table>
 	
 	</td>
-	<td id="quarter" valign="top">
+	<td id="quarter" valign="top" style="width:30%">
 		<h4>Dit kwartaal</h4>
-		<table style="width:201px;">
+		<table>
 			<tr>
 				<td>In:</td>
 				<td><p class="amount_number"><?php echo $number->currency($amountIn, 'EUR')?></p></td>
@@ -80,7 +80,7 @@
 </tr>
 </table>
 </div>
-
+<div class="overviewalgemeen">
 <?php if(!empty($orders)):?>
 <div class="overviewmedium" id="ord">
 	<div class="description_text">Nieuwste orders</div>
@@ -111,6 +111,7 @@
 </div>
 <?php endif;?>
 
+<?php if(!empty($products)):?>
 <div class="overviewsmall" id="prod">
 	<div class="description_text">Nieuwste producten</div>
 	<table cellpadding='0' cellspacing='0'>
@@ -131,6 +132,7 @@
 		</tr>
 	</table>
 </div>
+<?php endif; ?>
 <?php if($ga == true):?>
 <div class="overviewmedium" id="stats">
 	<div class="description_text">Statistieken</div>
@@ -179,3 +181,4 @@
 	</table>
 </div>
 <?php endif;?>
+</div>

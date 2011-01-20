@@ -1,5 +1,5 @@
 <div class="productform">
-<h2><img src="<?php echo HOME?>/img/icons/pages.png"/> Pagina's <a href="<?php echo HOME?>/admin/addpage/" class="addnewbutton">Nieuwe pagina</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/pages.png"/> Pagina's <a href="<?php echo HOME?>/admin/addpage/" class="pill add button"><span class="icon plus"></span>Nieuwe pagina</a></h2>
 </div>
 
 
@@ -19,7 +19,7 @@
 	<tr class="tablehead">
 		<td><p>Datum</p></td>
 		<td><p>Titel</p></td>
-		<td><p>Acties</p></td>
+		<td width="200px"><p>Acties</p></td>
 	</tr>
 	
 	<tr class="altrow">
@@ -33,11 +33,11 @@
 		}
 	?>
 	<tr<?php echo $class;?> style="height:50px">
-		<td style="text-align:center; width:140px">
+		<td style="text-align:left;padding-left:20px; width:100px">
 			<?php $date = strtotime($page['Staticpage']['created']);?>
 			<small><?php echo date("d/m/y", $date)?></small>
 		</td>
-		<td style="text-align:center; width:300px"><?php echo $page['Staticpage']['title']?></td>
+		<td style="text-align:left; width:300px"><?php echo $page['Staticpage']['title']?></td>
 		<td>
 			<div class="edit"><small><a href="<?php echo HOME?>/admin/editpage/<?php echo $page['Staticpage']['id']?>">Bewerk</a></small></div>
 			<div class="delete"><small><a href="<?php echo HOME?>/admin/deletepage/<?php echo $page['Staticpage']['id']?>">Verwijder</a></small></div>

@@ -227,4 +227,4 @@
 	/**
 	 * A random string used in security hashing methods.
 	 */
-	Configure::write('Security.salt', 'u3W7GtzKuKrf2uVlOXQkvTGeo4v9q24tYBASBAm5'); ?>
+	Configure::write('Security.salt', '8AYZpf1LJXcrLu31tB41Yi7ms1Kftim1sLbi0c3J'); ?>

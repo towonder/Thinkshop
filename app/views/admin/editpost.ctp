@@ -1,8 +1,9 @@
 <div class="productform">
 <h2>Bericht bewerken</h2>
 
-<form id="ProductAddForm" method="post" action="<?php echo HOME?>/admin/editpost/<?php echo $post['Post']['id']?>">
+<form id="EditForm" method="post" action="<?php echo HOME?>/admin/editpost/<?php echo $post['Post']['id']?>">
 	<input type="hidden" name="data[Post][id]" value="<?php echo $post['Post']['id']?>">
+<div  id="fluidtable">	
 <table>
 	<tr>
 		<td><input type="text" name="data[Post][title]" class="title_text" value="<?php echo $post['Post']['title']?>"></td>
@@ -12,28 +13,47 @@
 			<div  class="description_text" style="margin-top:10px;border:1px solid #cccccc; border-bottom:0px">
 				Bericht
 			</div>
-				<textarea name="data[Post][body]"  class="mceEditor">
+				<textarea name="data[Post][body]"  class="mceEditor_big">
 					<?php echo $post['Post']['body']?>
 				</textarea>
 		</td>
 	</tr>
 </table>
+</div>
 
 
-	<div id="editsidebar">
+	<div id="editsidebar" style="margin-top:55px">
 
 		<div id="publish">
 			<div class="description_text">Publiceer</div>
 			<table id="publishtable" style="width:240px; margin-left:10px">
 				<tr>
-					<td colspan="2" style="padding-top:15px;padding-bottom:15px"><small>Als u deze pagina publiceert verschijnt hij meteen op de site. Bij opslaan gebeurt dit niet.</small></td>
+					<td colspan="2" style="padding-top:15px;padding-bottom:15px"><small>Als u dit bericht publiceert verschijnt het meteen op de site. Bij opslaan als concept gebeurt dit niet.</small></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<?php
+
+							if($post['Post']['hidden'] == 0){
+								$status = 'Gepubliceerd';
+							}else{
+								$status = 'Concept';
+							}
+
+
+						?>
+						Huidige status: <b><?php echo $status?></b>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><br/></td>
 				</tr>
 				<tr>
 					<td>
-						<input type="submit" name="data[Post][publish]" value="Publiceer" class="submitbutton" style="margin-left:0px">
+						<a href="#" class="medium pill button" style="float:left" onClick="submitForm('Post', false)">Publiceer</a>
 					</td>
-					<td style="text-align:right">
-						<input type="submit" name="data[Post][save]" value="Bewaar" style="margin-right:10px" class="submitbutton">		
+					<td>
+						<a href="#" class="pill button" style="float:left" onClick="submitForm('Post', true)">Opslaan als concept</a>
 					</td>
 				</tr>
 			</table>

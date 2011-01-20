@@ -1,4 +1,5 @@
 <h2 style="width:600px;text-align:center">Nieuwste producten</h2>
+<br/>
 <div id="products">
 <?php foreach($products as $product):?>
 	<div class="productsquare">

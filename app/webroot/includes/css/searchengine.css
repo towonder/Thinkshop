@@ -1,3 +1,7 @@
+#searchdiv{
+	position:relative;
+}
+
 #searchinput{
 	background-color:transparent;
 	background-image:url('../../img/frontside/searchbg.png');
@@ -7,4 +11,17 @@
 	padding-left:10px;
 	color:#474749;
 	margin-top:15px;
+}
+
+#searchhotspot{
+	width:30px;
+	height:30px;
+	position:absolute;
+	right:0px;
+	top:14px;
+	background-color:#333;
+	opacity:0;
+	filter:alpha(opacity=0);	
+	cursor:hand;
+	cursor:pointer;
 }

@@ -2,7 +2,7 @@
 /*
 
  * Thinkshop :  The most userfriendly open source webshopssytem.
- * Copyright 2010, To Wonder Multimedia
+ * Copyright 2011, To Wonder Multimedia
  *	
  *
  * Licensed under The MIT License
@@ -12,6 +12,7 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @version			Thinkshop 2.2 - Hendrix
 
 */
 ?>
@@ -20,34 +21,13 @@
 <head>
 	<?php echo $html->charset(); ?>
 	<title>
-		Think Shop - 
 		<?php echo $title_for_layout; ?>	
 	</title>
 	
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	
-	<?php
-
-
-		echo $scripts_for_layout;
-	?>
-
-	<!--[if IE 7]>
-	<link href="/think/css/ie7.css" rel="stylesheet" type="text/css"/>	
-	<![endif]-->
-	<link href="/think/css/admin.css" type="text/css" rel="stylesheet">	
+	<?php echo $scripts_for_layout;?>
 	
-	<script src="/think/js/tiny_mce/tiny_mce.js" language="javascript"></script>
-	
-	
-	<script language="javascript">
-	tinyMCE.init({
-	    theme : "advanced",
-	    mode : "textareas",
-	    convert_urls : false,
-		theme_advanced_resizing : true
-	});
-	</script>
 </head>
 
 <body>

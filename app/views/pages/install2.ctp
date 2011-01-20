@@ -97,13 +97,15 @@ if($database_error == false && $dbfile_error == false){
 		$path = $_SERVER['HTTP_ORIGIN'] . $folder;
 		$sql1 = "INSERT INTO `settings` VALUES(3, 'HOME_FOLDER', '".$folder."', '2010-07-21 13:15:39');";
 		$sql2 = "INSERT INTO `settings` VALUES(2, 'HOME', '".$path."', '2010-07-21 13:15:17');";
-		$sql3 = "INSERT INTO `categories` VALUES(1, 'Eerste categorie', '".date('Y-m-d H:i:s')."', 1, 0);";
-		$sql4 = "INSERT INTO `products` VALUES(1, '', 'Eerste product', '<p>Beschrijving</p>', '', '', '".date('Y-m-d H:i:s')."', '50.00', '1.50', '0.19', 1, 0, 0, 'eerste-product', 'Eerste product', '', 1, 0, 0);";
+		$sql3 = "INSERT INTO `categories` VALUES(1, 'Ongecategoriseerd', '".date('Y-m-d H:i:s')."', 1, 0);";
+		$sql4 = "INSERT INTO `products` VALUES(1, '', 'Eerste product', '<p>Beschrijving</p>', '', '', '".date('Y-m-d H:i:s')."', '50.00', '1.50', '0.19', 1, 0, 0, 'eerste-product', 'Eerste product', '', 0, 0);";
+		$sql5 = "INSERT INTO `categories_products` VALUES(1, 1, 1, 1);";
 		
 		mysql_query($sql1);
 		mysql_query($sql2);
 		mysql_query($sql3);
 		mysql_query($sql4);
+		mysql_query($sql5);
 		
 		echo '</div>';
 	}
@@ -117,6 +119,13 @@ if($database_error == false && $dbfile_error == false){
 };	
 
 ?>
+<script type="text/javascript">
+
+	function doSubmit(){
+		$('#install2').submit();
+	}
+
+</script>
 
 <?php if($error != ''):?>
 <div class="announcements" style="margin-left:50px">
@@ -133,7 +142,7 @@ if($database_error == false && $dbfile_error == false){
 <h2>Stap 2</h2>
 <div id="installdiv">
 <p>Geef de eerste instellingen op:</p>
-<form name="databaseinstall" action="install3" method="post">
+<form name="databaseinstall" action="install3" method="post" id="install2">
 	<table>
 		<tr>
 			<td width="270px">Website title:</td>
@@ -162,9 +171,15 @@ if($database_error == false && $dbfile_error == false){
 		</tr>
 		<tr>
 			<td colspan="2" style="text-align:right">
-				<input type="submit" name="Opslaan" Value="Opslaan" class="submitbutton" />
+				<br/>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="2" style="text-align:right">
+				<a href="#" onClick="doSubmit()" class="giant pill button">Opslaan</a>
+			</td>
+		</tr>
+		
 	</table>
 </form>
 </div>

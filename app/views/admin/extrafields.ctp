@@ -1,4 +1,4 @@
-<h2>Extra velden <a href="<?php echo HOME?>/admin/addextrafield/" class="addnewbutton">Nieuw veld</a></h2>
+<h2>Extra velden <a href="<?php echo HOME?>/admin/addextrafield/" class="pill add button"><span class="icon plus"></span>Nieuw veld</a></h2>
 
 <table cellpadding="0" cellspacing="0" class="maintable">
 	<tr class="tablehead">

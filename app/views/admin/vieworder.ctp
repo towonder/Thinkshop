@@ -8,7 +8,12 @@ $totalVAT = 0;
 	foreach($products as $product):
 
 		$prijs = $product['Product']['price'] + ($product['Product']['price'] * $product['Product']['vat']);
-		$totaal += $product['Product']['price'];
+		if($product['Product']['discount'] > 0){
+			$prijs = $prijs * (1 - $product['Product']['discount']);
+			$totaal += $product['Product']['price'] * (1 - $product['Product']['discount']);
+		}else{
+			$totaal += $product['Product']['price'];
+		}
 		$sendcost += $product['Product']['sendcost'];
 		
 		if(SENDCOST_PER_PRODUCT == 'true'):
@@ -105,7 +110,17 @@ $totalVAT = 0;
 						</td>
 						<td  class="bedrag"><p style="margin-right:20px;padding-top:10px;padding-bottom:10px">
 							<?php $prijs = $product['Product']['price']; ?>
-							<?php echo $number->currency($prijs, 'EUR');?></p>
+							<?php
+									if($product['Product']['discount'] > 0){
+										$discount = 1 - $product['Product']['discount'];
+										$prijs = $prijs * $discount;
+									}
+							?>
+							<?php echo $number->currency($prijs, 'EUR');?>
+							<?php if($product['Product']['discount'] > 0):?>
+								<br/><small>(<?php echo $product['Product']['discount'] * 100?>% korting)</small>
+							<?php endif;?>
+							</p>
 							<?php $totalVAT += ($product['Product']['price'] * $product['Product']['vat']);?>
 						</td>
 					</tr>

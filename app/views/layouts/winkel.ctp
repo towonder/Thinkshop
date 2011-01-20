@@ -2,7 +2,7 @@
 /*
 
  * Thinkshop :  The most userfriendly open source webshopssytem.
- * Copyright 2010, To Wonder Multimedia
+ * Copyright 2011, To Wonder Multimedia
  *	
  *
  * Licensed under The MIT License
@@ -12,19 +12,29 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @version			Thinkshop 2.2 - Hendrix
 
 */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
-	<?php echo $html->charset(); ?>
+  	<meta charset="utf-8">
+  	<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+       	Remove this if you use the .htaccess -->
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
 	<title>
 		<?php echo WEBSITE_TITLE .' - ';?>
 		<?php echo $title_for_layout; ?>	
 	</title>
+	<meta name="description" content="Thinkshop is het meest gebruiksvriendelijke webshopsysteem">
+  	<meta name="author" content="To Wonder Multimedia">
+  
+	<!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+  	<link rel="shortcut icon" href="<?php echo HOME?>/favicon.ico">
+  	<link rel="apple-touch-icon" href="<?php echo HOME?>/apple-touch-icon.png">
 	
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<link href="<?php echo HOME?>/css/winkel.css" type="text/css" rel="stylesheet" />	
 	<link href="<?php echo HOME?>/includes/css/breadcrumbs.css" type="text/css" rel="stylesheet" />
 	<link href="<?php echo HOME?>/includes/css/searchengine.css" type="text/css" rel="stylesheet" />
@@ -35,73 +45,11 @@
 	<link href="<?php echo HOME?>/css/ie8_winkel.css" rel="stylesheet" type="text/css"/>	
 	<![endif]-->
 	
-	<script type="text/javascript" src="<?php echo HOME?>/js/uploadify/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript" src="<?php echo HOME?>/js/jquery.fancybox-1.3.1.js"></script>
-	<link rel="stylesheet" type="text/css" href="<?php echo HOME?>/js/css/fancy.css" />
-	
-	
-	<script type="text/javascript">
-		// FANCYBOXES:
-		     
-		function fancybox(href, width, height){
-			$.fancybox({
-				'zoomSpeedIn': 500,
-				'zoomSpeedOut': 500,
-				'overlayShow': true,
-				'width': width,
-				'height': height,
-				'autoDimensions': false,
-				'padding': 0,
-				'href':href
-			}); 
-		}
-		   
-		
-		$(function(){
-			$(".viewvid").fancybox({
-				'zoomSpeedIn': 500,
-				'zoomSpeedOut': 500,
-				'overlayShow': true,
-				'autoDimensions': false,
-				'height': 360,
-				'width':480,
-				'padding': 0,
-				'enableEscapeButton' : true,			
-			}); 
-		});
-		
-		
-						
-		//SMART EMPTY OF NEW INPUTFIELDS
-		function doSmartEmpty(id, string){
-			if($(id).val() == string){
-				$(id).val('');
-				$(id).focus();
-			}
-		}
-		
-		
-		
-		
-		/*function showCart(){
-			$('#cart').slideToggle('fast');	
-		}*/
-		
-		$(function(){
-			$('#cartbutton').mouseleave(function() {
-				$('#cart').slideUp('fast');
-			});
-			
-			$('#cartbutton').mouseenter(function(){
-				$('#cart').slideDown('fast');
-			})
-		})		
-		
-		
-	</script>
+	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
+  	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+  	<script>window.jQuery || document.write('<script src="<?php echo HOME?>/js/jquery/jquery-1.5.1.min.js">\x3C/script>')</script>	
 	
 <?php
-
 	// CART:
 	$totalprice = 0;
 	$amountInCart = 0;
@@ -117,15 +65,7 @@
 			}
 		}
 	}
-	
 	$cartitems = $session->read('Cart');
-	//echo $articles Artikel(en) (echo $number->currency($amount, 'EUR'));
-
-/*
-	echo '<pre>';
-	print_r($session->read('Cart'));
-	echo '</pre>';
-*/
 ?>
 </head>
 <body>
@@ -141,15 +81,14 @@
 		<div id="header">
 			
 			<div id="topmenu">
-				<!-- 
+				
 				<ul>
 					<?php foreach($pages as $page):?>
 						<?php if($page['Staticpage']['menu'] == 'top'):?>
-						<a href="<?php echo HOME .'/'. $page['Staticpage']['title']?>"><li><?php echo $page['Staticpage']['title']?></li></a>
+						<a href="<?php echo HOME .'/winkel/pagina/'.$page['Staticpage']['id'].'/'. $page['Staticpage']['slug']?>"><li><?php echo $page['Staticpage']['title']?></li></a>
 						<?php endif;?>
 					<?php endforeach;?>
 				</ul>
-			-->
 			</div>
 			
 		<?php include('includes/breadcrumbs.php');?>
@@ -173,6 +112,7 @@
 						<div class="menuitem">
 							<?php echo $category['Category']['name']?>
 						</div>
+						</a>
 						<?php endif;?>
 					<?php endforeach;?>
 					
@@ -199,5 +139,13 @@
 			<small>Powered by  &middot; <a href="http://www.getthinkshop.com">Thinkshop</a> &middot; </small>
 		</div>
 	</div>
+  	<script type="text/javascript" src="<?php echo HOME?>/js/fancybox/jquery.fancybox-1.3.1.js"></script>
+	<script type="text/javascript" src="<?php echo HOME?>/js/thinkshop/front_init.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo HOME?>/js/css/fancy.css" />
+	
+	<!--[if lt IE 7 ]>
+	    <script src="<?php echo HOME; ?>/js/pngfix/dd_belatedpng.js"></script>
+	    <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
+	  <![endif]-->	
 </body>
 </html>

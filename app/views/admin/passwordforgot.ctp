@@ -1,21 +1,46 @@
-<div id="loginmodule">
+<script type="text/javascript">
 
-	<div id="loginlogo">
-	</div>
+	function checkLogin(){
+		
+		var email = $('#em').val();
+		
+		$.ajax({
+			url: "<?php echo HOME?>/admin/checkadminemail/"+email,
+			success: function(data){				
+				if(data == 'email_okay'){
+					$('#loginform').submit();
+				}else{
+					$('.logincontainer').effect("shake", { times:2 }, 100);
+					$('#loginerror').empty();
+					$('#loginerror').append('<p>'+data+'</p>');
+					$('#loginerror').show('fast');		
+				}
+			}
+		})
+		
+	}		
+</script>
+
+<form name="login" action="<?php echo HOME?>/admin/passwordforgot" method="post" id="loginform">
+<div id="loginerror" style="display:none">
 	
-	<div id="loginform">
-		<form id="UserLoginForm" method="post" action="<?php echo HOME?>/admin/passwordforgot/">
-			<table>
-				<tr>
-					<td><small>Vul hier uw e-mailadres in. Er wordt u een nieuw wachtwoord toegestuurd.</small></td>
-				</tr>
-				<tr>
-					<td><input type="text" name="data[Admin][email]" class="smaller_text"></td>
-				</tr>
-				<tr style="text-align:right">
-					<td><input type="submit" name="Verstuur" value="Verstuur" class="submitbutton"></td>
-				</tr>
-			</table>	
-		</form>
-	</div>
+</div>	
+<table>
+	<tr>
+		<td colspan="2" style="text-align:center">
+			<small>Voer uw emailadres in, er wordt u een<br/>nieuw wachtwoord gestuurd..</small>
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:right">Uw email:</td>
+		<td><input type="text" name="data[Admin][email]" class="small_text" id="em"></td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align:right"><input type="button" value="Vraag aan" name="Vraag aan" class="submitbutton" style="margin-right:20px" onclick="checkLogin()"></td>
+	</tr>
+</table>
+</form>
+
+</div>	
+<div id="loginbottom">
 </div>

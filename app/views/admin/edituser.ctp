@@ -2,7 +2,7 @@
 <h2>Gebruiker bewerken</h2>
 </div>
 
-<form id="AddUserForm" method="post" action="<?php echo HOME?>/admin/edituser/<?php echo $admin['Admin']['id']?>">
+<form id="EditForm" method="post" action="<?php echo HOME?>/admin/edituser/<?php echo $admin['Admin']['id']?>">
 <table>
 	<tr>
 		<input type="hidden" name="data[Admin][id]" value="<?php echo $admin['Admin']['id']?>"/>
@@ -18,7 +18,12 @@
 		<td><input type="password" name="data[Admin][wachtwoord]" class="semi_text"/></td>
 	</tr>
 	<tr>
-		<td style="text-align:right"><input type="submit" value="Bewerk" name="Bewerk" class="submitbutton"/></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td style="padding-left:460px">
+			<a href="#" class="pill giant button" onclick="submitForm('User', 'none')">Bewerk</a>
+		</td>
 	</tr>
 </table>
 

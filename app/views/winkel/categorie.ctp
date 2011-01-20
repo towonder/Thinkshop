@@ -15,11 +15,4 @@
 		</a>
 	</div>	
 <?php endforeach; ?>
-
-	<?php if($amountProducts > AMOUNT_ON_PAGE):?>
-	<div class="paginator">
-		<?php echo str_replace('|', ' ', $paginator->numbers(array('class' => 'numbers')));?>
-	</div>
-	<?php endif; ?>
-
 </div>

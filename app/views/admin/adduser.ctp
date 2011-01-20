@@ -2,7 +2,7 @@
 <h2>Nieuwe gebruiker</h2>
 </div>
 
-<form id="AddUserForm" method="post" action="<?php echo HOME?>/admin/adduser/">
+<form id="EditForm" method="post" action="<?php echo HOME?>/admin/adduser/">
 <table>
 	<tr>
 		<td><input type="text" name="data[Admin][naam]" class="semi_text" value="Gebruiker naam" id="username" onclick="doSmartEmpty('#username', 'Gebruiker naam');"></td>
@@ -17,7 +17,12 @@
 		<td><input type="password" name="data[Admin][wachtwoord]" class="semi_text"/></td>
 	</tr>
 	<tr>
-		<td style="text-align:right"><input type="submit" value="Maak aan" name="Maak aan" class="submitbutton"/></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td style="padding-left:460px">
+			<a href="#" class="pill giant button" onclick="submitForm('User', 'none')">Bewerk</a>
+		</td>
 	</tr>
 </table>
 

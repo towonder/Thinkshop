@@ -3,7 +3,7 @@
 /*
 
  * Thinkshop :  The most userfriendly open source webshopssytem.
- * Copyright 2010, To Wonder Multimedia
+ * Copyright 2011, To Wonder Multimedia
  *	
  *
  * Licensed under The MIT License
@@ -13,6 +13,7 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @version			Thinkshop 2.2 - Hendrix
 
 */
 
@@ -20,7 +21,7 @@
 class AdminController extends AppController {
 
 	var $name = 'Admin';
-	var $uses = array('Product', 'Metaterm', 'Metavalue', 'MetavaluesProduct', 'Extraterm', 'Extravalue', 'User', 'Order', 'Photo', 'Video', 'OrdersProducts', 'PhotosProduct', 'VideosProduct', 'Category', 'Admin', 'Post', 'Staticpage', 'Cost', 'Setting', 'Plugin');
+	var $uses = array('Product', 'Metaterm', 'Metavalue', 'MetavaluesProduct', 'Extraterm', 'Extravalue', 'User', 'Order', 'Photo', 'Video', 'OrdersProducts', 'CategoriesProduct', 'PhotosProduct', 'VideosProduct', 'Category', 'Admin', 'Post', 'Staticpage', 'Cost', 'Setting', 'Plugin');
 	var $helpers = array('Html', 'Form', 'Number', 'Javascript');
 	var $components = array('Email','Thumb');
 	var $layout = "admin";
@@ -54,7 +55,7 @@ class AdminController extends AppController {
 		if(date('Y-m-d', strtotime($admin['lastvisited'])) != date('Y-m-d')){	
 			$date = date('Y-m-d G:i:s');
 			$this->add['Admin']['lastvisited'] = $date;
-			$this->add['Admin']['id'] = '3';
+			$this->add['Admin']['id'] = $admin['id'];
 			$this->Admin->save($this->add);
 		}
 		
@@ -177,12 +178,20 @@ class AdminController extends AppController {
 			$cat_id = $c['Category']['id'];
 		}
 
-		$this->paginate = array('order' => array('Product.position' => 'ASC'), 'limit' => AMOUNT_ON_PAGE);
-		$this->set('products', $this->paginate('Product', array('Product.category_id' => $cat_id, 'Product.parent_id' => 0)));
-		$prod = $this->Product->find('all', array('conditions' => array('Product.category_id' => $cat_id, 'Product.parent_id' => 0)));
-		$this->set('amountProducts', count($prod));		
-		$this->set('category', $this->Category->read(null, $cat_id));
-		$this->set('categories', $this->Category->find('all'));
+		//$this->paginate = array('order' => array('Product.position' => 'ASC'), 'limit' => AMOUNT_ON_PAGE);
+		$this->Category->recursive = 2;
+		$category = $this->Category->read(null, $cat_id);
+				
+		$this->Category->recursive = 2;
+		$category = $this->Category->read(null, $cat_id);
+		
+		$this->set('products', $this->Product->findInCategory($cat_id));
+		$this->set('category', $category);
+
+		$cate = $this->Category->find('all');
+		
+		
+		$this->set('categories', $cate);
 		$this->setTab('products');
 	}
 	
@@ -193,6 +202,12 @@ class AdminController extends AppController {
 			
 		if ($this->Product->save($this->data)) {
 			$id = $this->Product->getLastInsertId();
+			
+			$this->CategoriesProduct->create();
+			$this->da['CategoriesProduct']['category_id'] = '1';
+			$this->da['CategoriesProduct']['product_id'] = $id;
+			$this->CategoriesProduct->save($this->da);
+			
 			Header('Location: '.HOME.'/admin/editproduct/'. $id);
 		} else {
 			$this->Session->setFlash($this->data['Product']['name'].' kon niet worden bewaard!');
@@ -211,7 +226,8 @@ class AdminController extends AppController {
 			Header('Location: '.HOME.'/admin/index/');
 		}
 		
-		$this->set('categories', $this->Category->find('all'));
+		$this->set('categories', $this->Category->find('all', array('conditions' => array('Category.parent_id' => 0))));
+		$this->set('catkids', $this->Category->find('all', array('conditions' => array('Category.parent_id != ' => 0))));
 		$product = $this->Product->read(null, $id);
 		$a = 0;
 		$terms = array();
@@ -246,14 +262,9 @@ class AdminController extends AppController {
 		
 		$this->set('extrafields', $this->Extraterm->find('all'));
 		$this->set('product', $product);
-		$cat_id = $product['Product']['category_id'];
-			
-
-			if($cat_id != 0){	
-				$products = $this->Product->find('all', array('conditions' => array('Product.category_id' => $cat_id, 'Product.parent_id' => '0', 'Product.id !=' => $id)));
-			}else{
-				$products = $this->Product->find('all', array('conditions' => array('Product.parent_id' => '0', 'Product.id !=' => $id)));
-			}
+		$this->set('id', $id);
+		
+		$products = $this->Product->find('all', array('conditions' => array('Product.parent_id' => '0', 'Product.id !=' => $id)));
 		$this->set('products', $products);
 			
 		$metaterms = array();
@@ -271,8 +282,17 @@ class AdminController extends AppController {
 	function saveProduct($id){
 		
 		// PRICES:
-		$this->data['Product']['price'] = str_replace(',','.', $this->data['Product']['price']);
-		$this->data['Product']['sendcost'] = str_replace(',','.', $this->data['Product']['sendcost']);
+		if(!empty($this->data['Product']['price'])){
+			$this->data['Product']['price'] = str_replace(',','.', $this->data['Product']['price']);	
+		}
+		
+		if(!empty($this->data['Product']['sendcost'])){
+			$this->data['Product']['sendcost'] = str_replace(',','.', $this->data['Product']['sendcost']);
+		}
+		
+		if($this->data['Product']['discount'] != ''){
+			$this->data['Product']['discount'] = $this->data['Product']['discount'] / 100;
+		}
 		
 		$prod = $this->Product->read(null, $id);
 					
@@ -281,61 +301,64 @@ class AdminController extends AppController {
 		if(empty($this->data['Product']['parent'])){
 			$this->data['Product']['parent_id'] = 0;
 			
-			if($prod['Product']['position'] == '0'){
-				$cat_id = $this->data['Product']['category_id'];
-				$highest = $this->Product->find('first', array('conditions' => array('Product.category_id' => $cat_id), 'order' => 'Product.position DESC', 'limit' => '1'));
-
-				$this->data['Product']['position'] = $highest['Product']['position'] + 1;
-			}
-						
-		}else{
-			$this->data['Product']['position'] = '0';
-		}
-
-		//SEO:
-		if($this->data['Product']['parent'] == 0){
-			if($this->data['Product']['slug'] == 'product-naam'){
+			//SEO:
+			if($this->data['Product']['slug'] == 'product-naam' || $this->data['Product']['slug'] == 'eerste-product'){
 				$this->data['Product']['slug'] = $this->makeSlug($this->data['Product']['name']);	
-			}
-		
-			if($this->data['Product']['pagetitle'] == 'Product naam'){
-				$this->data['Product']['pagetitle'] = $this->data['Product']['name'];
+				$this->data['Product']['pagetitle'] = $this->data['Product']['name'];			
 			}
 		}
-		
+				
 		//HIDDEN / VISIBLE
 		if(empty($this->data['Product']['save'])){
 			$this->data['Product']['hidden'] = "0";
 		}else if(empty($this->data['Product']['publish'])){
 			$this->data['Product']['hidden'] = "1";
-		}
+		}	
 		
-		// ON SALE?
-		if(empty($this->data['Product']['sale'])){
-			$this->data['Product']['sale'] = "0";
-		}
-			
-		//META ITEMS:
-		if(empty($this->data['Metaterm'])){
-			$this->data['Metaterm'] = array();
-		}if(empty($this->data['DeletedMeta'])){
-			$this->data['DeletedMeta'] = array();
-		}
-		
-		$this->saveMetaData($this->data['Metaterm'], $this->data['DeletedMeta'], $this->data['Product']['id']);		
-		
-		//EXTRA FIELDS:
-		if(!empty($this->data['Extrafield'])){
-			$this->saveExtrafields($this->data['Extrafield']);
-		}
-		
+				
 		//SAVE EVERYTHING:
+		
 		if($this->Product->save($this->data)){
-			$this->Session->setFlash($this->data['Product']['name'].' is bewaard!');
-			Header('Location: '.HOME.'/admin/products/'. $this->data['Product']['category_id']);
-		}else{
-			$this->Session->setFlash($this->data['Product']['name'].' kon niet worden bewaard!');
-			Header('Location: '.HOME.'/admin/editproduct/'.$id);
+			
+			//after save, we need to save all the additional data (extrafields, metavalues, categories).
+			
+			//META ITEMS:
+			if(empty($this->data['Metaterm'])){
+				$this->data['Metaterm'] = array();
+			}if(empty($this->data['DeletedMeta'])){
+				$this->data['DeletedMeta'] = array();
+			}
+
+			$this->saveMetaData($this->data['Metaterm'], $this->data['DeletedMeta'], $this->data['Product']['id']);		
+
+			//EXTRA FIELDS:
+			if(!empty($this->data['Extrafield'])){
+				$this->saveExtrafields($this->data['Extrafield']);
+			}
+
+			$prodcats = array();		
+			$prodname = $this->data['Product']['name'];
+
+			if(!empty($this->data['ProdCats'])){
+				$prodcats = $this->data['ProdCats'];
+			}
+						
+			if($this->saveCategories($prodcats, $id)){
+				if($this->Session->check('catnum')){
+					$cat_id = $this->Session->read('catnum');
+					$this->Session->del('catnum');
+				}else{
+					$cat_id = '1';
+				}
+				
+				$this->Session->setFlash($prodname.' is bewaard!');
+				Header('Location: '.HOME.'/admin/products/'. $cat_id);
+			}else{
+				$this->Session->setFlash('Er ging iets mis bij het opslaan... probeer later nog eens');
+				Header('Location: '.HOME.'/admin/products/1');
+			}
+			
+		
 		}
 	}
 	
@@ -403,6 +426,7 @@ class AdminController extends AppController {
 		endif;
 	}
 	
+	
 	function saveExtraFields($extrafields){
 		foreach($extrafields as $field){
 			if($field['blank'] == "true" && !empty($field['value'])){
@@ -425,6 +449,87 @@ class AdminController extends AppController {
 	}
 	
 	
+	function saveCategories($catproducts, $id){
+		
+		$product = $this->Product->read(null, $id);
+		if($product['Product']['parent_id'] == '0'):
+			$catprod = $this->CategoriesProduct->find('all', array('conditions' => array('CategoriesProduct.product_id' => $id)));
+			$wop = '';
+			$positions = array();
+		
+	
+		
+			$first = $this->CategoriesProduct->find('first', array('conditions' => array('CategoriesProduct.category_id' => '1'), 'order' => 'CategoriesProduct.position DESC', 'limit' => '1'));
+		
+			if(!empty($catprod)){
+				foreach($catprod as $cp){
+					$positions[$cp['CategoriesProduct']['category_id']] = $cp['CategoriesProduct']['position'];
+					//$positions[] = $cp['CategoriesProduct']['position'];
+					$this->CategoriesProduct->del($cp['CategoriesProduct']['id']);
+				}
+			}
+		
+			$newcat = '1';		
+			$a = 0;
+			if(!empty($catproducts)){
+			
+				foreach($catproducts as $cp){
+					$this->CategoriesProduct->create();
+					$this->bu['CategoriesProduct']['product_id'] = $id;
+					$this->bu['CategoriesProduct']['category_id'] = $cp;
+
+					if(!empty($positions[$cp])){
+						$this->bu['CategoriesProduct']['position'] = $positions[$cp];
+					}else{
+						$f = $this->CategoriesProduct->find('first', array('conditions' => array('CategoriesProduct.category_id' => $cp), 'order' => 'CategoriesProduct.position DESC', 'limit' => '1'));
+					
+						$this->bu['CategoriesProduct']['position'] = $f['CategoriesProduct']['position'] + 1;
+					}
+					$this->CategoriesProduct->save($this->bu);
+				
+					$a++;
+				}
+			}else{
+				$this->CategoriesProduct->create();
+				$this->co['CategoriesProduct']['product_id'] = $id;
+				$this->co['CategoriesProduct']['category_id'] = '1';
+			
+			
+				$this->co['CategoriesProduct']['position'] = $first['CategoriesProduct']['position'] + 1;
+				$this->CategoriesProduct->save($this->co);
+			}
+		
+			return true;
+		else:
+			return true;
+		endif;
+	}
+	
+	
+	
+	function saveProductPositions(){
+		
+		$this->layout = '';
+		$message = '';
+		if(!empty($_GET)){
+			$products = $_GET['prod'];
+			$cat = $_GET['catid'];
+		
+			$i = 1;
+			foreach($products as $prod){
+				//$this->CategoriesProduct->contain('');
+				$catprod = $this->CategoriesProduct->find('first', array('conditions' => array('CategoriesProduct.category_id' => $cat, 'CategoriesProduct.product_id' => $prod)));
+				$this->d['CategoriesProduct']['id'] = $catprod['CategoriesProduct']['id'];
+				$this->d['CategoriesProduct']['position'] = $i;
+				$this->CategoriesProduct->save($this->d);
+				$i++;
+			}
+		}
+
+		$this->set('message', $message);
+	}
+	
+		
 	
 	function deleteproduct($id = null) {
 		if (!$id) {
@@ -447,6 +552,7 @@ class AdminController extends AppController {
 		$this->setTab('products');		
 	}
 	
+	
 	function addoption(){
 		
 		$this->pageTitle = 'Keuzelijst toevoegen';
@@ -463,6 +569,7 @@ class AdminController extends AppController {
 		
 		$this->setTab('products');
 	}
+	
 
 	function editoption($id){
 		
@@ -479,6 +586,7 @@ class AdminController extends AppController {
 			}
 		}
 	}
+	
 	
 	function deleteoption($id){
 		
@@ -669,6 +777,23 @@ class AdminController extends AppController {
 		$this->setTab('products');
 	}
 	
+	function quickaddcategory($name){
+		
+		$this->layout = '';
+		$latest = $this->Category->find('first', array('order' => 'Category.position DESC', 'conditions' => array('Category.parent_id' => '0')));
+		
+		$this->Category->create();
+		$this->data['Category']['name'] = $name;
+		$this->data['Category']['position'] = $latest['Category']['position'] + 1;
+		$this->Category->save($this->data);
+		
+		$catid = $this->Category->getLastInsertID();
+		$this->set('catid', $catid);
+		
+	}
+		
+	
+	
 	function editcategory($id){
 		
 		$this->pageTitle = 'Categorie bewerken';
@@ -693,6 +818,12 @@ class AdminController extends AppController {
 	}
 	
 	function deletecategory($id = null) {
+		
+		$cps = $this->CategoriesProduct->find('all', array('conditions' => array('CategoriesProduct.category_id' => $id)));
+		foreach($cps as $c){
+			$this->CategoriesProduct->del($c['CategoriesProduct']['id']);
+		}
+		
 		if (!$id) {
 			$this->Session->setFlash('Deze categorie kon niet worden gevonden.');
 			Header('Location: '.HOME.'/admin/categories/');
@@ -898,7 +1029,7 @@ class AdminController extends AppController {
 
 		$src = HOME . $image['Photo']['large'];
 		$thumb = WWW_ROOT . $image['Photo']['thumb'];
-		$type = substr($image['Photo']['large'],-3);
+		$type = strtolower(substr($image['Photo']['large'],-3));
 		/*
 		if(file_exists($thumb)){
 			unlink($thumb);
@@ -913,7 +1044,7 @@ class AdminController extends AppController {
 			imagesavealpha($dst_r, true);
 			imagecopyresampled($dst_r,$img_r,0,0,$x,$y,$targ_w,$targ_h,$w,$h);
 			imagepng($dst_r, $thumb, $quality);
-		}else if($type == 'jpg'){
+		}else if($type == 'jpg' || $type == 'jpeg'){
 			$img_r = imagecreatefromjpeg($src);
 			$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
 
@@ -924,14 +1055,14 @@ class AdminController extends AppController {
 	
 	
 	
-	function medialibrary($id){
+	function medialibrary($id, $autoclose = null){
 		$product = $this->Product->read(null, $id);
 		$this->set('product', $product);
 		$this->layout = 'media';
 		
-		$this->set('photos', $this->Photo->find('all'));
-		$this->set('videos', $this->Video->find('all'));
-		
+		$this->set('photos', $this->Photo->find('all', array('order' => 'Photo.created DESC')));
+		$this->set('videos', $this->Video->find('all', array('order' => 'Video.created DESC')));
+		$this->set('autoclose', $autoclose);
 	}
 	
 	
@@ -958,28 +1089,64 @@ class AdminController extends AppController {
 					$this->VideosProduct->save($this->video);					
 				}
 			}
-			Header('Location: '.HOME.'/admin/closeBox/');
+			Header('Location: '.HOME.'/admin/medialibrary/'. $id .'/true');
+		}else{
+			Header('Location: '.HOME.'/admin/medialibrary/'. $id .'/true');
 		}
 	}
 	
 	
 
-
-	function editproductpicture($id){
+	function editmainpicture($id, $type){
+		$this->layout = 'media';
 		
-		$this->layout = 'media';			
-		$product = $this->Product->read(null, $id);
+		if($type == 'product'){
+			$object = $this->Product->read(null, $id);
+		}else if($type == 'post'){
+			$object = $this->Post->read(null, $id);
+		}else if($type == 'page'){
+			$object = $this->Staticpage->read(null, $id);
+		}else if($type == 'user'){
+			$object = $this->User->read(null, $id);
+		}else if($type == 'metavalue'){
+			$object = $this->Metavalue->read(null, $id);
+		}else if($type == 'category'){
+			$object = $this->Category->read(null, $id);	
+		}else{
+			$type = 'product';
+			$object = $this->Product->read(null, $id);			
+		}
 		
-		$photos = $this->Photo->find('all');
+		$photos = $this->Photo->find('all', array('order' => 'Photo.created DESC'));
 		$this->set('photos', $photos);
-		$this->set('product', $product);
+		$this->set('object', $object);
+		$this->set('type', $type);
+		
 		
 	}
+
 	
-	function saveproductpicture($id, $product){
-		$this->data['Product']['photo_id'] = $id;
-		$this->data['Product']['id'] = $product;
-		$this->Product->save($this->data);
+	function savemainpicture($id, $object, $type){
+		$this->layout = '';
+		if($type == 'product'){
+			$this->data['Product']['photo_id'] = $id;
+			$this->data['Product']['id'] = $object;
+			$this->Product->save($this->data);
+		}
+		
+		$this->set('url', $this->Photo->read(null, $id));
+	}
+	
+	
+	function getproductpictures($id){
+		$this->layout = '';
+		$this->set('product', $this->Product->read(null, $id));
+	}
+	
+	function getmainpicture($id){
+		$this->layout = '';
+		$p = $this->Product->read(null, $id);
+		$this->set('url', $p['Image']['large']);
 	}
 	
 	
@@ -1000,6 +1167,21 @@ class AdminController extends AppController {
 	}
 	
 	function addpost(){
+
+		$this->data['Post']['title'] = 'Nieuw bericht';
+		$this->data['Post']['hidden'] = '1';
+		$this->data['Post']['created'] = date('Y-m-d H:i:s');
+	
+		$this->Post->create();
+		if($this->Post->save($this->data)){
+			$id = $this->Post->getLastInsertID();
+			Header('Location: '.HOME.'/admin/editpost/'.$id);
+			exit();
+		}else{
+			$this->Session->setFlash('Het bericht kon niet worden bewaard!');
+			Header('Location: '.HOME.'/news/');
+			exit();
+		}
 
 		$this->pageTitle = 'Nieuw bericht';
 
@@ -1037,6 +1219,14 @@ class AdminController extends AppController {
 				$this->data['Post']['hidden'] = "0";
 			}else if(empty($this->data['Post']['publish'])){
 				$this->data['Post']['hidden'] = "1";
+			}
+			
+			$pos = $this->Post->read(null, $id);
+			if($pos['Post']['slug'] != ''){
+				$this->data['Post']['slug'] = $this->makeSlug($this->data['Post']['slug']);	
+			}else{
+				$this->data['Post']['slug'] = $this->makeSlug($this->data['Post']['title']);
+				$this->data['Post']['pagetitle'] = $this->data['Post']['title'];
 			}
 			
 			$this->data['Post']['edited'] = date('Y-m-d H:i:s');
@@ -1088,40 +1278,25 @@ class AdminController extends AppController {
 	}
 	
 	function addpage(){
-		$this->pageTitle = 'Pagina toevoegen';
-		
-		if (!empty($this->data)) {
-			$this->Staticpage->create();
-			
-			if(empty($this->data['Staticpage']['save'])){
-				$this->data['Staticpage']['hidden'] = "0";
-			}else if(empty($this->data['Staticpage']['publish'])){
-				$this->data['Staticpage']['hidden'] = "1";
-			}
-			
-			if(empty($this->data['Staticpage']['topmenu'])){
-				$this->data['Staticpage']['menu'] = '';
-			}else{
-				$this->data['Staticpage']['menu'] = 'top';
-			}
-			
-			$this->data['Staticpage']['slug'] = $this->makeSlug($this->data['Staticpage']['title']);	
-			$this->data['Staticpage']['pagetitle'] = $this->data['Staticpage']['title'];
-			
-			if ($this->Staticpage->save($this->data)) {
-				$this->Session->setFlash($this->data['Staticpage']['title'].' is bewaard!');
-				Header('Location: '.HOME.'/admin/pages/');
-			} else {
-				$this->Session->setFlash($this->data['Staticpage']['title'].' kon niet worden bewaard!');
-			}
+		$this->data['Staticpage']['title'] = 'Nieuwe pagina';
+		$this->data['Staticpage']['hidden'] = '1';
+		$this->data['Staticpage']['menu'] = '';
+		$this->Staticpage->create();
+		if($this->Staticpage->save($this->data)){
+			$id = $this->Staticpage->getLastInsertID();
+			Header('Location: '.HOME.'/admin/editpage/'.$id);
+			exit();
+		}else{
+			$this->Session->setFlash('De pagina kon niet worden bewaard!');
+			Header('Location: '.HOME.'/pages/');
+			exit();
 		}
-		
-		$this->setTab('page');
 	}
 
 	
 	function editpage($id){
 		$this->pageTitle = 'Bewerk pagina';
+		$this->setTab('page');
 		
 		if (!empty($this->data)) {
 			
@@ -1137,10 +1312,27 @@ class AdminController extends AppController {
 				$this->data['Staticpage']['menu'] = 'top';
 			}
 			
-			
-			if(ADVANCED == "true"){
-				$this->data['Staticpage']['slug'] = $this->makeSlug($this->data['Staticpage']['slug']);	
+			if(empty($this->data['Staticpage']['form'])){
+				$this->data['Staticpage']['form'] = '0';
+			}else{
+				$this->data['Staticpage']['form'] = '1';
 			}
+			
+			if(empty($this->data['Staticpage']['use_captcha'])){
+				$this->data['Staticpage']['use_captcha'] = '0';
+			}else{
+				$this->data['Staticpage']['use_captcha'] = '1';
+			}
+			
+			
+			$pag = $this->Staticpage->read(null, $id);
+			if($pag['Staticpage']['slug'] != ''){
+				$this->data['Staticpage']['slug'] = $this->makeSlug($this->data['Staticpage']['slug']);	
+			}else{
+				$this->data['Staticpage']['slug'] = $this->makeSlug($this->data['Staticpage']['title']);
+				$this->data['Staticpage']['pagetitle'] = $this->data['Staticpage']['title'];
+			}
+			
 			
 			if ($this->Staticpage->save($this->data)) {
 				$this->Session->setFlash($this->data['Staticpage']['title'].' is bewaard!');
@@ -1433,25 +1625,48 @@ class AdminController extends AppController {
 	function login() {
 		$this->pageTitle = 'Inloggen';
 		$this->layout = 'login';
+		$this->set('type', 'Inloggen alstublieft...');
 			
 		if (!empty($this->data)){
 
 			$naam = $this->data['Admin']['naam'];
 			$someone = $this->Admin->find('first',array('conditions'=>array('Admin.naam'=>$naam)));
 
-			if(!empty($someone['Admin']['wachtwoord']) && $someone['Admin']['wachtwoord'] == Security::hash($this->data['Admin']['wachtwoord'])){
+			// build some basic session information to remember this user as 'logged-in'.
+			$this->Session->write('admin', $someone['Admin']);	
+			$this->Session->setFlash('Welkom terug, '. $someone['Admin']['naam']);		
+			Header('Location: '.HOME.'/admin/index');
 
-					// build some basic session information to remember this user as 'logged-in'.
-					$this->Session->write('admin', $someone['Admin']);	
-					$this->Session->setFlash('Welkom terug, '. $someone['Admin']['naam']);		
-					Header('Location: '.HOME.'/admin/index');
-
-			}else{
-				// We need some real errorhandeling here
-				$this->pa('error');
-			}
 		}
 	}	
+	
+	
+	function checkLogin($username = null, $password = null){
+		
+		$this->layout = '';
+		$message = 'login_okay';
+		
+		
+		$someone = $this->Admin->find('first', array('conditions' => array('Admin.naam' => $username)));
+		if(empty($someone)){
+			$message = 'Deze gebruiker bestaat niet.';
+		}else{
+
+			if(Security::hash($password) != $someone['Admin']['wachtwoord']){
+				$message = 'Uw wachtwoord is niet juist.';
+			}else{
+				$message = 'login_okay';
+			}
+		}
+		
+		if($username == '' || $password == ''){
+			$message = 'U heeft een of meerdere velden niet ingevuld.';
+		}
+		
+		
+		$this->set('message', $message);
+	}
+	
 
 	function logout(){
 		$this->Session->delete('admin');
@@ -1463,6 +1678,7 @@ class AdminController extends AppController {
 	function passwordforgot() {
 		$this->pageTitle = 'Wachtwoord vergeten';
 		$this->layout = 'login';
+		$this->set('type', 'Wachtwoord vergeten');
 		
 		 if(!empty($this->data)) {
 			
@@ -1491,10 +1707,33 @@ class AdminController extends AppController {
 					
 					
 				}
-			}else{
-				$this->Session->setFlash('Dit is een ongeldig e-mail adres!');
 			}
 		}
+	}
+	
+	
+	function checkadminemail($mail = null){
+		
+		$this->layout = '';
+		$user = $this->Admin->find('first', array('conditions' => array('Admin.email' => $mail)));
+		
+		if(empty($user)){
+			$message = 'Dit e-mailadres komt niet voor in de database';
+		}else{
+			$message = 'email_okay';
+		}
+		
+		if($mail == null){
+			$message = 'U hebt niks ingevuld!';
+		}
+		
+		$this->set('message', $message);
+	}
+	
+	
+	function confirm(){
+		$this->layout = 'login';
+		$this->set('type', '');
 	}
 	
 	/*
@@ -1782,11 +2021,24 @@ class AdminController extends AppController {
 				$this->setting['Setting']['pair'] = 'false';
 				$this->Setting->save($this->setting);
 			}
-
-		   
+			
+			$this->Session->setFlash('De gegevens zijn bewerkt.');
 		}
 		
 		$this->set('settings', $this->Setting->find('all', array('order' => 'Setting.id ASC')));
+	}
+	
+	
+	/*
+		Some static pages:
+	*/
+	
+	function about(){
+		$this->setTab('');
+	}
+	
+	function license(){
+		$this->setTab('');		
 	}
 	
 

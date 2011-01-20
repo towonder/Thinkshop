@@ -8,7 +8,7 @@
 
 <h2><img src="<?php echo HOME?>/img/icons/settings.png"/> Instellingen</h2>
 <div id="settingscollection">
-<form name="settings" action="<?php echo HOME?>/admin/settings" method="post">	
+<form name="settings" id="EditForm" action="<?php echo HOME?>/admin/settings" method="post">	
 <table  class="settinggroup">
 <tr>
 	<td colspan="2" class="settingtitle">Kern instellingen</td>
@@ -208,7 +208,7 @@
 </table>
 
 <div id="settingsbutton">
-	<input type="submit" value="Bewerk" class="submitbutton" />
+	<a href="#" class="pill giant button" onclick="submitForm('Setting', 'none')">Opslaan</a>
 </div>
 </form>
 </div>

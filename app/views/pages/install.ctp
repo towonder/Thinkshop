@@ -61,12 +61,18 @@
 		echo '<p> Uw security.salt is niet schrijfbaar in het bestand "app/config/core.php", pas de security.salt zelf aan..</p>';
 	}
 ?>
+<script type="text/javascript">
 
+	function doSubmit(){
+		$('#dbinstall').submit();
+	}
+
+</script>
 
 <h2>Stap 1</h2>
 <div id="installdiv">
 <p>Geef aub uw database informatie op:</p>
-<form name="databaseinstall" action="install2" method="post">
+<form name="databaseinstall" action="install2" method="post" id="dbinstall">
 	<table>
 		<tr>
 			<td width="270px">Database naam:</td>
@@ -89,8 +95,11 @@
 			</td>
 		</tr>
 		<tr>
+			<td colspan="2"><br/></td>
+		</tr>
+		<tr>
 			<td colspan="2" style="text-align:right">
-				<input type="submit" name="Opslaan" Value="Opslaan" class="submitbutton" />
+				<a href="#" onClick="doSubmit()" class="giant pill button">Opslaan</a>
 			</td>
 		</tr>
 	</table>

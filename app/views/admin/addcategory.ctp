@@ -2,7 +2,7 @@
 <h2>Nieuwe categorie</h2>
 </div>
 
-<form id="OptionAddForm" method="post" action="<?php echo HOME?>/admin/addcategory/">
+<form id="EditForm" method="post" action="<?php echo HOME?>/admin/addcategory/">
 <table>
 	<tr>
 		<td colspan="2"><input type="text" name="data[Category][name]" class="semi_text" value="Categorie naam" id="categoryname" onclick="doSmartEmpty('#categoryname', 'Categorie naam');"></td>
@@ -18,7 +18,12 @@
 		</td>
 	</tr>
 	<tr>
-		<td style="text-align:right"><input type="submit" value="Maak aan" name="Maak aan" class="submitbutton"/></td>
+		<td colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="padding-left:450px">
+			<a href="#" class="pill giant button" onClick="submitForm('Category', 'none')">Voeg toe</a>			
+		</td>
 	</tr>
 </table>
 
