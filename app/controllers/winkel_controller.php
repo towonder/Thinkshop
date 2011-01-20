@@ -307,7 +307,7 @@ class WinkelController extends AppController {
 		
 		if(!$this->checkLoggedIn()){
 			//De sessie is verlopen of bestaat niet eens:
-			Header('Location:/think/admin/login');
+			Header('Location:'.HOME.'/winkel/login');
 			exit();
 		}
 		$user_ses = $this->Session->read('User');
