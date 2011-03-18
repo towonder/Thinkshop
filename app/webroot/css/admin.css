@@ -418,7 +418,7 @@ input:focus {
 
 #plugins{border-bottom:0px;}
 
-#settings{
+#settings_button{
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	-moz-border-radius-bottomleft: 5px;

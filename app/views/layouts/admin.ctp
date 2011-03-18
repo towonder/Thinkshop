@@ -221,9 +221,9 @@
 						
 						<a href="<?php echo HOME?>/admin/settings">
 							<?php if($session->read('tab') == "settings"):?>
-							<div id="settings" class="menubutton active"><span class="icon sett"></span>Instellingen</div>
+							<div id="settings_button" class="menubutton active"><span class="icon sett"></span>Instellingen</div>
 							<?php else:?>
-							<div id="settings" class="menubutton"><span class="icon sett"></span>Instellingen</div>	
+							<div id="settings_button" class="menubutton"><span class="icon sett"></span>Instellingen</div>	
 							<?php endif;?>
 						</a>
 						
