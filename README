@@ -30,6 +30,9 @@ install the webshopsystem (like wordpress) within 5 minutes.
 
 Frontend-files views are here: /app/views/winkel/ and the frontend controller is here: /app/controllers/winkel_controller.php
 
+For ideal-payments, you can download this free plugin:
+https://github.com/towonder/iDeal-for-Thinkshop
+
 Good Luck!
 
 
@@ -49,6 +52,8 @@ If you need any new databasetables, place the appropriate sql in: /app/plugins/p
 More on this soon in the Thinkshop supportwiki. For now, check out Cake's awesome documentation on writing CakePhp plugins:
 http://book.cakephp.org/view/114/Plugins
 
+Check out the first open source plugin (it lets you do payments via ideal):
+https://github.com/towonder/iDeal-for-Thinkshop
 
 
 CHANGELOG
