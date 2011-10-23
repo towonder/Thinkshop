@@ -65,6 +65,7 @@ $(function(){
 $(document).ready(function(){
 	resizeLayout();
 	$('.announcements').fadeIn(1500);
+	$('#CatSelector').change(function(){submitForm();});
 });
 
 $(window).resize(function(){

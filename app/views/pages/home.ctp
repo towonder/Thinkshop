@@ -1,6 +1,9 @@
-<h2>Thinkshop installeren</h2>
+<?php
+Configure::write('Config.language', 'eng');
+?>
+<h2><?php __('Thinkshop installeren')?></h2>
 <div id="installdiv">
-<p>Thinkshop heeft nog geen database connectie en goede veiligheidsinstellingen.</p>
+<p><?php __('Thinkshop heeft nog geen database connectie en goede veiligheidsinstellingen.')?></p>
 
-<a href="install" onClick="doSubmit()" class="giant pill button">Begin met installeren</a>
+<a href="install" onClick="doSubmit()" class="giant pill button"><?php __('Begin met installeren')?></a>
 </div>

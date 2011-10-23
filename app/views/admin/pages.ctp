@@ -1,5 +1,5 @@
 <div class="productform">
-<h2><img src="<?php echo HOME?>/img/icons/pages.png"/> Pagina's <a href="<?php echo HOME?>/admin/addpage/" class="pill add button"><span class="icon plus"></span>Nieuwe pagina</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/pages.png"/> <?php __('Pagina\'s')?> <a href="<?php echo HOME?>/admin/addpage/" class="pill add button"><span class="icon plus"></span><?php __('Nieuwe pagina')?></a></h2>
 </div>
 
 
@@ -17,9 +17,9 @@
 	<?php endif; ?>
 	
 	<tr class="tablehead">
-		<td><p>Datum</p></td>
-		<td><p>Titel</p></td>
-		<td width="200px"><p>Acties</p></td>
+		<td><p><?php __('Datum')?></p></td>
+		<td><p><?php __('Titel')?></p></td>
+		<td width="200px"><p><?php __('Acties')?></p></td>
 	</tr>
 	
 	<tr class="altrow">
@@ -39,8 +39,8 @@
 		</td>
 		<td style="text-align:left; width:300px"><?php echo $page['Staticpage']['title']?></td>
 		<td>
-			<div class="edit"><small><a href="<?php echo HOME?>/admin/editpage/<?php echo $page['Staticpage']['id']?>">Bewerk</a></small></div>
-			<div class="delete"><small><a href="<?php echo HOME?>/admin/deletepage/<?php echo $page['Staticpage']['id']?>">Verwijder</a></small></div>
+			<div class="edit"><small><a href="<?php echo HOME?>/admin/editpage/<?php echo $page['Staticpage']['id']?>"><?php __('Bewerk')?></a></small></div>
+			<div class="delete"><small><a href="<?php echo HOME?>/admin/deletepage/<?php echo $page['Staticpage']['id']?>"><?php __('Verwijder')?></a></small></div>
 		</td>
 	</tr>
 	<?php endforeach; ?>

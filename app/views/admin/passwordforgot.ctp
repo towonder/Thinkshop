@@ -28,15 +28,15 @@
 <table>
 	<tr>
 		<td colspan="2" style="text-align:center">
-			<small>Voer uw emailadres in, er wordt u een<br/>nieuw wachtwoord gestuurd..</small>
+			<small><?php __('Voer uw emailadres in, er wordt u een<br/>nieuw wachtwoord gestuurd')?>..</small>
 		</td>
 	</tr>
 	<tr>
-		<td style="text-align:right">Uw email:</td>
+		<td style="text-align:right"><?php __('Uw email')?>:</td>
 		<td><input type="text" name="data[Admin][email]" class="small_text" id="em"></td>
 	</tr>
 	<tr>
-		<td colspan="2" style="text-align:right"><input type="button" value="Vraag aan" name="Vraag aan" class="submitbutton" style="margin-right:20px" onclick="checkLogin()"></td>
+		<td colspan="2" style="text-align:right"><input type="button" value="<?php __('Vraag aan')?>" name="<?php __('Vraag aan')?>" class="submitbutton" style="margin-right:20px" onclick="checkLogin()"></td>
 	</tr>
 </table>
 </form>

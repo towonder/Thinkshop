@@ -14,15 +14,7 @@ Ordernummber: <?php echo '#'. sprintf("%04d",$order['Order']['id']);?>
 <?php foreach($products as $product):?>
 Product: <?php echo $product['Product']['name']?>
 
-<?php
-$prijs = $product['Product']['price'];
-if($product['Product']['discount'] > 0){
-	$discount = 1 - $product['Product']['discount'];
-	$prijs = $prijs * $discount;
-}
-?>
-
-Prijs (ex btw): €<?php echo str_replace('.',',', $number->currency($prijs, ''));?><?php if($product['Product']['discount'] > 0): echo '('.$product['Product']['discount'] * 100 .'% Korting)'; endif;?>
+Prijs (ex btw): €<?php echo str_replace('.',',', $number->currency($product['Product']['price'], ''));?>
 
 <?php if(!empty($product['Options'])):?>
 <?php foreach($product['Options'] as $option):?>
@@ -33,13 +25,7 @@ Prijs (ex btw): €<?php echo str_replace('.',',', $number->currency($prijs, '')
 --------------
 	<?php
 		$totallopend += $product['Product']['price'];
-		$prijs = $product['Product']['price'] + ($product['Product']['price'] * $product['Product']['vat']);
-		if($product['Product']['discount'] > 0){
-			$discount = 1 - $product['Product']['discount'];
-			$prijs = $prijs * $discount;
-		}
-		
-		$total += $prijs;
+		$total += $product['Product']['price'] + ($product['Product']['price'] * $product['Product']['vat']);
 		if(SENDCOST_PER_PRODUCT == true){
 			$total += $product['Product']['sendcost'];
 			$totalsend += $product['Product']['sendcost'];

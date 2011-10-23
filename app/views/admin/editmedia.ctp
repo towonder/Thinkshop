@@ -51,9 +51,9 @@
 	</script>
 
 
-<h2>Bewerk Foto</h2>
+<h2><?php __('Bewerk Foto')?></h2>
 <?php else: ?>
-<h2>Bewerk Video</h2>
+<h2><?php __('Bewerk Video')?></h2>
 <?php endif;?>
 
 
@@ -74,19 +74,19 @@
 	</tr>
 	<tr>
 		<td colspan="3">
-			<b>Lokaties:</b>
+			<b><?php __('Lokaties:')?></b>
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">Klein:</td>
+		<td colspan="2"><?php __('Klein')?>:</td>
 		<td><?php echo HOME . $photo['Photo']['thumb']?>
 	</tr>
 	<tr>
-		<td colspan="2">Middel:</td>
+		<td colspan="2"><?php __('Middel')?>:</td>
 		<td><?php echo HOME . $photo['Photo']['medium']?>
 	</tr>
 	<tr>
-		<td colspan="2">Groot:</td>
+		<td colspan="2"><?php __('Groot')?>:</td>
 		<td><?php echo HOME . $photo['Photo']['large']?></td>
 	</tr>
 <!--			
@@ -128,7 +128,7 @@
 	<tr>
 		<td></td>
 		<td></td>
-		<td><a href="#" class="pill giant button" onClick="submitForm('Media', 'none')">Bewerk</a></td>
+		<td><a href="#" class="pill giant button" onClick="submitForm('Media', 'none')"><?php __('Bewerk')?></a></td>
 	</tr>
 </table>
 
@@ -152,7 +152,7 @@
 	</tr>
 	<tr>
 		<td></td>
-		<td colspan="3" style="padding-left:10px"><a href="#" class="pill giant button" onClick="submitForm('Media', 'none')">Bewerk</a></td>
+		<td colspan="3" style="padding-left:10px"><a href="#" class="pill giant button" onClick="submitForm('Media', 'none')"><?php __('Bewerk')?></a></td>
 	</tr>
 </table>
 

@@ -12,7 +12,6 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version			Thinkshop 2.2 - Hendrix
 
 */
 ?>
@@ -26,10 +25,7 @@
 	</title>
 	
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<!--[if IE 7]>
-	<link href="/think/css/ie7.css" rel="stylesheet" type="text/css"/>	
-	<![endif]-->
-	<link href="/think/css/admin.css" type="text/css" rel="stylesheet">	
+	<link href="<?php echo HOME?>/css/admin.css" type="text/css" rel="stylesheet">	
 	<style>
 	
 		html{

@@ -2,6 +2,8 @@
 
 	// Als de tmp map niet writebaar is of de cache instellingen zijn niet goed, rerouten:
 	$settings = Cache::settings();
+	Configure::write('Config.language', 'eng');
+	
 	
 	if(!is_writable(TMP)){
 		Header('Location: install4?error=tmp');
@@ -58,7 +60,7 @@
 ?>
 <?php
 	if($error == true){
-		echo '<p> Uw security.salt is niet schrijfbaar in het bestand "app/config/core.php", pas de security.salt zelf aan..</p>';
+		echo '<p>'.__('Uw security.salt is niet schrijfbaar in het bestand "app/config/core.php", pas de security.salt zelf aan..', true).'</p>';
 	}
 ?>
 <script type="text/javascript">
@@ -69,37 +71,42 @@
 
 </script>
 
-<h2>Stap 1</h2>
+<h2><?php __('Stap')?> 1</h2>
 <div id="installdiv">
-<p>Geef aub uw database informatie op:</p>
+<p><?php __('Geef aub uw database informatie op')?>:</p>
 <form name="databaseinstall" action="install2" method="post" id="dbinstall">
 	<table>
 		<tr>
-			<td width="270px">Database naam:</td>
+			<td width="270px"><?php __('Database naam')?>:</td>
 			<td><input type="text" name="name" class="smaller_text"/></td>
 		</tr>
 		<tr>
-			<td>Gebruikersnaam:</td>
+			<td><?php __('Gebruikersnaam')?>:</td>
 			<td><input type="text" name="user" class="smaller_text"/></td>
 		</tr>
 		<tr>
-			<td>Wachtwoord:</td>
+			<td><?php __('Wachtwoord')?>:</td>
 			<td><input type="text" name="password" class="smaller_text"/></td>
 		</tr>
 		<tr>
-			<td>Database host<br/>
-				<small>(9 van de 10 keer is dit 'localhost')</small>
+			<td><?php __('Database host')?><br/>
+				<small>(<?php __('9 van de 10 keer is dit \'localhost\'')?>)</small>
 			</td>
 			<td>
 				<input type="text" name="host" value="localhost" class="smaller_text"/></td>
 			</td>
 		</tr>
 		<tr>
+			<td><?php __('Prefix')?></td>
+			<td>
+				<input type="text" name="theprefix" value="" class="smaller_text">
+			</td>
+		<tr>
 			<td colspan="2"><br/></td>
 		</tr>
 		<tr>
 			<td colspan="2" style="text-align:right">
-				<a href="#" onClick="doSubmit()" class="giant pill button">Opslaan</a>
+				<a href="#" onClick="doSubmit()" class="giant pill button" id="dbinstall"><?php __('Opslaan')?></a>
 			</td>
 		</tr>
 	</table>

@@ -8,13 +8,25 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @filesource
- * @copyright		To Wonder Multimedia
+ * @copyright	To Wonder Multimedia
  * @link		http://www.getthinkshop.com Thinkshop Project
  * @license		http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version		Thinkshop beta 2.2 "Hendrix"
+ * @version		Thinkshop beta 2.3 "Santana"
+
+
+This program incorporates work covered by the following copyright and
+permission notices:
+
+  CakePhp is copyright 2005-2010, Cake Software Foundation, Inc.
+  http://cakefoundation.org
+
+  jQuery is copyright 2011, John Resig
+  http://jquery.com
 
 
  * Thanks to:
+
+ * WordPress for letting us blatently steel there UX-design
  * Michael Henriksen for the css3 button css
  * Mihaiciuc Bogdan for the menu icons
  
@@ -22,16 +34,19 @@
 */
 
 
+THINKSHOP 2.3 "SANTANA"
+Named after one of the worlds most inspiring guitarplayers, Thinkshop Santana is as versatile as creative.
+With the new tagfunctions, setting related products on your website becomes a breeze, add easy-peasy language
+management and multilingual admininterfaces and Thinkshop truly starts rocking the entire world.
+
+
 SETUP
 
 Place all files on an apache webserver,
 and go to that url. If you have enough rights on the /app/config -folder, you'll be able to
-install the webshopsystem (like wordpress) within 5 minutes.
+install the webshopsystem (like WordPress) within 5 minutes.
 
 Frontend-files views are here: /app/views/winkel/ and the frontend controller is here: /app/controllers/winkel_controller.php
-
-For ideal-payments, you can download this free plugin:
-https://github.com/towonder/iDeal-for-Thinkshop
 
 Good Luck!
 
@@ -39,7 +54,7 @@ Good Luck!
 
 TEMPLATES
 
-Templates are not yet a part of Thinkshop 2.2 (sadly) but you can use the Cakephp template engine. Read all about it, here:
+Templates are not yet a part of Thinkshop 2.3 (sadly) but you can use the Cakephp template engine. Read all about it, here:
 http://book.cakephp.org/view/95/View-Templates
 
 
@@ -52,26 +67,29 @@ If you need any new databasetables, place the appropriate sql in: /app/plugins/p
 More on this soon in the Thinkshop supportwiki. For now, check out Cake's awesome documentation on writing CakePhp plugins:
 http://book.cakephp.org/view/114/Plugins
 
-Check out the first open source plugin (it lets you do payments via ideal):
-https://github.com/towonder/iDeal-for-Thinkshop
 
 
 CHANGELOG
 
-Thinkshop beta 2.2 "Hendrix":
+Thinkshop 2.3 "Santana"
+Added a tag / reference system, to easily link related products. Added multi-language support in the
+admininterface and pages. Added variable currencies (EUR & USD)
+
+
+Thinkshop 2.2 "Hendrix":
 Added fluid new css3 / html5 layouts, multiple categories per product, drag-and-drop product positioning,
 new medialibrary, new loginsystem, friendly errorpages, new about and licensie page.
 
-Thinkshop beta 2.1 "Moore":
+
+Thinkshop 2.1 "Moore":
 Added easy 5-minute "Wordpress"-like install. Just have your database, login, password and host ready.
 
 
-Thinkshop beta 2.0 "Cobain":
-Added an extended pluginsystem on top of the CakePhp pluginsystem. 
+Thinkshop 2.0 "Cobain":
+Added an extended pluginsystem on top of the CakePhp pluginsystem.
 
 
-Thinkshop beta 1.0 "Clapton":
-First beta copy of Thinkshop, contains easy productmanagement, mediamanagement, categories, product metadata, financial quarterly reviews,
-user management and some 'Wordpress'-like settings.
+Thinkshop 1.0 "Clapton":
+First beta copy of Thinkshop, contains easy productmanagement, mediamanagement, categories, product metadata, financial quarterly reviews, user management and some 'Wordpress'-like settings.
 
 

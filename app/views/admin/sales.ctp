@@ -9,16 +9,16 @@
 	}	
 ?>
 <div class="productform" style="margin-bottom:30px">
-<h2>Verkopen</h2>
+<h2><?php __('Verkopen')?></h2>
 </div>
 
 <table cellpadding="0" cellspacing="0" class="maintable_orders">
 	<tr class="tablehead">
-		<td width="200px"><p>Product</p></td>
-		<td width="50px"><p>Bestellingen</p></td>
-		<td width="50px" style="text-align:left"><p>Prijs ex.</p></td>
-		<td width="50px" style="text-align:left"><p>BTW</p></td>
-		<td width="50px"><p>Totaalprijs</p></td>
+		<td width="200px"><p><?php __('Product')?></p></td>
+		<td width="50px"><p><?php __('Bestellingen')?></p></td>
+		<td width="50px" style="text-align:left"><p><?php __('Prijs ex.')?></p></td>
+		<td width="50px" style="text-align:left"><p><?php __('BTW')?></p></td>
+		<td width="50px"><p><?php __('Totaalprijs')?></p></td>
 	</tr>
 	<tr class="altrow">
 		<td colspan="4">&nbsp;</td>

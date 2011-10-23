@@ -202,7 +202,7 @@ h2{
 #main{
 	position:relative;	
 	top:0px;
-	left:213px;
+	left:0px;
 	width:600px;
 	padding-bottom:50px;
 }
@@ -305,11 +305,6 @@ h2{
 	color:#e9265e;
 	font-family:'Georgia', 'Times', 'Sherif';
 	font-style:italic;
-}
-
-.discountamount{
-	font-style:normal;
-	color:#333;
 }
 
 .photoitem{

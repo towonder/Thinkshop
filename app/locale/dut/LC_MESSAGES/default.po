@@ -1,0 +1,1618 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Thinkshop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-20 15:08+0100\n"
+"PO-Revision-Date: 2011-10-20 15:08+0100\n"
+"Last-Translator: \n"
+"Language-Team: Luc Princen <luc.princen@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-Country: NETHERLANDS\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: views/admin/addcategory.ctp:2
+#: views/admin/categories.ctp:2
+msgid "Nieuwe categorie"
+msgstr "Nieuwe categorie"
+
+#: views/admin/addcategory.ctp:8
+msgid "Categorie naam"
+msgstr "Categorie naam"
+
+#: views/admin/addcategory.ctp:11
+msgid "Subcategorie van"
+msgstr "Subcategorie van"
+
+#: views/admin/addcategory.ctp:13
+msgid "Niet van toepassing"
+msgstr "Niet van toepassing"
+
+#: views/admin/addcategory.ctp:25
+#: views/admin/addmedia.ctp:116
+msgid "Voeg toe"
+msgstr "Voeg toe"
+
+#: views/admin/addextrafield.ctp:2
+msgid "Nieuw extra veld"
+msgstr "Nieuw extra veld"
+
+#: views/admin/addextrafield.ctp:8
+msgid "Veld naam"
+msgstr "Veld naam"
+
+#: views/admin/addextrafield.ctp:11
+#: views/admin/addoption.ctp:14
+#: views/admin/addvalue.ctp:19
+msgid "Maak aan"
+msgstr "Maak aan"
+
+#: views/admin/addmedia.ctp:61
+msgid "Nieuwe Foto's"
+msgstr "Nieuwe Foto's"
+
+#: views/admin/addmedia.ctp:63
+msgid "Nieuwe Video"
+msgstr "Nieuwe Video"
+
+#: views/admin/addmedia.ctp:83
+msgid "Upload afbeeldingen"
+msgstr "Upload afbeeldingen"
+
+#: views/admin/addmedia.ctp:99
+msgid "Video titel"
+msgstr "Video titel"
+
+#: views/admin/addmedia.ctp:108
+msgid "op dit moment kunt u alleen Youtube en Vimeo video's embedden"
+msgstr "op dit moment kunt u alleen Youtube en Vimeo video's embedden"
+
+#: views/admin/addoption.ctp:2
+msgid "Nieuwe keuzelijst"
+msgstr "Nieuwe keuzelijst"
+
+#: views/admin/addoption.ctp:8
+#: views/admin/categories.ctp:8
+msgid "Naam"
+msgstr "Naam"
+
+#: views/admin/addoption.ctp:11
+msgid "Naam in meervoud"
+msgstr "Naam in meervoud"
+
+#: views/admin/addpage.ctp:2
+msgid "Nieuwe pagina"
+msgstr "Nieuwe pagina"
+
+#: views/admin/addpage.ctp:7
+#: views/admin/addpost.ctp:7
+msgid "Bericht titel"
+msgstr "Bericht titel"
+
+#: views/admin/addpage.ctp:12
+#: views/admin/addpost.ctp:12
+msgid "Bericht"
+msgstr "Bericht"
+
+#: views/admin/addpage.ctp:24
+#: views/admin/addpage.ctp:31
+#: views/admin/addpost.ctp:24
+#: views/admin/addpost.ctp:31
+#: views/admin/addproduct.ctp:32
+#: views/admin/addproduct.ctp:48
+msgid "Publiceer"
+msgstr "Publiceer"
+
+#: views/admin/addpage.ctp:27
+msgid "Als u deze pagina publiceert verschijnt hij meteen op de site. Bij opslaan gebeurt dit niet."
+msgstr "Als u deze pagina publiceert verschijnt hij meteen op de site. Bij opslaan gebeurt dit niet."
+
+#: views/admin/addpage.ctp:34
+#: views/admin/addpost.ctp:34
+#: views/admin/addproduct.ctp:51
+msgid "Bewaar"
+msgstr "Bewaar"
+
+#: views/admin/addpage.ctp:38
+msgid "Zet in topmenu:"
+msgstr "Zet in topmenu:"
+
+#: views/admin/addpost.ctp:2
+msgid "Nieuw nieuwsbericht"
+msgstr "Nieuw nieuwsbericht"
+
+#: views/admin/addpost.ctp:27
+msgid "Als u dit bericht publiceert verschijnt het meteen op de site. Bij opslaan gebeurt dit niet."
+msgstr "Als u dit bericht publiceert verschijnt het meteen op de site. Bij opslaan gebeurt dit niet."
+
+#: views/admin/addproduct.ctp:3
+msgid "Nieuw Product"
+msgstr "Nieuw Product"
+
+#: views/admin/addproduct.ctp:7
+msgid "Product naam"
+msgstr "Product naam"
+
+#: views/admin/addproduct.ctp:12
+msgid "Beschrijving"
+msgstr "Beschrijving"
+
+#: views/admin/addproduct.ctp:21
+msgid "Samenvatting"
+msgstr "Samenvatting"
+
+#: views/admin/addproduct.ctp:35
+msgid "In categorie:"
+msgstr "In categorie:"
+
+#: views/admin/addproduct.ctp:44
+msgid "Als u dit product publiceert verschijnt het meteen op de site. Bij opslaan gebeurt dit niet."
+msgstr "Als u dit product publiceert verschijnt het meteen op de site. Bij opslaan gebeurt dit niet."
+
+#: views/admin/addproduct.ctp:58
+#: views/admin/addproduct.ctp:61
+msgid "Prijs"
+msgstr "Prijs"
+
+#: views/admin/addproduct.ctp:61
+msgid "ex. BTW"
+msgstr "ex. BTW"
+
+#: views/admin/addproduct.ctp:65
+msgid "Verzendkosten:"
+msgstr "Verzendkosten:"
+
+#: views/admin/addproduct.ctp:69
+msgid "Btw"
+msgstr "Btw"
+
+#: views/admin/adduser.ctp:2
+msgid "Nieuwe gebruiker"
+msgstr "Nieuwe gebruiker"
+
+#: views/admin/adduser.ctp:8
+msgid "Gebruiker naam"
+msgstr "Gebruiker naam"
+
+#: views/admin/adduser.ctp:11
+msgid "Gebruiker email"
+msgstr "Gebruiker email"
+
+#: views/admin/adduser.ctp:14
+msgid "Wachtwoord"
+msgstr "Wachtwoord"
+
+#: views/admin/adduser.ctp:24
+#: views/admin/categories.ctp:26
+#: views/admin/categories.ctp:34
+msgid "Bewerk"
+msgstr "Bewerk"
+
+#: views/admin/addvalue.ctp:2
+msgid "Nieuwe keuze"
+msgstr "Nieuwe keuze"
+
+#: views/admin/addvalue.ctp:9
+msgid "Keuze naam"
+msgstr "Keuze naam"
+
+#: views/admin/addvalue.ctp:12
+msgid "Keuze afkorting"
+msgstr "Keuze afkorting"
+
+#: views/admin/addvalue.ctp:15
+msgid "Keuze icoon"
+msgstr "Keuze icoon"
+
+#: views/admin/categories.ctp:2
+msgid "Categorie&euml;n"
+msgstr "Categorie&euml;n"
+
+#: views/admin/categories.ctp:9
+msgid "Acties"
+msgstr "Acties"
+
+#: views/admin/categories.ctp:27
+#: views/admin/categories.ctp:35
+msgid "Verwijder"
+msgstr "Verwijder"
+
+#: views/admin/confirm.ctp:5
+msgid "U ontvangt zodadelijk een email met uw nieuwe wachtwoord"
+msgstr "U ontvangt zodadelijk een email met uw nieuwe wachtwoord"
+
+#: views/admin/costbevestiging.ctp:1
+msgid "De kostenpost is toegevoegd."
+msgstr "De kostenpost is toegevoegd."
+
+#: views/admin/costbevestiging.ctp:2
+msgid "Klik buiten dit vlak of druk op de "
+msgstr "Klik buiten dit vlak of druk op de "
+
+#: views/admin/editcategory.ctp:2
+msgid "Bewerk categorie"
+msgstr "Bewerk categorie"
+
+#: views/admin/editextrafield.ctp:2
+msgid "Bewerk extra veld"
+msgstr "Bewerk extra veld"
+
+#: views/admin/editmainpicture.ctp:44
+msgid "Nieuwe hoofdafbeelding"
+msgstr "Nieuwe hoofdafbeelding"
+
+#: views/admin/editmainpicture.ctp:46
+msgid "Opslaan"
+msgstr "Opslaan"
+
+#: views/admin/editmainpicture.ctp:52
+msgid "Fotobibliotheek"
+msgstr "Fotobibliotheek"
+
+#: views/admin/editmedia.ctp:54
+msgid "Bewerk Foto"
+msgstr "Bewerk Foto"
+
+#: views/admin/editmedia.ctp:56
+msgid "Bewerk Video"
+msgstr "Bewerk Video"
+
+#: views/admin/editmedia.ctp:77
+msgid "Lokaties:"
+msgstr "Lokaties:"
+
+#: views/admin/editmedia.ctp:81
+msgid "Klein"
+msgstr "Klein"
+
+#: views/admin/editmedia.ctp:85
+msgid "Middel"
+msgstr "Middel"
+
+#: views/admin/editmedia.ctp:89
+msgid "Groot"
+msgstr "Groot"
+
+#: views/admin/editpage.ctp:86
+msgid "Pagina bewerken"
+msgstr "Pagina bewerken"
+
+#: views/admin/editpage.ctp:107
+msgid "Dit is een contactpagina"
+msgstr "Dit is een contactpagina"
+
+#: views/admin/editpage.ctp:130
+#: views/admin/editpage.ctp:133
+#: views/admin/editpage.ctp:280
+#: views/admin/editpage.ctp:283
+msgid "Zet in topmenu"
+msgstr "Zet in topmenu"
+
+#: views/admin/editpage.ctp:138
+#: views/admin/editpage.ctp:288
+msgid "Als u deze pagina publiceert verschijnt hij meteen op de site. Bij opslaan als concept gebeurt dit niet"
+msgstr "Als u deze pagina publiceert verschijnt hij meteen op de site. Bij opslaan als concept gebeurt dit niet"
+
+#: views/admin/editpage.ctp:152
+#: views/admin/editpage.ctp:302
+#: views/admin/editpost.ctp:45
+#: views/admin/editproduct.ctp:308
+msgid "Huidige status"
+msgstr "Huidige status"
+
+#: views/admin/editpage.ctp:163
+#: views/admin/editpage.ctp:313
+#: views/admin/editpost.ctp:56
+#: views/admin/editproduct.ctp:333
+msgid "Opslaan als concept"
+msgstr "Opslaan als concept"
+
+#: views/admin/editpage.ctp:171
+#: views/admin/editpage.ctp:343
+#: views/admin/editpost.ctp:64
+#: views/admin/editproduct.ctp:396
+msgid "Zoekmachine optimalisatie"
+msgstr "Zoekmachine optimalisatie"
+
+#: views/admin/editpage.ctp:174
+#: views/admin/editpage.ctp:346
+#: views/admin/editpost.ctp:67
+#: views/admin/editproduct.ctp:414
+msgid "URL naam"
+msgstr "URL naam"
+
+#: views/admin/editpage.ctp:180
+#: views/admin/editpage.ctp:352
+#: views/admin/editpost.ctp:73
+#: views/admin/editproduct.ctp:420
+msgid "Pagina titel"
+msgstr "Pagina titel"
+
+#: views/admin/editpage.ctp:186
+#: views/admin/editpage.ctp:358
+#: views/admin/editpost.ctp:79
+#: views/admin/editproduct.ctp:426
+msgid "Kernwoorden"
+msgstr "Kernwoorden"
+
+#: views/admin/editpage.ctp:186
+#: views/admin/editpost.ctp:79
+msgid "(gebruik comma's om te deze te scheiden)"
+msgstr "(gebruik comma's om te deze te scheiden)"
+
+#: views/admin/editpage.ctp:215
+msgid "Deze pagina is een contactpagina"
+msgstr "Deze pagina is een contactpagina"
+
+#: views/admin/editpage.ctp:221
+msgid "Kaart"
+msgstr "Kaart"
+
+#: views/admin/editpage.ctp:221
+msgid "(wil je geen kaart? laat het zoekveld dan leeg)"
+msgstr "(wil je geen kaart? laat het zoekveld dan leeg)"
+
+#: views/admin/editpage.ctp:231
+msgid "Adresgegevens"
+msgstr "Adresgegevens"
+
+#: views/admin/editpage.ctp:236
+msgid "Straat"
+msgstr "Straat"
+
+#: views/admin/editpage.ctp:240
+msgid "Postcode & woonplaats"
+msgstr "Postcode & woonplaats"
+
+#: views/admin/editpage.ctp:244
+msgid "Land"
+msgstr "Land"
+
+#: views/admin/editpage.ctp:320
+msgid "Contactformulier"
+msgstr "Contactformulier"
+
+#: views/admin/editpage.ctp:323
+msgid "Stuur mails naar"
+msgstr "Stuur mails naar"
+
+#: views/admin/editpage.ctp:329
+msgid "Gebruik anti-spam check"
+msgstr "Gebruik anti-spam check"
+
+#: views/admin/editpage.ctp:358
+#: views/admin/editproduct.ctp:426
+msgid "gebruik comma's om te deze te scheiden"
+msgstr "gebruik comma's om te deze te scheiden"
+
+#: views/admin/editpost.ctp:2
+msgid "Bericht bewerken"
+msgstr "Bericht bewerken"
+
+#: views/admin/editpost.ctp:31
+msgid "Als u dit bericht publiceert verschijnt het meteen op de site. Bij opslaan als concept gebeurt dit niet"
+msgstr "Als u dit bericht publiceert verschijnt het meteen op de site. Bij opslaan als concept gebeurt dit niet"
+
+#: views/admin/editproduct.ctp:16
+msgid "Bewerk Product"
+msgstr "Bewerk Product"
+
+#: views/admin/editproduct.ctp:27
+msgid "Dit product is een variant"
+msgstr "Dit product is een variant"
+
+#: views/admin/editproduct.ctp:27
+msgid "van"
+msgstr "van"
+
+#: views/admin/editproduct.ctp:70
+msgid "Media"
+msgstr "Media"
+
+#: views/admin/editproduct.ctp:70
+msgid "media toevoegen"
+msgstr "media toevoegen"
+
+#: views/admin/editproduct.ctp:83
+msgid "verwijder"
+msgstr "verwijder"
+
+#: views/admin/editproduct.ctp:89
+msgid "Dit product heeft nog geen media-items"
+msgstr "Dit product heeft nog geen media-items"
+
+#: views/admin/editproduct.ctp:104
+#: views/admin/editproduct.ctp:168
+msgid "Aanmaken"
+msgstr "Aanmaken"
+
+#: views/admin/editproduct.ctp:162
+msgid "Tags"
+msgstr "Tags"
+
+#: views/admin/editproduct.ctp:167
+msgid "Tags scheiden met een comma"
+msgstr "Tags scheiden met een comma"
+
+#: views/admin/editproduct.ctp:196
+#: views/admin/extrafields.ctp:1
+msgid "Extra velden"
+msgstr "Extra velden"
+
+#: views/admin/editproduct.ctp:196
+msgid "Laat het veld leeg als dit niet van toepassing is op dit product"
+msgstr "Laat het veld leeg als dit niet van toepassing is op dit product"
+
+#: views/admin/editproduct.ctp:234
+msgid "Keuzelijsten"
+msgstr "Keuzelijsten"
+
+#: views/admin/editproduct.ctp:234
+msgid "Selecteer welke keuzes bij dit product van toepassing zijn"
+msgstr "Selecteer welke keuzes bij dit product van toepassing zijn"
+
+#: views/admin/editproduct.ctp:290
+msgid "Als u dit product publiceert verschijnt het meteen op de site. Bij opslaan als concept gebeurt dit niet"
+msgstr "Als u dit product publiceert verschijnt het meteen op de site. Bij opslaan als concept gebeurt dit niet"
+
+#: views/admin/editproduct.ctp:297
+msgid "Gepubliceerd"
+msgstr "Gepubliceerd"
+
+#: views/admin/editproduct.ctp:299
+msgid "Concept"
+msgstr "Concept"
+
+#: views/admin/editproduct.ctp:303
+msgid "niet leverbaar"
+msgstr "niet leverbaar"
+
+#: views/admin/editproduct.ctp:321
+msgid "Product is leverbaar"
+msgstr "Product is leverbaar"
+
+#: views/admin/editproduct.ctp:341
+msgid "Hoofdafbeelding"
+msgstr "Hoofdafbeelding"
+
+#: views/admin/editproduct.ctp:343
+#: views/admin/editproduct.ctp:353
+msgid "Wijzig"
+msgstr "Wijzig"
+
+#: views/admin/editproduct.ctp:373
+msgid "Verzendkosten"
+msgstr "Verzendkosten"
+
+#: views/admin/editproduct.ctp:378
+msgid "Korting"
+msgstr "Korting"
+
+#: views/admin/edituser.ctp:2
+msgid "Gebruiker bewerken"
+msgstr "Gebruiker bewerken"
+
+#: views/admin/editvalue.ctp:2
+msgid "Bewerk keuze"
+msgstr "Bewerk keuze"
+
+#: views/admin/editvalue.ctp:14
+msgid "Afkorting"
+msgstr "Afkorting"
+
+#: views/admin/editvalue.ctp:18
+msgid "Icoon"
+msgstr "Icoon"
+
+#: views/admin/extrafields.ctp:1
+msgid "Nieuw veld"
+msgstr "Nieuw veld"
+
+#: views/admin/extrafields.ctp:5
+msgid "Veldnaam"
+msgstr "Veldnaam"
+
+#: views/admin/extrafields.ctp:31
+msgid "Extra velden kunt u aanmaken als u meer data bij een product wilt instellen (bijvoorbeeld een ISBN- of artikelnummer)"
+msgstr "Extra velden kunt u aanmaken als u meer data bij een product wilt instellen (bijvoorbeeld een ISBN- of artikelnummer)"
+
+#: views/admin/extrafields.ctp:35
+msgid "Maak een extra veld aan"
+msgstr "Maak een extra veld aan"
+
+#: views/admin/finance.ctp:16
+msgid "In & Uit"
+msgstr "In & Uit"
+
+#: views/admin/finance.ctp:23
+msgid "Kwartaal"
+msgstr "Kwartaal"
+
+#: views/admin/finance.ctp:31
+#: views/admin/index.ctp:60
+msgid "In"
+msgstr "In"
+
+#: views/admin/finance.ctp:34
+msgid "Besteld op"
+msgstr "Besteld op"
+
+#: views/admin/finance.ctp:35
+#: views/admin/finance.ctp:81
+#: views/admin/index.ctp:15
+#: views/admin/printorder.ctp:78
+msgid "Product"
+msgstr "Product"
+
+#: views/admin/finance.ctp:67
+#: views/admin/finance.ctp:128
+msgid "totaal"
+msgstr "totaal"
+
+#: views/admin/finance.ctp:76
+#: views/admin/index.ctp:64
+msgid "Uit"
+msgstr "Uit"
+
+#: views/admin/finance.ctp:77
+msgid "Nieuwe kostenpost"
+msgstr "Nieuwe kostenpost"
+
+#: views/admin/finance.ctp:80
+msgid "Gekocht op"
+msgstr "Gekocht op"
+
+#: views/admin/finance.ctp:139
+msgid "Totaal exclusief btw"
+msgstr "Totaal exclusief btw"
+
+#: views/admin/finance.ctp:140
+msgid "Totaal inclusief btw"
+msgstr "Totaal inclusief btw"
+
+#: views/admin/finance.ctp:163
+msgid "BTW BETALEN"
+msgstr "BTW BETALEN"
+
+#: views/admin/finance.ctp:166
+msgid "WINST"
+msgstr "WINST"
+
+#: views/admin/finance.ctp:170
+msgid "BTW TERUG"
+msgstr "BTW TERUG"
+
+#: views/admin/finance.ctp:173
+msgid "VERLIES"
+msgstr "VERLIES"
+
+#: views/admin/index.ctp:1
+msgid "Overzicht"
+msgstr "Overzicht"
+
+#: views/admin/index.ctp:4
+msgid "Uw Thinkshop"
+msgstr "Uw Thinkshop"
+
+#: views/admin/index.ctp:9
+msgid "Inhoud"
+msgstr "Inhoud"
+
+#: views/admin/index.ctp:13
+msgid "Producten"
+msgstr "Producten"
+
+#: views/admin/index.ctp:22
+msgid "Categorie"
+msgstr "Categorie"
+
+#: views/admin/index.ctp:27
+msgid "Nieuwsberichten"
+msgstr "Nieuwsberichten"
+
+#: views/admin/index.ctp:29
+msgid "Nieuwsbericht"
+msgstr "Nieuwsbericht"
+
+#: views/admin/index.ctp:35
+#: views/admin/pages.ctp:2
+msgid "Pagina's"
+msgstr "Pagina's"
+
+#: views/admin/index.ctp:37
+msgid "Pagina"
+msgstr "Pagina"
+
+#: views/admin/index.ctp:45
+msgid "Actueel"
+msgstr "Actueel"
+
+#: views/admin/index.ctp:51
+msgid "Nieuwe orders sinds u laatst<br/> bent ingelogd"
+msgstr "Nieuwe orders sinds u laatst<br/> bent ingelogd"
+
+#: views/admin/index.ctp:57
+msgid "Dit kwartaal"
+msgstr "Dit kwartaal"
+
+#: views/admin/index.ctp:72
+msgid "Winst"
+msgstr "Winst"
+
+#: views/admin/index.ctp:75
+msgid "Verlies"
+msgstr "Verlies"
+
+#: views/admin/index.ctp:86
+msgid "Nieuwste orders"
+msgstr "Nieuwste orders"
+
+#: views/admin/index.ctp:102
+#: views/admin/orders.ctp:62
+#: views/admin/orders.ctp:89
+msgid "Niet betaald"
+msgstr "Niet betaald"
+
+#: views/admin/index.ctp:108
+msgid "Bekijk alle orders"
+msgstr "Bekijk alle orders"
+
+#: views/admin/index.ctp:115
+msgid "Nieuwste producten"
+msgstr "Nieuwste producten"
+
+#: views/admin/index.ctp:130
+msgid "Bekijk alle producten"
+msgstr "Bekijk alle producten"
+
+#: views/admin/index.ctp:136
+msgid "Statistieken"
+msgstr "Statistieken"
+
+#: views/admin/index.ctp:139
+msgid "Bezoeken deze maand"
+msgstr "Bezoeken deze maand"
+
+#: views/admin/index.ctp:142
+msgid "Afkomstig van"
+msgstr "Afkomstig van"
+
+#: views/admin/index.ctp:150
+msgid "Direct verkeer"
+msgstr "Direct verkeer"
+
+#: views/admin/index.ctp:151
+msgid "Zoekmachines"
+msgstr "Zoekmachines"
+
+#: views/admin/index.ctp:152
+msgid "Links"
+msgstr "Links"
+
+#: views/admin/index.ctp:156
+msgid "Ga naar Google Analytics"
+msgstr "Ga naar Google Analytics"
+
+#: views/admin/index.ctp:162
+msgid "Nieuwste berichten"
+msgstr "Nieuwste berichten"
+
+#: views/admin/index.ctp:177
+msgid "Bekijk alle nieuwsberichten"
+msgstr "Bekijk alle nieuwsberichten"
+
+#: views/admin/license.ctp:23
+msgid "Licentie online"
+msgstr "Licentie online"
+
+#: views/admin/login.ctp:45
+msgid "Inloggen"
+msgstr "Inloggen"
+
+#: views/admin/login.ctp:52
+msgid "Wachtwoord vergeten?"
+msgstr "Wachtwoord vergeten?"
+
+#: views/admin/media.ctp:3
+msgid "Nieuwe foto"
+msgstr "Nieuwe foto"
+
+#: views/admin/media.ctp:5
+msgid "Nieuwe video"
+msgstr "Nieuwe video"
+
+#: views/admin/media.ctp:15
+#: views/admin/media.ctp:18
+#: views/admin/medialibrary.ctp:60
+msgid "Foto's"
+msgstr "Foto's"
+
+#: views/admin/media.ctp:16
+#: views/admin/media.ctp:19
+#: views/admin/medialibrary.ctp:61
+msgid "Video's"
+msgstr "Video's"
+
+#: views/admin/media.ctp:36
+#: views/admin/news.ctp:17
+#: views/admin/pages.ctp:21
+msgid "Titel"
+msgstr "Titel"
+
+#: views/admin/media.ctp:37
+#: views/admin/news.ctp:16
+#: views/admin/pages.ctp:20
+msgid "Datum"
+msgstr "Datum"
+
+#: views/admin/medialibrary.ctp:12
+msgid "Media toevoegen aan"
+msgstr "Media toevoegen aan"
+
+#: views/admin/medialibrary.ctp:19
+msgid "Huidige media voor"
+msgstr "Huidige media voor"
+
+#: views/admin/news.ctp:2
+msgid "Nieuws"
+msgstr "Nieuws"
+
+#: views/admin/news.ctp:2
+msgid "Nieuw bericht"
+msgstr "Nieuw bericht"
+
+#: views/admin/orders.ctp:2
+msgid "Orders"
+msgstr "Orders"
+
+#: views/admin/orders.ctp:7
+msgid "Bedrag"
+msgstr "Bedrag"
+
+#: views/admin/orders.ctp:8
+#: views/admin/printorder.ctp:48
+msgid "Ordernummer"
+msgstr "Ordernummer"
+
+#: views/admin/orders.ctp:9
+msgid "Klant"
+msgstr "Klant"
+
+#: views/admin/orders.ctp:85
+msgid "Bekijk"
+msgstr "Bekijk"
+
+#: views/admin/orders.ctp:87
+msgid "Wel betaald"
+msgstr "Wel betaald"
+
+#: views/admin/passwordforgot.ctp:31
+msgid "Voer uw emailadres in, er wordt u een<br/>nieuw wachtwoord gestuurd"
+msgstr "Voer uw emailadres in, er wordt u een<br/>nieuw wachtwoord gestuurd"
+
+#: views/admin/passwordforgot.ctp:35
+msgid "Uw email"
+msgstr "Uw email"
+
+#: views/admin/passwordforgot.ctp:39
+msgid "Vraag aan"
+msgstr "Vraag aan"
+
+#: views/admin/plugins.ctp:2
+msgid "Plugins"
+msgstr "Plugins"
+
+#: views/admin/plugins.ctp:23
+#: views/admin/plugins.ctp:52
+msgid "Actief"
+msgstr "Actief"
+
+#: views/admin/plugins.ctp:50
+msgid "Inactief"
+msgstr "Inactief"
+
+#: views/admin/plugins.ctp:59
+msgid "Activeer"
+msgstr "Activeer"
+
+#: views/admin/plugins.ctp:65
+msgid "De-Activeer"
+msgstr "De-Activeer"
+
+#: views/admin/plugins.ctp:72
+msgid "Instellingen"
+msgstr "Instellingen"
+
+#: views/admin/printorder.ctp:41
+msgid "Nog niet betaald"
+msgstr "Nog niet betaald"
+
+#: views/admin/printorder.ctp:43
+msgid "Betaald"
+msgstr "Betaald"
+
+#: views/admin/printorder.ctp:53
+msgid "Bezorgadres"
+msgstr "Bezorgadres"
+
+#: views/admin/printorder.ctp:55
+msgid "Bezorg & factuuradres"
+msgstr "Bezorg & factuuradres"
+
+#: views/admin/printorder.ctp:63
+msgid "Factuuradres"
+msgstr "Factuuradres"
+
+#: views/admin/printorder.ctp:71
+msgid "Bestelling"
+msgstr "Bestelling"
+
+#: views/admin/printorder.ctp:79
+msgid "exclusief btw"
+msgstr "exclusief btw"
+
+#: views/admin/printorder.ctp:111
+msgid "Lopend totaal"
+msgstr "Lopend totaal"
+
+#: views/admin/printorder.ctp:116
+msgid "BTW"
+msgstr "BTW"
+
+#: views/admin/printorder.ctp:126
+msgid "Totaal"
+msgstr "Totaal"
+
+#: views/admin/productoptions.ctp:5
+msgid "Nieuwe Keuzelijst"
+msgstr "Nieuwe Keuzelijst"
+
+#: views/admin/productoptions.ctp:12
+msgid "Keuzelijsten zijn opties die een klant bij producten kan selecteren (bijvoorbeeld de maat of de kleur van een kledingstuk)"
+msgstr "Keuzelijsten zijn opties die een klant bij producten kan selecteren (bijvoorbeeld de maat of de kleur van een kledingstuk)"
+
+#: views/admin/productoptions.ctp:18
+msgid "Klik hier om een keuzelijst te maken"
+msgstr "Klik hier om een keuzelijst te maken"
+
+#: views/admin/productoptions.ctp:35
+msgid "Bewerk keuzelijst"
+msgstr "Bewerk keuzelijst"
+
+#: views/admin/productoptions.ctp:62
+msgid "Nieuwe keuze toevoegen"
+msgstr "Nieuwe keuze toevoegen"
+
+#: views/admin/productoptions.ctp:71
+msgid "Keuzelijst opties"
+msgstr "Keuzelijst opties"
+
+#: views/admin/productoptions.ctp:72
+msgid "Gereed"
+msgstr "Gereed"
+
+#: views/admin/productoptions.ctp:81
+msgid "Gebruik icoon"
+msgstr "Gebruik icoon"
+
+#: views/admin/productoptions.ctp:85
+msgid "Meervoud"
+msgstr "Meervoud"
+
+#: views/admin/productoptions.ctp:87
+msgid "Meerdere keuzes selecteerbaar"
+msgstr "Meerdere keuzes selecteerbaar"
+
+#: views/admin/productoptions.ctp:87
+msgid "door de klant"
+msgstr "door de klant"
+
+#: views/admin/products.ctp:25
+msgid "Nieuw product"
+msgstr "Nieuw product"
+
+#: views/admin/products.ctp:32
+msgid "Selecteer categorie"
+msgstr "Selecteer categorie"
+
+#: views/admin/products.ctp:39
+msgid "Categorie:"
+msgstr "Categorie:"
+
+#: views/admin/products.ctp:52
+#: views/admin/trash.ctp:20
+msgid "Productnaam"
+msgstr "Productnaam"
+
+#: views/admin/products.ctp:92
+msgid "Positie"
+msgstr "Positie"
+
+#: views/admin/products.ctp:108
+msgid "Varianten"
+msgstr "Varianten"
+
+#: views/admin/products.ctp:134
+msgid "In deze categorie staan nog geen producten"
+msgstr "In deze categorie staan nog geen producten"
+
+#: views/admin/products.ctp:137
+msgid "Voeg nieuw product toe"
+msgstr "Voeg nieuw product toe"
+
+#: views/admin/sales.ctp:12
+msgid "Verkopen"
+msgstr "Verkopen"
+
+#: views/admin/sales.ctp:18
+msgid "Bestellingen"
+msgstr "Bestellingen"
+
+#: views/admin/sales.ctp:19
+msgid "Prijs ex."
+msgstr "Prijs ex."
+
+#: views/admin/sales.ctp:21
+msgid "Totaalprijs"
+msgstr "Totaalprijs"
+
+#: views/admin/settings.ctp:14
+msgid "Kern instellingen"
+msgstr "Kern instellingen"
+
+#: views/admin/settings.ctp:18
+msgid "Website titel"
+msgstr "Website titel"
+
+#: views/admin/settings.ctp:26
+msgid "Website url"
+msgstr "Website url"
+
+#: views/admin/settings.ctp:34
+msgid "Relatieve url"
+msgstr "Relatieve url"
+
+#: views/admin/settings.ctp:42
+msgid "Taal"
+msgstr "Taal"
+
+#: views/admin/settings.ctp:65
+#: views/admin/settings.ctp:82
+msgid "Verzendkosten per product aangeven"
+msgstr "Verzendkosten per product aangeven"
+
+#: views/admin/settings.ctp:75
+#: views/admin/settings.ctp:91
+msgid "Algemene verzendkosten"
+msgstr "Algemene verzendkosten"
+
+#: views/admin/settings.ctp:102
+msgid "Contact instellingen"
+msgstr "Contact instellingen"
+
+#: views/admin/settings.ctp:106
+msgid "Ontvangstadres"
+msgstr "Ontvangstadres"
+
+#: views/admin/settings.ctp:114
+msgid "Anti spam gebruiken"
+msgstr "Anti spam gebruiken"
+
+#: views/admin/settings.ctp:128
+msgid "Betaalinstellingen"
+msgstr "Betaalinstellingen"
+
+#: views/admin/settings.ctp:131
+msgid "Rekeningnummer"
+msgstr "Rekeningnummer"
+
+#: views/admin/settings.ctp:135
+msgid "Naam rekeninghouder"
+msgstr "Naam rekeninghouder"
+
+#: views/admin/settings.ctp:139
+msgid "Valuta"
+msgstr "Valuta"
+
+#: views/admin/settings.ctp:147
+msgid "Achteraf betalen toegestaan"
+msgstr "Achteraf betalen toegestaan"
+
+#: views/admin/settings.ctp:160
+msgid "Media instellingen"
+msgstr "Media instellingen"
+
+#: views/admin/settings.ctp:164
+msgid "Thumbnail grootte"
+msgstr "Thumbnail grootte"
+
+#: views/admin/settings.ctp:172
+msgid "Middel grootte"
+msgstr "Middel grootte"
+
+#: views/admin/settings.ctp:184
+msgid "Admin instellingen"
+msgstr "Admin instellingen"
+
+#: views/admin/settings.ctp:188
+msgid "Geavanceerde"
+msgstr "Geavanceerde"
+
+#: views/admin/settings.ctp:188
+msgid "modus"
+msgstr "modus"
+
+#: views/admin/settings.ctp:202
+msgid "Paginering"
+msgstr "Paginering"
+
+#: views/admin/settings.ctp:205
+msgid "objecten per pagina"
+msgstr "objecten per pagina"
+
+#: views/admin/settings.ctp:216
+msgid "(Statistieken maakt gebruik van Google Analytics)"
+msgstr "(Statistieken maakt gebruik van Google Analytics)"
+
+#: views/admin/settings.ctp:221
+msgid "gebruikersnaam"
+msgstr "gebruikersnaam"
+
+#: views/admin/settings.ctp:229
+msgid "wachtwoord"
+msgstr "wachtwoord"
+
+#: views/admin/settings.ctp:244
+msgid "Uw Analytics ID kunt u vinden in de adresbalk (kopieer alleen de cijfers)"
+msgstr "Uw Analytics ID kunt u vinden in de adresbalk (kopieer alleen de cijfers)"
+
+#: views/admin/trash.ctp:2
+#: views/admin/trash.ctp:7
+msgid "Prullenbak"
+msgstr "Prullenbak"
+
+#: views/admin/trash.ctp:50
+msgid "Zet terug"
+msgstr "Zet terug"
+
+#: views/admin/trash.ctp:51
+msgid "Permanent verwijderen"
+msgstr "Permanent verwijderen"
+
+#: views/admin/trash.ctp:58
+msgid "Uw prullenbak is leeg"
+msgstr "Uw prullenbak is leeg"
+
+#: views/admin/users.ctp:2
+msgid "Gebruikers"
+msgstr "Gebruikers"
+
+#: views/admin/vieworder.ctp:31
+msgid "Bekijk order"
+msgstr "Bekijk order"
+
+#: views/elements/email/text/forgot.ctp:1
+msgid "Geachte Heer/Mevrouw"
+msgstr "Geachte Heer/Mevrouw"
+
+#: views/elements/email/text/forgot.ctp:4
+#: views/elements/email/text/forgotadmin.ctp:15
+msgid "U heeft een nieuw wachtwoord aangevraagd bij"
+msgstr "U heeft een nieuw wachtwoord aangevraagd bij"
+
+#: views/elements/email/text/forgot.ctp:5
+#: views/elements/email/text/forgotadmin.ctp:16
+msgid "Uw nieuwe wachtwoord"
+msgstr "Uw nieuwe wachtwoord"
+
+#: views/elements/email/text/forgot.ctp:8
+msgid "U kunt uw wachtwoord altijd wijzigen bij uw accountpagina"
+msgstr "U kunt uw wachtwoord altijd wijzigen bij uw accountpagina"
+
+#: views/elements/email/text/forgot.ctp:10
+#: views/elements/email/text/forgotadmin.ctp:21
+msgid "Vriendelijke groeten"
+msgstr "Vriendelijke groeten"
+
+#: views/elements/email/text/forgotadmin.ctp:12
+msgid "Beste"
+msgstr "Beste"
+
+#: views/elements/email/text/forgotadmin.ctp:19
+msgid "U kunt uw wachtwoord altijd wijzigen bij \"gebruikers\""
+msgstr "U kunt uw wachtwoord altijd wijzigen bij \"gebruikers\""
+
+#: views/errors/error404.ctp:5
+#: views/errors/missing_action.ctp:5
+#: views/errors/missing_controller.ctp:5
+msgid "pagina niet gevonden"
+msgstr "pagina niet gevonden"
+
+#: views/errors/error404.ctp:11
+#: views/errors/missing_action.ctp:11
+#: views/errors/missing_controller.ctp:11
+msgid "U probeert een pagina te bekijken die niet bestaat"
+msgstr "U probeert een pagina te bekijken die niet bestaat"
+
+#: views/errors/error404.ctp:14
+#: views/errors/missing_action.ctp:14
+#: views/errors/missing_controller.ctp:14
+msgid "Ga naar de hoofdpagina"
+msgstr "Ga naar de hoofdpagina"
+
+#: views/layouts/admin.ctp:75
+msgid "Hallo"
+msgstr "Hallo"
+
+#: views/layouts/admin.ctp:76
+msgid "Uitloggen"
+msgstr "Uitloggen"
+
+#: views/layouts/admin.ctp:107
+msgid "Categorie&euml;n beheer"
+msgstr "Categorie&euml;n beheer"
+
+#: views/layouts/admin.ctp:110
+msgid "Keuzelijsten beheer"
+msgstr "Keuzelijsten beheer"
+
+#: views/layouts/admin.ctp:111
+msgid "Extra velden beheer"
+msgstr "Extra velden beheer"
+
+#: views/layouts/admin.ctp:182
+#: views/layouts/admin.ctp:192
+msgid "Financi&euml;n"
+msgstr "Financi&euml;n"
+
+#: views/layouts/admin.ctp:186
+msgid "In & uit"
+msgstr "In & uit"
+
+#: views/layouts/admin.ctp:200
+#: views/layouts/admin.ctp:210
+msgid "Beheerders"
+msgstr "Beheerders"
+
+#: views/layouts/admin.ctp:255
+msgid "Over Thinkshop"
+msgstr "Over Thinkshop"
+
+#: views/layouts/admin.ctp:255
+msgid "MIT Licentie"
+msgstr "MIT Licentie"
+
+#: views/layouts/default.ctp:45
+msgid "MIT License"
+msgstr "MIT License"
+
+#: views/pages/home.ctp:4
+msgid "Thinkshop installeren"
+msgstr "Thinkshop installeren"
+
+#: views/pages/home.ctp:6
+msgid "Thinkshop heeft nog geen database connectie en goede veiligheidsinstellingen."
+msgstr "Thinkshop heeft nog geen database connectie en goede veiligheidsinstellingen."
+
+#: views/pages/home.ctp:8
+msgid "Begin met installeren"
+msgstr "Begin met installeren"
+
+#: views/pages/install.ctp:63
+msgid "Uw security.salt is niet schrijfbaar in het bestand \"app/config/core.php\", pas de security.salt zelf aan.."
+msgstr "Uw security.salt is niet schrijfbaar in het bestand \"app/config/core.php\", pas de security.salt zelf aan.."
+
+#: views/pages/install.ctp:74
+#: views/pages/install2.ctp:150
+msgid "Stap"
+msgstr "Stap"
+
+#: views/pages/install.ctp:76
+msgid "Geef aub uw database informatie op"
+msgstr "Geef aub uw database informatie op"
+
+#: views/pages/install.ctp:80
+msgid "Database naam"
+msgstr "Database naam"
+
+#: views/pages/install.ctp:84
+#: views/pages/install2.ctp:161
+#: views/pages/install5.ctp:14
+msgid "Gebruikersnaam"
+msgstr "Gebruikersnaam"
+
+#: views/pages/install.ctp:92
+msgid "Database host"
+msgstr "Database host"
+
+#: views/pages/install.ctp:93
+msgid "9 van de 10 keer is dit 'localhost'"
+msgstr "9 van de 10 keer is dit 'localhost'"
+
+#: views/pages/install.ctp:100
+msgid "Prefix"
+msgstr "Prefix"
+
+#: views/pages/install2.ctp:143
+msgid "Uw e-mailadres is niet geldig"
+msgstr "Uw e-mailadres is niet geldig"
+
+#: views/pages/install2.ctp:145
+msgid "De twee wachtwoorden zijn verschillend"
+msgstr "De twee wachtwoorden zijn verschillend"
+
+#: views/pages/install2.ctp:152
+msgid "Geef de eerste instellingen op"
+msgstr "Geef de eerste instellingen op"
+
+#: views/pages/install2.ctp:157
+msgid "Website title"
+msgstr "Website title"
+
+#: views/pages/install2.ctp:166
+msgid "tweemaal"
+msgstr "tweemaal"
+
+#: views/pages/install2.ctp:167
+msgid "als u niks invult wordt er een<br/> automatisch wachtwoord gegenereerd"
+msgstr "als u niks invult wordt er een<br/> automatisch wachtwoord gegenereerd"
+
+#: views/pages/install2.ctp:175
+msgid "Je e-mailadres"
+msgstr "Je e-mailadres"
+
+#: views/pages/install5.ctp:9
+msgid "Uw installatie is voltooid"
+msgstr "Uw installatie is voltooid"
+
+#: views/pages/install5.ctp:11
+msgid "U kunt inloggen met de volgende gegevens"
+msgstr "U kunt inloggen met de volgende gegevens"
+
+#: views/pages/install5.ctp:26
+msgid "Ik wil beginnen met mijn winkel en inloggen"
+msgstr "Ik wil beginnen met mijn winkel en inloggen"
+
+#: app_controller.php:343
+msgid "Het genereren van de thumbnails lukt niet (waarschijnlijk een probleem met PHP safe-mode)"
+msgstr "Het genereren van de thumbnails lukt niet (waarschijnlijk een probleem met PHP safe-mode)"
+
+#: app_controller.php:348
+msgid "Upload slaagt niet (waarschijnlijk een probleem met PHP safe-mode)"
+msgstr "Upload slaagt niet (waarschijnlijk een probleem met PHP safe-mode)"
+
+#: app_controller.php:352
+msgid "Dit zijn geen geldige bestanden"
+msgstr "Dit zijn geen geldige bestanden"
+
+#: controllers/admin_controller.php:212
+#: controllers/admin_controller.php:735
+#: controllers/admin_controller.php:754
+#: controllers/admin_controller.php:801
+#: controllers/admin_controller.php:820
+#: controllers/admin_controller.php:878
+#: controllers/admin_controller.php:914
+#: controllers/admin_controller.php:1346
+#: controllers/admin_controller.php:1379
+#: controllers/admin_controller.php:1482
+msgid "kon niet worden bewaard!"
+msgstr "kon niet worden bewaard!"
+
+#: controllers/admin_controller.php:221
+msgid "Product bewerken"
+msgstr "Product bewerken"
+
+#: controllers/admin_controller.php:224
+msgid "Invalid Product"
+msgstr "Invalid Product"
+
+#: controllers/admin_controller.php:375
+#: controllers/admin_controller.php:732
+#: controllers/admin_controller.php:751
+#: controllers/admin_controller.php:798
+#: controllers/admin_controller.php:817
+#: controllers/admin_controller.php:875
+#: controllers/admin_controller.php:911
+#: controllers/admin_controller.php:1343
+#: controllers/admin_controller.php:1376
+#: controllers/admin_controller.php:1479
+msgid "is bewaard!"
+msgstr "is bewaard!"
+
+#: controllers/admin_controller.php:378
+msgid "Er ging iets mis bij het opslaan... probeer later nog eens"
+msgstr "Er ging iets mis bij het opslaan... probeer later nog eens"
+
+#: controllers/admin_controller.php:577
+#: controllers/admin_controller.php:597
+#: controllers/admin_controller.php:633
+msgid "Dit product kon niet worden gevonden."
+msgstr "Dit product kon niet worden gevonden."
+
+#: controllers/admin_controller.php:583
+#: controllers/admin_controller.php:623
+msgid "Het product is verwijderd."
+msgstr "Het product is verwijderd."
+
+#: controllers/admin_controller.php:587
+msgid "Dit product kon niet worden weggegooid."
+msgstr "Dit product kon niet worden weggegooid."
+
+#: controllers/admin_controller.php:639
+msgid "Het product is teruggezet."
+msgstr "Het product is teruggezet."
+
+#: controllers/admin_controller.php:643
+msgid "Dit product kon niet worden teruggezet."
+msgstr "Dit product kon niet worden teruggezet."
+
+#: controllers/admin_controller.php:663
+msgid "Keuzelijst toevoegen"
+msgstr "Keuzelijst toevoegen"
+
+#: controllers/admin_controller.php:668
+#: controllers/admin_controller.php:686
+msgid "zijn bewaard!"
+msgstr "zijn bewaard!"
+
+#: controllers/admin_controller.php:671
+#: controllers/admin_controller.php:689
+msgid "konden niet worden bewaard!"
+msgstr "konden niet worden bewaard!"
+
+#: controllers/admin_controller.php:681
+msgid "Keuzelijst bewerken"
+msgstr "Keuzelijst bewerken"
+
+#: controllers/admin_controller.php:699
+msgid "Deze keuzelijst bestaat niet!"
+msgstr "Deze keuzelijst bestaat niet!"
+
+#: controllers/admin_controller.php:725
+msgid "Keuze toevoegen"
+msgstr "Keuze toevoegen"
+
+#: controllers/admin_controller.php:745
+msgid "Keuze bewerken"
+msgstr "Keuze bewerken"
+
+#: controllers/admin_controller.php:766
+msgid "Deze optie kon niet worden gevonden."
+msgstr "Deze optie kon niet worden gevonden."
+
+#: controllers/admin_controller.php:778
+msgid "De optie is verwijderd."
+msgstr "De optie is verwijderd."
+
+#: controllers/admin_controller.php:793
+msgid "Extra veld toevoegen"
+msgstr "Extra veld toevoegen"
+
+#: controllers/admin_controller.php:811
+msgid "Extra veld bewerken"
+msgstr "Extra veld bewerken"
+
+#: controllers/admin_controller.php:832
+msgid "Het veld kon niet worden gevonden."
+msgstr "Het veld kon niet worden gevonden."
+
+#: controllers/admin_controller.php:844
+msgid "Het veld is verwijderd."
+msgstr "Het veld is verwijderd."
+
+#: controllers/admin_controller.php:869
+msgid "Categorie toevoegen"
+msgstr "Categorie toevoegen"
+
+#: controllers/admin_controller.php:903
+msgid "Categorie bewerken"
+msgstr "Categorie bewerken"
+
+#: controllers/admin_controller.php:932
+msgid "Deze categorie kon niet worden gevonden."
+msgstr "Deze categorie kon niet worden gevonden."
+
+#: controllers/admin_controller.php:936
+msgid "De categorie is verwijderd."
+msgstr "De categorie is verwijderd."
+
+#: controllers/admin_controller.php:1089
+#: controllers/admin_controller.php:1092
+msgid "De video"
+msgstr "De video"
+
+#: controllers/admin_controller.php:1089
+msgid "is toegevoegd!"
+msgstr "is toegevoegd!"
+
+#: controllers/admin_controller.php:1092
+msgid "kon niet worden toegevoegd!"
+msgstr "kon niet worden toegevoegd!"
+
+#: controllers/admin_controller.php:1095
+msgid "Deze videoservice wordt niet ondersteund. Gebruik Youtube of Vimeo."
+msgstr "Deze videoservice wordt niet ondersteund. Gebruik Youtube of Vimeo."
+
+#: controllers/admin_controller.php:1100
+msgid "Media toevoegen"
+msgstr "Media toevoegen"
+
+#: controllers/admin_controller.php:1108
+msgid "Media bewerken"
+msgstr "Media bewerken"
+
+#: controllers/admin_controller.php:1118
+#: controllers/admin_controller.php:1130
+msgid "is bewerkt!"
+msgstr "is bewerkt!"
+
+#: controllers/admin_controller.php:1121
+#: controllers/admin_controller.php:1133
+msgid "kon niet worden bewerkt!"
+msgstr "kon niet worden bewerkt!"
+
+#: controllers/admin_controller.php:1147
+msgid "Deze foto bestaat niet!"
+msgstr "Deze foto bestaat niet!"
+
+#: controllers/admin_controller.php:1176
+msgid "Deze video bestaat niet!"
+msgstr "Deze video bestaat niet!"
+
+#: controllers/admin_controller.php:1186
+msgid "De video is verwijderd."
+msgstr "De video is verwijderd."
+
+#: controllers/admin_controller.php:1322
+msgid "Het bericht kon niet worden bewaard!"
+msgstr "Het bericht kon niet worden bewaard!"
+
+#: controllers/admin_controller.php:1355
+msgid "Bewerk bericht"
+msgstr "Bewerk bericht"
+
+#: controllers/admin_controller.php:1394
+msgid "Deze post kon niet worden gevonden."
+msgstr "Deze post kon niet worden gevonden."
+
+#: controllers/admin_controller.php:1398
+msgid "De post is verwijderd."
+msgstr "De post is verwijderd."
+
+#: controllers/admin_controller.php:1431
+msgid "De pagina kon niet worden bewaard!"
+msgstr "De pagina kon niet worden bewaard!"
+
+#: controllers/admin_controller.php:1439
+msgid "Bewerk pagina"
+msgstr "Bewerk pagina"
+
+#: controllers/admin_controller.php:1496
+msgid "Deze pagina kon niet worden gevonden."
+msgstr "Deze pagina kon niet worden gevonden."
+
+#: controllers/admin_controller.php:1500
+msgid "De pagina is verwijderd."
+msgstr "De pagina is verwijderd."
+
+#: controllers/admin_controller.php:1545
+msgid "Print order"
+msgstr "Print order"
+
+#: controllers/admin_controller.php:1565
+msgid "De order is betaald."
+msgstr "De order is betaald."
+
+#: controllers/admin_controller.php:1568
+#: controllers/admin_controller.php:1577
+msgid "Er is iets mis gegaan!"
+msgstr "Er is iets mis gegaan!"
+
+#: controllers/admin_controller.php:1574
+msgid "De order is gevlagd als niet betaald."
+msgstr "De order is gevlagd als niet betaald."
+
+#: controllers/admin_controller.php:1685
+msgid "Er is iets mis gegaan. De inkoop kon niet worden bewaard."
+msgstr "Er is iets mis gegaan. De inkoop kon niet worden bewaard."
+
+#: controllers/admin_controller.php:1713
+msgid "Gebruiker toevoegen"
+msgstr "Gebruiker toevoegen"
+
+#: controllers/admin_controller.php:1721
+msgid "aangemaakt"
+msgstr "aangemaakt"
+
+#: controllers/admin_controller.php:1724
+msgid "kon niet worden aangemaakt, probeer het later nog eens"
+msgstr "kon niet worden aangemaakt, probeer het later nog eens"
+
+#: controllers/admin_controller.php:1742
+msgid "is bewerkt"
+msgstr "is bewerkt"
+
+#: controllers/admin_controller.php:1745
+msgid "kon niet worden bewerkt, probeer het later nog eens"
+msgstr "kon niet worden bewerkt, probeer het later nog eens"
+
+#: controllers/admin_controller.php:1757
+msgid "Gebruiker verwijderd."
+msgstr "Gebruiker verwijderd."
+
+#: controllers/admin_controller.php:1760
+msgid "Gebruiker kon niet worden verwijderd."
+msgstr "Gebruiker kon niet worden verwijderd."
+
+#: controllers/admin_controller.php:1768
+msgid "Inloggen alstublieft..."
+msgstr "Inloggen alstublieft..."
+
+#: controllers/admin_controller.php:1777
+msgid "Welkom terug, "
+msgstr "Welkom terug, "
+
+#: controllers/admin_controller.php:1792
+msgid "Deze gebruiker bestaat niet."
+msgstr "Deze gebruiker bestaat niet."
+
+#: controllers/admin_controller.php:1795
+msgid "Uw wachtwoord is niet juist."
+msgstr "Uw wachtwoord is niet juist."
+
+#: controllers/admin_controller.php:1802
+msgid "U heeft een of meerdere velden niet ingevuld."
+msgstr "U heeft een of meerdere velden niet ingevuld."
+
+#: controllers/admin_controller.php:1818
+#: controllers/admin_controller.php:1820
+msgid "Wachtwoord vergeten"
+msgstr "Wachtwoord vergeten"
+
+#: controllers/admin_controller.php:1841
+msgid "Uw nieuwe wachtwoord."
+msgstr "Uw nieuwe wachtwoord."
+
+#: controllers/admin_controller.php:1860
+msgid "Dit e-mailadres komt niet voor in de database"
+msgstr "Dit e-mailadres komt niet voor in de database"
+
+#: controllers/admin_controller.php:1866
+msgid "U hebt niks ingevuld!"
+msgstr "U hebt niks ingevuld!"
+
+#: controllers/admin_controller.php:1926
+msgid "De plugin is geactiveerd!"
+msgstr "De plugin is geactiveerd!"
+
+#: controllers/admin_controller.php:1929
+#: controllers/admin_controller.php:1950
+#: controllers/admin_controller.php:2015
+msgid "Er ging iets fout! Probeer het later nog eens..."
+msgstr "Er ging iets fout! Probeer het later nog eens..."
+
+#: controllers/admin_controller.php:1947
+msgid "De plugin is gedeactiveerd!"
+msgstr "De plugin is gedeactiveerd!"
+
+#: controllers/admin_controller.php:2012
+msgid "De plugin is verwijderd!"
+msgstr "De plugin is verwijderd!"
+
+#: controllers/admin_controller.php:2169
+msgid "De gegevens zijn bewerkt."
+msgstr "De gegevens zijn bewerkt."
+
+#: webroot/test.php:101
+msgid "Debug setting does not allow access to this url."
+msgstr "Debug setting does not allow access to this url."
+
+#~ msgid "Nieuwe tag"
+#~ msgstr "Nieuwe tag"
+
+#~ msgid "Selecteer"
+#~ msgstr "Selecteer"

@@ -164,7 +164,7 @@ a.button.middle:active,
 a.button.right:active { top: 0px }
 a.button.medium { font-size: 15px; padding-left: 13px; padding-right: 13px; }
 a.button.big { font-size: 16px; padding-left: 17px; padding-right: 17px; }
-a.button.giant { font-size: 16px; padding-left: 22px; padding-right: 22px; background-position:0 -198px;}
+a.button.giant { font-size: 16px; padding-left: 22px; padding-right: 22px; background-position:0 -193px;}
 a.button.giant:hover { color: #FFFFFF; border-color: #388AD4; text-decoration: none; text-shadow: -1px -1px 0 rgba(0,0,0,0.3); background-position: 0 -40px; background-color: #2D7DC5; }
 a.button span.icon { display: inline-block; width: 14px; height: 12px; margin: auto 7px auto auto; position: relative; top: 2px; background-image: url('../img/css3buttons_icons.png'); background-repeat: no-repeat; }
 a.big.button span.icon { top: 0px }

@@ -34,20 +34,20 @@
 </div>	
 <table>
 	<tr>
-		<td style="text-align:right" width="130px">Naam:</td>
+		<td style="text-align:right" width="130px"><?php __('Naam')?>:</td>
 		<td><input type="text" name="data[Admin][naam]" class="small_text" id="un"></td>
 	</tr>
 	<tr>
-		<td style="text-align:right">Wachtwoord:</td>
+		<td style="text-align:right"><?php __('Wachtwoord')?>:</td>
 		<td><input type="password" name="data[Admin][wachtwoord]" class="small_text" id="pw"></td>
 	</tr>
 	<tr>
-		<td colspan="2" style="text-align:right;"><a href="#" class="pill giant button" style="margin-right:20px" onClick="checkLogin()"><span class="icon key" ></span>&nbsp;&nbsp;Inloggen</a></td>
+		<td colspan="2" style="text-align:right;"><a href="#" class="pill giant button" style="margin-right:20px" onClick="checkLogin()"><span class="icon key"></span>&nbsp;&nbsp;<?php __('Inloggen')?></a></td>
 	</tr>
 </table>
 </form>
 
 </div>	
 <div id="loginbottom">
-	<small><a href="<?php echo HOME?>/admin/passwordforgot">Wachtwoord vergeten?</a></small>
+	<small><a href="<?php echo HOME?>/admin/passwordforgot"><?php __('Wachtwoord vergeten?')?></a></small>
 </div>

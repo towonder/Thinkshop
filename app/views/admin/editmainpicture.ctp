@@ -41,15 +41,15 @@
 	<?php endif;?>
 	</div>
 	
-	<h2>Nieuwe hoofdafbeelding</h2>
+	<h2><?php __('Nieuwe hoofdafbeelding')?></h2>
 
-	<a href="#" class="pillgiant button" onclick="closeBox()" style="margin-right:25px;">Opslaan</a>
+	<a href="#" class="pillgiant button" onclick="closeBox()" style="margin-right:25px;"><?php __('Opslaan')?></a>
 	
 </div>
 
 
 <div id="mainphotolibrary" >
-	<div class="description_text" style="border:1px solid #cccccc;border-top:0px;margin-bottom:15px">Fotobibliotheek</div>
+	<div class="description_text" style="border:1px solid #cccccc;border-top:0px;margin-bottom:15px"><?php __('Fotobibliotheek')?></div>
 	
 	<div id="photosinlibrary">
 		<table cellspacing="0" cellpadding="0">
@@ -74,7 +74,7 @@
 					<small><?php echo date('d-m-Y', strtotime($photo['Photo']['created'])); ?></small>
 				</td>
 				<td <?php echo $class?>>
-					<b>Voeg toe</b>
+					<b><?php __('Voeg toe')?></b>
 				</td>
 			</tr>
 			<?php endif;?>

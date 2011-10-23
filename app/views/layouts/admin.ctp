@@ -12,7 +12,6 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version			Thinkshop 2.2 - Hendrix
 
 */
 ?>
@@ -73,8 +72,8 @@
 				<div id="logo"></div>
 			</a>
 			<div class="hello">
-				<p>Hallo <?php echo $admin['naam']?></p> |
-				<a href="<?php echo HOME?>/admin/logout" style="padding-bottom:1px" class="pill button">Uitloggen</a>
+				<p><?php __('Hallo')?>, <?php echo $admin['naam']?></p> |
+				<a href="<?php echo HOME?>/admin/logout" style="padding-bottom:1px" class="pill button"><?php __('Uitloggen')?></a>
 			</div>
 		</div>
 
@@ -90,9 +89,9 @@
 				<div id="menu">							
 						<a href="<?php echo HOME?>/admin/">
 							<?php if($session->read('tab') == 'dash'):?>
-								<div id="dashboard" class="menubutton active"><span class="icon dash"> </span>Overzicht</div>	
+								<div id="dashboard" class="menubutton active"><span class="icon dash"> </span><?php __('Overzicht')?></div>	
 							<?php else: ?>
-								<div id="dashboard" class="menubutton"><span class="icon dash"> </span>Overzicht</div>
+								<div id="dashboard" class="menubutton"><span class="icon dash"> </span><?php __('Overzicht')?></div>
 							<?php endif; ?>
 						</a>
 						
@@ -100,69 +99,70 @@
 						
 						<?php if($session->read('tab') == "products"):?>
 						<a href="<?php echo HOME?>/admin/products">
-							<div id="products" class="menubutton active sub"><span class="icon prod"> </span>Producten</div>
+							<div id="products" class="menubutton active sub"><span class="icon prod"> </span><?php __('Producten')?></div>
 						</a>
 						<div class="submenu">
 							<ul>
-								<li><a href="<?php echo HOME?>/admin/addproduct/">Nieuw product</a></li>
-								<li><a href="<?php echo HOME?>/admin/categories/">Categorieën beheer</a></li>
+								<li><a href="<?php echo HOME?>/admin/addproduct/"><?php __('Nieuw product');?></a></li>
+								<li><a href="<?php echo HOME?>/admin/categories/"><?php __('Categorie&euml;n beheer');?></a></li>
 								<?php if(ADVANCED == 'true'):?>
 								<li></li>								
-								<li><a href="<?php echo HOME?>/admin/productoptions/">Keuzelijsten beheer</a></li>
-								<li><a href="<?php echo HOME?>/admin/extrafields/">Extra velden beheer</a></li>
+								<li><a href="<?php echo HOME?>/admin/productoptions/"><?php __('Keuzelijsten beheer')?></a></li>
+								<li><a href="<?php echo HOME?>/admin/extrafields/"><?php __('Extra velden beheer')?></a></li>
 								<?php endif; ?>
+								<li><a href="<?php echo HOME?>/admin/trash/"><?php __('Prullenbak')?></a></li>
 							</ul>
 						</div>
 						<?php else:?>
 						<a href="<?php echo HOME?>/admin/products">
-							<div id="products" class="menubutton"><span class="icon prod"></span>Producten</div>
+							<div id="products" class="menubutton"><span class="icon prod"></span><?php __('Producten')?></div>
 						</a>
 						<?php endif;?>
 						
 						<?php if($session->read('tab') == "news"):?>
 						<a href="<?php echo HOME?>/admin/news">
-							<div id="news" class="menubutton active sub"><span class="icon news"></span>Nieuws</div>
+							<div id="news" class="menubutton active sub"><span class="icon news"></span><?php __('Nieuws')?></div>
 						</a>
 						<div class="submenu">
 							<ul>
-								<li><a href="<?php echo HOME?>/admin/addpost/">Nieuw bericht</a></li>
+								<li><a href="<?php echo HOME?>/admin/addpost/"><?php __('Nieuw bericht')?></a></li>
 							</ul>
 						</div>
 						
 						<?php else: ?>
 						<a href="<?php echo HOME?>/admin/news">
-							<div id="news" class="menubutton"><span class="icon news"></span>Nieuws</div>
+							<div id="news" class="menubutton"><span class="icon news"></span><?php __('Nieuws')?></div>
 						</a>
 						<?php endif;?>
 						
 						<?php if($session->read('tab') == 'page'):?>
 						<a href="<?php echo HOME?>/admin/pages">
-							<div id="pages" class="menubutton active sub"><span class="icon page"></span>Pagina's</div>
+							<div id="pages" class="menubutton active sub"><span class="icon page"></span><?php __('Pagina\'s')?></div>
 						</a>
 						<div class="submenu">
 							<ul>
-								<li><a href="<?php echo HOME?>/admin/addpage/">Nieuwe pagina</a></li>
+								<li><a href="<?php echo HOME?>/admin/addpage/"><?php __('Nieuwe pagina')?></a></li>
 							</ul>
 						</div>						
 						<?php else:?>
 						<a href="<?php echo HOME?>/admin/pages">
-							<div id="pages" class="menubutton"><span class="icon page"></span>Pagina's</div>
+							<div id="pages" class="menubutton"><span class="icon page"></span><?php __('Pagina\'s')?></div>
 						</a>
 						<?php endif;?>
 						
 						<?php if($session->read('tab') == 'media'):?>
 						<a href="<?php echo HOME?>/admin/media">
-							<div id="media" class="menubutton active sub"><span class="icon media"></span>Media</div>
+							<div id="media" class="menubutton active sub"><span class="icon media"></span><?php __('Media')?></div>
 						</a>
 						<div class="submenu" id="sub">
 							<ul>
-								<li><a href="<?php echo HOME?>/admin/addmedia/">Nieuwe Foto's</a></li>
-								<li><a href="<?php echo HOME?>/admin/addmedia/video">Nieuwe Video</a></li>
+								<li><a href="<?php echo HOME?>/admin/addmedia/"><?php __('Nieuwe Foto\'s')?></a></li>
+								<li><a href="<?php echo HOME?>/admin/addmedia/video"><?php __('Nieuwe Video')?></a></li>
 							</ul>
 						</div>						
 						<?php else: ?>
 						<a href="<?php echo HOME?>/admin/media">
-							<div id="media" class="menubutton"><span class="icon media"></span>Media</div>
+							<div id="media" class="menubutton"><span class="icon media"></span><?php __('Media')?></div>
 						</a>
 						<?php endif;?>
 						
@@ -170,60 +170,62 @@
 						
 						<a href="<?php echo HOME?>/admin/orders">
 							<?php if($session->read('tab') == "orders"):?>
-							<div id="orders" class="menubutton active"><span class="icon orde"></span>Orders</div>
+							<div id="orders" class="menubutton active"><span class="icon orde"></span><?php __('Orders')?></div>
 							<?php else:?>
-							<div id="orders" class="menubutton"><span class="icon orde"></span>Orders</div>	
+							<div id="orders" class="menubutton"><span class="icon orde"></span><?php __('Orders')?></div>	
 							<?php endif;?>
 						</a>						
 						
+						
 						<?php if($session->read('tab') == "finance"):?>
 						<a href="<?php echo HOME?>/admin/finance">
-							<div id="finance" class="menubutton active sub"><span class="icon fina"></span>Financiën</div>
+							<div id="finance" class="menubutton active sub"><span class="icon fina"></span><?php __('Financi&euml;n')?></div>
 						</a>
 						<div class="submenu" id="sub">
 							<ul>
-								<li><a href="<?php echo HOME?>/admin/finance/">In & uit</a></li>
-								<li><a href="<?php echo HOME?>/admin/sales/">Verkopen</a></li>
+								<li><a href="<?php echo HOME?>/admin/finance/"><?php __('In & uit')?></a></li>
+								<li><a href="<?php echo HOME?>/admin/sales/"><?php __('Verkopen')?></a></li>
 							</ul>
 						</div>						
 						<?php else:?>
 						<a href="<?php echo HOME?>/admin/finance">
-							<div id="finance" class="menubutton"><span class="icon fina"></span>Financiën</div>
+							<div id="finance" class="menubutton"><span class="icon fina"></span><?php __('Financi&euml;n')?></div>
 						</a>
 						<?php endif;?>
-						
 						<hr/>
+						
+						
 						<?php if($session->read('tab') == "users"):?>
 						<a href="<?php echo HOME?>/admin/users">
-							<div id="users" class="menubutton active sub"><span class="icon user"></span>Beheerders</div>
+							<div id="users" class="menubutton active sub"><span class="icon user"></span><?php __('Beheerders')?></div>
 						</a>
 						<div class="submenu">
 							<ul>
-								<li><a href="<?php echo HOME?>/admin/adduser/">Nieuwe gebruiker</a></li>
+								<li><a href="<?php echo HOME?>/admin/adduser/"><?php __('Nieuwe gebruiker')?></a></li>
 							</ul>
 						</div>
 						
 						<?php else:?>
 						<a href="<?php echo HOME?>/admin/users">
-							<div id="users" class="menubutton"><span class="icon user"></span>Beheerders</div>
+							<div id="users" class="menubutton"><span class="icon user"></span><?php __('Beheerders')?></div>
 						</a>
 						<?php endif;?>
 
 						
 						<a href="<?php echo HOME?>/admin/plugins">
 							<?php if($session->read('tab') == 'plugins'):?>
-							<div id="plugins" class="menubutton active"><span class="icon plug"></span>Plugins</div>
+							<div id="plugins" class="menubutton active"><span class="icon plug"></span><?php __('Plugins')?></div>
 							<?php else: ?>
-							<div id="plugins" class="menubutton"><span class="icon plug"></span>Plugins</div>	
+							<div id="plugins" class="menubutton"><span class="icon plug"></span><?php __('Plugins')?></div>	
 							<?php endif;?>
 						</a>
 						
 						
 						<a href="<?php echo HOME?>/admin/settings">
 							<?php if($session->read('tab') == "settings"):?>
-							<div id="settings_button" class="menubutton active"><span class="icon sett"></span>Instellingen</div>
+							<div id="settings" class="menubutton active"><span class="icon sett"></span><?php __('Instellingen')?></div>
 							<?php else:?>
-							<div id="settings_button" class="menubutton"><span class="icon sett"></span>Instellingen</div>	
+							<div id="settings" class="menubutton"><span class="icon sett"></span><?php __('Instellingen')?></div>	
 							<?php endif;?>
 						</a>
 						
@@ -242,21 +244,15 @@
 						
 						?>
 				
-					</div>
-			
-			
-			
+					</div>			
 				<div id="main">
-					
-				
-					
 					<?php echo $content_for_layout; ?>
 				</div>
 			</div>
 					<div id="footer">
 						<small>
-							&copy; 2011 <a href="http://www.to-wonder.com" target="_blank">To Wonder Multimedia</a>&nbsp;|&nbsp;
-							<a href="<?php echo HOME?>/admin/about">Over Thinkshop</a>&nbsp;|&nbsp;<a href="<?php echo HOME?>/admin/license">MIT Licentie</a>
+							created by <a href="http://www.to-wonder.com" target="_blank">To Wonder Multimedia</a>&nbsp;|&nbsp;
+							<a href="<?php echo HOME?>/admin/about"><?php __('Over Thinkshop')?></a>&nbsp;|&nbsp;<a href="<?php echo HOME?>/admin/license"><?php __('MIT Licentie')?></a>
 						</small>
 					</div>
 	</div>
@@ -286,6 +282,7 @@
 		}
 	</script>
 	
+	<!-- This webshop is powered by Thinkshop version <?php echo VERSION?>, <?php echo VERSION_NAME?>. Created by To Wonder multimedia :: to-wonder.com -->
 	
 </body>
 </html>

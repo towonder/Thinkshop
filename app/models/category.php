@@ -35,6 +35,15 @@ class Category extends AppModel {
 			)
 	);
 	
+	function findLatestID(){
+		$cat = $this->find('first', array('order' => 'Category.created DESC'));
+		if(!empty($cat['Product'])){
+			return $cat['Category']['id'];
+		}else{
+			return '1';
+		}
+	}
+	
 
 }
 ?>

@@ -1,6 +1,8 @@
 <?php
 
 //if the post array isn't empty:
+Configure::write('Config.language', 'eng');
+
 $installdone = false;
 $error = false;
 
@@ -12,6 +14,8 @@ if(!empty($_POST)){
 	$password2 = $_POST['password2'];
 	$email = $_POST['email'];
 	$date = date('Y-m-d H:i:s');
+	
+	$prefix = $_POST['theprefix'];
 	
 	if(!isEmail($email)){
 		Header('Location: install2?error=email');
@@ -39,9 +43,9 @@ if(!empty($_POST)){
 		$db = ConnectionManager::getInstance();
 		@$connected = $db->getDataSource('default');
 	
-		$sql1 = "INSERT INTO `settings` VALUES(1, 'WEBSITE_TITLE', '".$title."', '".date('Y-m-d H:i:s')."')";
-		$sql2 = "INSERT INTO `settings` VALUES(15, 'CONTACT_EMAIL', '".$email."', '".date('Y-m-d H:i:s')."');";
-		$sql3 = "INSERT INTO `admins` VALUES(1, '".$username."', '".$password."', '".$email."', '".$date."');";
+		$sql1 = "INSERT INTO `".$prefix."settings` VALUES(1, 'WEBSITE_TITLE', '".$title."', '1','".date('Y-m-d H:i:s')."')";
+		$sql2 = "INSERT INTO `".$prefix."settings` VALUES(15, 'CONTACT_EMAIL', '".$email."', '1','".date('Y-m-d H:i:s')."');";
+		$sql3 = "INSERT INTO `".$prefix."admins` VALUES(1, '".$username."', '".$password."', '".$email."', '".$date."');";
 		mysql_query($sql1);
 		mysql_query($sql2);
 		mysql_query($sql3);

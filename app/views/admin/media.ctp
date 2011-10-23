@@ -1,8 +1,8 @@
 <div class="productform">
 <?php if($movie == false):?>
-<h2><img src="<?php echo HOME?>/img/icons/media.png"/> Media <a href="<?php echo HOME?>/admin/addmedia/" class="pill add button"><span class="icon plus"></span>Nieuwe foto</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/media.png"/> <?php __('Media')?> <a href="<?php echo HOME?>/admin/addmedia/" class="pill add button"><span class="icon plus"></span><?php __('Nieuwe foto')?></a></h2>
 <?php else: ?>
-<h2><img src="<?php echo HOME?>/img/icons/media.png"/> Media <a href="<?php echo HOME?>/admin/addmedia/video" class="pill add button"><span class="icon plus"></span>Nieuwe video</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/media.png"/> <?php __('Media')?> <a href="<?php echo HOME?>/admin/addmedia/video" class="pill add button"><span class="icon plus"></span><?php __('Nieuwe video')?></a></h2>
 <?php endif;?>
 </div>
 
@@ -12,11 +12,11 @@
 <table cellpadding="0" cellspacing="0" class="maintable">
 	<tr>
 		<?php if($movie == false):?>
-		<td><a href="<?php echo HOME?>/admin/media"><div class="foto_active">Foto's</div></a></td>
-		<td><a href="<?php echo HOME?>/admin/media/true"><div class="video">Video's</div></a></td>
+		<td><a href="<?php echo HOME?>/admin/media"><div class="foto_active"><?php __('Foto\'s')?></div></a></td>
+		<td><a href="<?php echo HOME?>/admin/media/true"><div class="video"><?php __('Video\'s')?></div></a></td>
 		<?php else:?>
-		<td><a href="<?php echo HOME?>/admin/media"><div class="foto">Foto's</div></a></td>
-		<td><a href="<?php echo HOME?>/admin/media/true"><div class="video_active">Video's</div></a></td>
+		<td><a href="<?php echo HOME?>/admin/media"><div class="foto"><?php __('Foto\'s')?></div></a></td>
+		<td><a href="<?php echo HOME?>/admin/media/true"><div class="video_active"><?php __('Video\'s')?></div></a></td>
 		<?php endif; ?>
 		<td colspan="2" style="background-color:#fafafa">
 		</td>
@@ -33,9 +33,9 @@
 	<?php endif; ?>
 	<tr class="tablehead">
 		<td width="110px"></td>
-		<td><p>Titel</p></td>
-		<td><p>Datum</p></td>
-		<td width="200px"><p>Acties</p></td>
+		<td><p><?php __('Titel')?></p></td>
+		<td><p><?php __('Datum')?></p></td>
+		<td width="200px"><p><?php __('Acties')?></p></td>
 	</tr>	
 	<tr class="altrow">
 		<td colspan="4">&nbsp;</td>
@@ -61,8 +61,8 @@
 		</td>
 		<?php $pid = $item['Photo']['id']; ?>
 		<td>
-			<div class="edit"><small><a href="<?php echo HOME?>/admin/editmedia/<?php echo $pid?>/photo">Bewerk</a></small></div>
-			<div class="delete"><small><a href="javascript:deleteSomething(<?php echo $pid?>,'photo','#foto_<?php echo $pid?>', 'deze foto')">Verwijder</a></small></div>
+			<div class="edit"><small><a href="<?php echo HOME?>/admin/editmedia/<?php echo $pid?>/photo"><?php __('Bewerk')?></a></small></div>
+			<div class="delete"><small><a href="javascript:deleteSomething(<?php echo $pid?>,'photo','#foto_<?php echo $pid?>', 'deze foto')"><?php __('Verwijder')?></a></small></div>
 		</td>
 	</tr>
 	<?php endforeach; ?>
@@ -90,8 +90,8 @@
 		</td>
 		<?php $vid = $item['Video']['id'];?>
 		<td>
-			<div class="edit"><small><a href="<?php echo HOME?>/admin/editmedia/<?php echo $item['Video']['id']?>/video">Bewerk</a></small></div>
-			<div class="delete"><small><a href="javascript:deleteSomething(<?php echo $vid?>,'video','#vid_<?php echo $vid?>', 'deze video')">Verwijder</a></small></div>
+			<div class="edit"><small><a href="<?php echo HOME?>/admin/editmedia/<?php echo $item['Video']['id']?>/video"><?php __('Bewerk')?></a></small></div>
+			<div class="delete"><small><a href="javascript:deleteSomething(<?php echo $vid?>,'video','#vid_<?php echo $vid?>', 'deze video')"><?php __('Verwijder')?></a></small></div>
 		</td>
 	</tr>
 	<?php endforeach; ?>

@@ -8,11 +8,6 @@ $totalVAT = 0;
 	foreach($products as $product):
 
 		$prijs = $product['Product']['price'] + ($product['Product']['price'] * $product['Product']['vat']);
-		if($product['Product']['discount'] > 0){
-			$discount = 1 - $product['Product']['discount'];
-			$prijs = $prijs * $discount;
-		}
-		
 		$totaal += $prijs;
 		$sendcost += $product['Product']['sendcost'];
 		
@@ -50,14 +45,7 @@ Uw ordernummber: <?php echo '#'. sprintf("%04d",$order['Order']['id']);?>
 <?php endif;?>
 
 <?php $prijs = $product['Product']['price'] + ($product['Product']['price'] * $product['Product']['vat']); ?>
-<?php
-	if($product['Product']['discount'] > 0){
-		$discount = 1 - $product['Product']['discount'];
-		$prijs = $prijs * $discount;
-	}
-?>
-€<?php echo str_replace('.',',', $number->currency($prijs, ''));?><?php if($product['Product']['discount'] > 0):?>(<?php echo $product['Product']['discount'] * 100?>% Korting)<?php endif;?>
-
+€<?php echo str_replace('.',',', $number->currency($prijs, ''));?>
 <?php endforeach; ?>
 
 --------------

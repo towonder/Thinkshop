@@ -30,19 +30,7 @@
 			<td><b>1</b></td>
 			<td>
 				<?php $prijs = $item['price'] + ($item['price'] * $item['vat']); ?>
-				<?php
-				
-					if($item['discount'] > 0){
-						$discount = 1 - $item['discount'];
-						$prijs = $prijs * $discount;
-					}
-				
-				?>
-				<p class="cartnumber"><?php echo $number->currency($prijs, 'EUR');?>
-					<?php if($item['discount'] > 0):?>
-						<br/><small>(<?php echo $item['discount'] * 100?>% korting)</small>
-					<?php endif;?>
-				</p>
+				<p class="cartnumber"><?php echo $number->currency($prijs, 'EUR');?></p>
 				<?php $totalPrice += $prijs ?>
 				<?php if(SENDCOST_PER_PRODUCT == 'true'):?>
 				<?php $totalSend += $item['sendcost'];?>
@@ -70,20 +58,7 @@
 		<td><b><?php echo $amount ?></b></td>
 		<td>
 			<?php $prijs = $item['price'] + ($item['price'] * $item['vat']); ?>
-			<?php
-			
-				if($item['discount'] > 0){
-					$discount = 1 - $item['discount'];
-					$prijs = $prijs * $discount;
-				}
-			
-			?>
-			
-			<p class="cartnumber"><?php echo $number->currency($prijs * $amount, 'EUR');?>
-				<?php if($item['discount'] > 0):?>
-					<br/><small>(<?php echo $item['discount'] * 100?>% korting)</small>
-				<?php endif;?>
-			</p>
+			<p class="cartnumber"><?php echo $number->currency($prijs * $amount, 'EUR');?></p>
 			<?php $totalPrice += ($prijs * $amount) ?>
 			<?php if(SENDCOST_PER_PRODUCT == 'true'):?>
 			<?php $totalSend += ($item['sendcost'] * $amount);?>

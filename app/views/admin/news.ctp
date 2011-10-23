@@ -1,5 +1,5 @@
 <div class="productform">
-<h2><img src="<?php echo HOME?>/img/icons/news.png"/> Nieuws <a href="<?php echo HOME?>/admin/addpost/" class="pill add button"><span class="icon plus"></span>Nieuw bericht</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/news.png"/> <?php __('Nieuws')?> <a href="<?php echo HOME?>/admin/addpost/" class="pill add button"><span class="icon plus"></span><?php __('Nieuw bericht')?></a></h2>
 </div>
 
 <table cellpadding="0" cellspacing="0" class="maintable">
@@ -13,9 +13,9 @@
 	</tr>
 	<?php endif; ?>
 	<tr class="tablehead">
-		<td><p>Datum</p></td>
-		<td><p>Titel</p></td>
-		<td width="200px"><p>Acties</p></td>
+		<td><p><?php __('Datum')?></p></td>
+		<td><p><?php __('Titel')?></p></td>
+		<td width="200px"><p><?php __('Acties')?></p></td>
 	</tr>
 	<tr class="altrow">
 		<td colspan="3">&nbsp;</td>
@@ -35,7 +35,7 @@
 		<td style="text-align:left; width:300px">
 			<?php
 					if($post['Post']['hidden'] == '1'){
-						$naam = $post['Post']['title'] .'<small> - <b>Concept</b></small>';
+						$naam = $post['Post']['title'] .'<small> - <b>'.__('Concept', true).'</b></small>';
 					}else{
 						$naam = $post['Post']['title'];
 					}
@@ -44,8 +44,8 @@
 			<?php echo $naam; ?>
 		</td>
 		<td>
-			<div class="edit"><small><a href="<?php echo HOME?>/admin/editpost/<?php echo $post['Post']['id']?>">Bewerk</a></small></div>
-			<div class="delete"><small><a href="<?php echo HOME?>/admin/deletepost/<?php echo $post['Post']['id']?>">Verwijder</a></small></div>
+			<div class="edit"><small><a href="<?php echo HOME?>/admin/editpost/<?php echo $post['Post']['id']?>"><?php __('Bewerk')?></a></small></div>
+			<div class="delete"><small><a href="<?php echo HOME?>/admin/deletepost/<?php echo $post['Post']['id']?>"><?php __('Verwijder')?></a></small></div>
 		</td>
 	</tr>
 	<?php endforeach; ?>

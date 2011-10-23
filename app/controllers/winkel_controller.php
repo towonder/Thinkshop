@@ -13,7 +13,6 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version			Thinkshop 2.2 - Hendrix
 
 */
 
@@ -22,7 +21,7 @@ class WinkelController extends AppController {
 
 	var $name = 'Winkel';
 	var $uses = array('Product', 'Metaterm', 'Metavalue', 'MetavaluesProduct', 'Extraterm', 'Extravalue', 'User', 'Order', 'OrdersProducts', 'Option', 'Photo', 'Video', 'PhotosProduct', 'VideosProduct', 'Category', 'Admin', 'Post', 'Staticpage', 'Cost', 'Setting');
-	var $helpers = array('Html', 'Form', 'Number', 'Javascript', 'Crumb');
+	var $helpers = array('Html', 'Form', 'Number', 'Javascript', 'Crumb', 'Currency', 'Plural');
 	var $components = array('Email');
 	var $layout = "winkel";
 	var $paginate = array('limit' => 10);
@@ -48,7 +47,7 @@ class WinkelController extends AppController {
 		$this->delCrumbs();
 		$this->set('pageheader','Welkom!');
 		
-		$this->set('products', $this->Product->find('all', array('conditions' => array('Product.parent_id' => '0', 'Product.hidden' => '0'), 'order' => 'Product.created DESC', 'limit' => AMOUNT_ON_PAGE)));
+		$this->set('products', $this->Product->find('all', array('conditions' => array('Product.parent_id' => '0', 'Product.hidden' => '0', 'Product.concept' => '0'), 'order' => 'Product.created DESC', 'limit' => AMOUNT_ON_PAGE)));
 	}
 	
 	function product($id, $slug = null){
@@ -91,7 +90,7 @@ class WinkelController extends AppController {
 		$this->set('pageheader', $cat['Category']['name']);
 		
 	
-		$this->set('products', $this->Product->findInCategory($id, 'asc'));
+		$this->set('products', $this->Product->findInCategory($id, 'asc', false));
 		$prods = $this->Product->find('all', array('Product.category_id' => $id, 'Product.parent_id' => 0, 'Product.hidden' => 0));
 		$this->set('amountProducts', $prods);
 	}
@@ -199,6 +198,7 @@ class WinkelController extends AppController {
 		if($alreadyin == false){
 			$i = 0;
 		}else{
+			
 			$i = array_pop(array_keys($this->Session->read('Cart.'.$id))) + 1;
 		}
 			
@@ -216,7 +216,6 @@ class WinkelController extends AppController {
 		
 		$cartArray['price'] = $product['Product']['price'];
 		$cartArray['vat'] = $product['Product']['vat'];
-		$cartArray['discount'] = $product['Product']['discount'];
 		$cartArray['sendcost'] = $product['Product']['sendcost'];
 		if($product['Product']['photo_id'] != '0'){ 
 			$cartArray['thumb'] = $product['Image']['thumb'];
@@ -320,16 +319,44 @@ class WinkelController extends AppController {
 		$this->setPage('Betaalmethode', null, '2');
 		$this->set('showSearch', false);
 		
+		$useIdeal = false;
+		$usePaypal = false;
+		$useCreditcard = false;
+		
+		$plugins = $this->Plugin->find('all', array('conditions' => array('Plugin.active' => '1')));
+		foreach($plugins as $plugin){
+			if(strtolower($plugin['Plugin']['name']) == 'paypal'){
+				$usePaypal = true;
+				$useCreditcard = true;
+			}else if(strtolower($plugin['Plugin']['name']) == 'ideal'){
+				$useIdeal = true;
+			}
+		}
+		
+		$this->set('useIdeal', $useIdeal);
+		$this->set('usePaypal', $usePaypal);
+		$this->set('useCreditcard', $useCreditcard);
+		if(PAY_AFTERWARDS == 'false'){
+			$this->set('useAfterwards', false);
+		}else{
+			$this->set('useAfterwards', true);
+		}
+		
 		if($method == null){
 			$method = '';
 			$this->set('method', '');
 		}else if($method == 'ideal'){
 			$method = 'ideal';
 			Header('Location: '.HOME.'/winkel/orderToDatabase/false/ideal');
-			
 		}else if($method == 'afterwards'){
 			$method = 'afterwards';
-			Header('Location: '.HOME.'/winkel/orderToDatabase/false/overmaken');
+			Header('Location: '.HOME.'/winkel/orderToDatabase/false/afterwards');
+		}else if($method == 'paypal'){
+			$method = 'paypal';
+			Header('Location: '.HOME.'/winkel/orderToDatabase/false/paypal');
+		}else if($method == 'creditcard'){
+			$method = 'creditcard';
+			Header('Location: '.HOME.'/winkel/orderToDatabase/false/creditcard');
 		}
 	}
 
@@ -359,7 +386,6 @@ class WinkelController extends AppController {
 					$this->OrdersProducts->create();
 					$this->prod['OrdersProducts']['order_id'] = $order_id;
 					$this->prod['OrdersProducts']['product_id'] =	$item['id']; 
-					$this->prod['OrdersProducts']['discount'] = $item['discount'];
 					$this->OrdersProducts->save($this->prod);
 					$ord_id = $this->OrdersProducts->getLastInsertID();
 					
@@ -381,11 +407,15 @@ class WinkelController extends AppController {
 				}
 			}
 			if($method == 'overmaken'){
-				$this->Session->del('Cart');
-				$this->Session->write('method', $method);
+				$this->Session->delete('Cart');
+				$this->Session->write('method', 'overmaken');
 				Header('Location: '.HOME.'/winkel/bevestigOrder/'.$order_id.'/false');
-			}else{
+			}else if($method == 'ideal'){
 				Header('Location: '.HOME.'/ideal');
+			}else if($method == 'paypal'){
+				Header('Location: '.HOME.'/paypal/setupPayment/'.$order_id);
+			}else if($method == 'creditcard'){
+				Header('Location: '.HOME.'/creditcard/'.$order_id);
 			}
 		}		
 	}

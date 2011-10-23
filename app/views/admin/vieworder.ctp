@@ -8,12 +8,7 @@ $totalVAT = 0;
 	foreach($products as $product):
 
 		$prijs = $product['Product']['price'] + ($product['Product']['price'] * $product['Product']['vat']);
-		if($product['Product']['discount'] > 0){
-			$prijs = $prijs * (1 - $product['Product']['discount']);
-			$totaal += $product['Product']['price'] * (1 - $product['Product']['discount']);
-		}else{
-			$totaal += $product['Product']['price'];
-		}
+		$totaal += $product['Product']['price'];
 		$sendcost += $product['Product']['sendcost'];
 		
 		if(SENDCOST_PER_PRODUCT == 'true'):
@@ -33,7 +28,7 @@ $totalVAT = 0;
 	
 ?>
 
-<h2>Bekijk order</h2>
+<h2><?php __('Bekijk order')?></h2>
 
 <div id="orderdiv">
 	<div id="printbuttons">
@@ -43,7 +38,7 @@ $totalVAT = 0;
 	</div>
 	<table>
 		<tr>
-			<td><small><p class="amount_number"><?php echo $number->currency($totalboth, 'EUR');?></p></td>
+			<td><small><p class="amount_number"><?php echo $number->currency($totalboth, CURRENCY);?></p></td>
 			<td><p class="ordertitle">
 					<?php echo $order['User']['firstname'] .' '. $order['User']['lastname']?><br/>
 <small><a href="mailto:<?php echo $order['User']['email']?>">(<?php echo $order['User']['email'] ?>)</a></small>
@@ -51,21 +46,21 @@ $totalVAT = 0;
 			</td>
 			<td>
 				<?php if($order['Order']['paid'] == '0'):?>
-				<p class="ordernotpaid">Nog niet betaald!</p>
+				<p class="ordernotpaid"><?php __('Nog niet betaald')?>!</p>
 				<?php else:?>
-				<p class="orderpaid">Betaald.</p>
+				<p class="orderpaid"><?php __('Betaald')?>.</p>
 				<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
-			<td width="100px" style="text-align:center;" class="orderpad" valign="top"><small>Ordernummer</small>
+			<td width="100px" style="text-align:center;" class="orderpad" valign="top"><small><?php __('Ordernummer')?></small>
 				<p class="order_number"><?php echo '#'. sprintf("%04d",$order['Order']['id']);?></p>
 			</td>			
 			<td valign="top" class="orderpad"><p style="margin-left:50px;">
 				<?php if(!empty($order['User']['invoiceaddress'])):?>
-				<b>Bezorgadres:</b><br/>
+				<b><?php __('Bezorgadres')?>:</b><br/>
 				<?php else: ?>
-				<b>Bezorg & factuuradres:</b><br/>
+				<b><?php __('Bezorg & factuuradres')?>:</b><br/>
 				<?php endif; ?>
 				<?php echo $order['User']['address'] .'<br/>'?>
 				<?php echo $order['User']['zipcode'] .' '. strtoupper($order['User']['city'])?><br/>
@@ -73,7 +68,7 @@ $totalVAT = 0;
 			</td>
 			<td valign="top" class="orderpad">
 				<?php if(!empty($order['User']['invoiceaddress'])):?>
-				<p style="text-align:right"><b>Factuuradres:</b><br/>
+				<p style="text-align:right"><b><?php __('Factuuradres')?>:</b><br/>
 				<?php echo $order['User']['invoiceaddress'] .'<br/>'?>
 				<?php echo $order['User']['invoicezipcode'] .' '. strtoupper($order['User']['invoicecity'])?><br/>
 				<?php echo $order['User']['invoicecountry']?></p>
@@ -81,7 +76,7 @@ $totalVAT = 0;
 			</td>	
 		</tr>
 		<tr>
-			<td colspan="3"><p class="bestelling">Bestelling:</p></td>
+			<td colspan="3"><p class="bestelling"><?php __('Bestelling')?>:</p></td>
 		</tr>
 		<tr>
 			<td colspan="3" width="100%">
@@ -89,7 +84,7 @@ $totalVAT = 0;
 					<tr>
 						<th></th
 						<th>Product</th>
-						<th style="text-align:center">Prijs <br/><small>(exclusief btw)</small></th>
+						<th style="text-align:center"><?php __('Prijs')?> <br/><small>(<?php __('exclusief btw')?>)</small></th>
 					</tr>
 					<tr>
 						<td colspan="3">&nbsp;</td>
@@ -110,17 +105,7 @@ $totalVAT = 0;
 						</td>
 						<td  class="bedrag"><p style="margin-right:20px;padding-top:10px;padding-bottom:10px">
 							<?php $prijs = $product['Product']['price']; ?>
-							<?php
-									if($product['Product']['discount'] > 0){
-										$discount = 1 - $product['Product']['discount'];
-										$prijs = $prijs * $discount;
-									}
-							?>
-							<?php echo $number->currency($prijs, 'EUR');?>
-							<?php if($product['Product']['discount'] > 0):?>
-								<br/><small>(<?php echo $product['Product']['discount'] * 100?>% korting)</small>
-							<?php endif;?>
-							</p>
+							<?php echo $number->currency($prijs, CURRENCY);?></p>
 							<?php $totalVAT += ($product['Product']['price'] * $product['Product']['vat']);?>
 						</td>
 					</tr>
@@ -131,23 +116,23 @@ $totalVAT = 0;
 					
 					<tr>
 						<td class="lopend"></td>
-						<td class="lopend" style="text-align:left"><p class="tabletext">Lopend totaal:</p></td>
-						<td class="lopend"><p style="margin-right:20px;padding-top:10px;padding-bottom:10px"><?php echo $number->currency($totaal, 'EUR');?></p></td>
+						<td class="lopend" style="text-align:left"><p class="tabletext"><?php __('Lopend totaal')?>:</p></td>
+						<td class="lopend"><p style="margin-right:20px;padding-top:10px;padding-bottom:10px"><?php echo $number->currency($totaal, CURRENCY);?></p></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><p class="tabletext">BTW:</p></td>
-						<td class="bedrag"><p style="margin-right:20px;adding-top:10px;padding-bottom:10px"><?php echo $number->currency($totalVAT, 'EUR');?></p></td>
+						<td><p class="tabletext"><?php __('BTW')?>:</p></td>
+						<td class="bedrag"><p style="margin-right:20px;adding-top:10px;padding-bottom:10px"><?php echo $number->currency($totalVAT, CURRENCY);?></p></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><p class="tabletext">Verzendkosten:</p></td>
-						<td class="bedrag"><p style="margin-right:20px;padding-top:10px;padding-bottom:10px"><?php echo $number->currency($sendcost, 'EUR');?></p></td>
+						<td><p class="tabletext"><?php __('Verzendkosten')?>:</p></td>
+						<td class="bedrag"><p style="margin-right:20px;padding-top:10px;padding-bottom:10px"><?php echo $number->currency($sendcost, CURRENCY);?></p></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><p class="tabletext">Totaal:</p></td>
-						<td class="allestotaal"><p style="margin-right:20px;padding-top:10px;padding-bottom:10px"><?php echo $number->currency($totalboth, 'EUR')?></p></td>
+						<td><p class="tabletext"><?php __('Totaal')?>:</p></td>
+						<td class="allestotaal"><p style="margin-right:20px;padding-top:10px;padding-bottom:10px"><?php echo $number->currency($totalboth, CURRENCY)?></p></td>
 					</tr>
 				</table>
 			</td>

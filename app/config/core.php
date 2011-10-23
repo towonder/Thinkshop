@@ -125,7 +125,7 @@
  * Session time out time (in seconds).
  * Actual value depends on 'Security.level' setting.
  */
-	Configure::write('Session.timeout', '12000');
+	Configure::write('Session.timeout', '120');
 /**
  * If set to false, sessions are not automatically started.
  */
@@ -147,7 +147,7 @@
  * CakePHP session IDs are also regenerated between requests if
  * 'Security.level' is set to 'high'.
  */
-	Configure::write('Security.level', 'high');
+	Configure::write('Security.level', 'low');
 /**
  * Compress CSS output by removing comments, whitespace, repeating tags, etc.
  * This requires a/var/cache directory to be writable by the web server for caching.
@@ -227,4 +227,4 @@
 	/**
 	 * A random string used in security hashing methods.
 	 */
-	Configure::write('Security.salt', '8AYZpf1LJXcrLu31tB41Yi7ms1Kftim1sLbi0c3J'); ?>
+	Configure::write('Security.salt', 'FLyzYcnsZF5Ie9VdlG91UuvnqX21HtNXFLWnyKgY'); ?>

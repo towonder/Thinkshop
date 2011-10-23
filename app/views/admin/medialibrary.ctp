@@ -9,14 +9,14 @@
 
 <?php endif;?>
 
-<h2>Media toevoegen aan "<?php echo $product['Product']['name']?>"</h2>
+<h2><?php __('Media toevoegen aan')?> "<?php echo $product['Product']['name']?>"</h2>
 
 <form id="addMediaItems" action="<?php echo HOME ?>/admin/addMediaToProduct/<?php echo $product['Product']['id']?>" method="post">
 <table style="width:680px">
 <tr>
 	<td style="text-align:right">
 	<div id="droppable">
-		<div class="description_text" style="border:1px solid #cccccc;border-top:0px; margin-bottom:15px">Huidige media voor <?php echo $product['Product']['name']?></div>
+		<div class="description_text" style="border:1px solid #cccccc;border-top:0px; margin-bottom:15px"><?php __('Huidige media voor')?> <?php echo $product['Product']['name']?></div>
 		<?php if(!empty($product['Photo'])):?>
 			<?php foreach($product['Photo'] as $photo):?>
 			<div class="photoitem" onclick="deleteMedia(<?php echo $photo['id']?>,<?php echo $product['Product']['id']?>,'photo')" id="p_<?php echo $photo['id']?>">
@@ -49,7 +49,7 @@
 		
 		
 	</div>
-	<a href="#" class="pill giant button" onclick="submitMediaForm()" style="margin-right:25px">Voeg toe</a>
+	<a href="#" class="pill giant button" onclick="submitMediaForm()" style="margin-right:25px"><?php __('Voeg toe')?></a>
 	</td>
 </tr>
 <tr>
@@ -57,8 +57,8 @@
 </tr>
 <tr>
 	<td>
-	<div id="phototab" class="currenttab" onclick="togglePhoto();">Foto's</div>
-	<div id="videotab" onclick="toggleVideo()">Videos</div>
+	<div id="phototab" class="currenttab" onclick="togglePhoto();"><?php __('Foto\'s')?></div>
+	<div id="videotab" onclick="toggleVideo()"><?php __('Video\'s')?></div>
 	<div id="photolibrary">
 <?php $i = 0; ?>
 <?php foreach($photos as $photo):
@@ -92,7 +92,7 @@
 			<small><?php echo date('d-m-Y', strtotime($photo['Photo']['created'])); ?></small>
 		</td>
 		<td <?php echo $class?>>
-			<b>Voeg toe</b>
+			<b><?php __('Voeg toe')?></b>
 		</td>
 		</tr>
 		</table>
@@ -132,7 +132,7 @@
 						<small><?php echo date('d-m-Y', strtotime($video['Video']['created'])); ?></small>
 					</td>
 					<td <?php echo $class?>>
-						<b>Voeg toe</b>
+						<b><?php __('Voeg toe')?></b>
 					</td>
 					</tr>
 					</table>

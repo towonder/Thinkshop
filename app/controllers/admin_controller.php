@@ -13,7 +13,6 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version			Thinkshop 2.2 - Hendrix
 
 */
 
@@ -21,8 +20,8 @@
 class AdminController extends AppController {
 
 	var $name = 'Admin';
-	var $uses = array('Product', 'Metaterm', 'Metavalue', 'MetavaluesProduct', 'Extraterm', 'Extravalue', 'User', 'Order', 'Photo', 'Video', 'OrdersProducts', 'CategoriesProduct', 'PhotosProduct', 'VideosProduct', 'Category', 'Admin', 'Post', 'Staticpage', 'Cost', 'Setting', 'Plugin');
-	var $helpers = array('Html', 'Form', 'Number', 'Javascript');
+	var $uses = array('Product', 'Metaterm', 'Metavalue', 'MetavaluesProduct', 'Extraterm', 'Extravalue', 'User', 'Order', 'Photo', 'Video', 'OrdersProducts', 'CategoriesProduct', 'TagsProduct', 'PhotosProduct', 'VideosProduct', 'Category', 'Tag', 'Admin', 'Post', 'Staticpage', 'Cost', 'Setting', 'Plugin');
+	var $helpers = array('Html', 'Form', 'Number', 'Javascript', 'Currency');
 	var $components = array('Email','Thumb');
 	var $layout = "admin";
 	var $paginate = array('limit' => 10);
@@ -32,7 +31,7 @@ class AdminController extends AppController {
 	function beforeFilter(){
 		$this->fetchSettings();
 		$this->checkSession();
-		$this->callHooks('beforeFilter', null, $this, 'admin');
+		$this->callHooks('beforeFilter', null, $this, 'admin');	
 	}
 		
 
@@ -46,7 +45,7 @@ class AdminController extends AppController {
 	//
 	function index(){
 
-		$this->pageTitle = 'Overzicht';
+		$this->pageTitle = __('Overzicht', true);
 		$this->setTab('dash');		
 		$admin = $this->Session->read('admin');
 		$orders =  $this->Order->find('all', array('conditions' => array('Order.created >=' => $admin['lastvisited'])));
@@ -132,9 +131,9 @@ class AdminController extends AppController {
 		}
 
 		
-		
+		$this->Product->recursive = $this->Post->recursive = -1;
 		$allOrders = $this->Order->find('all', array('limit' => '5', 'order' => 'Order.created DESC'));
-		$allProducts = $this->Product->find('all', array('limit' => '5', 'order' => 'Product.created DESC', 'conditions' => array('Product.parent_id' => 0)));
+		$allProducts = $this->Product->find('all', array('limit' => '5', 'order' => 'Product.created DESC', 'conditions' => array('Product.parent_id' => 0, 'Product.hidden' => '0')));
 		$allPosts = $this->Post->find('all', array('limit' => '5', 'order' => 'Post.created DESC'));
 		$this->set('ga', $googleanalytics);
 		$this->set('amountProducts', $this->Product->findCount());
@@ -167,18 +166,15 @@ class AdminController extends AppController {
 	
 	function products($cat = null){
 
-		$this->pageTitle = 'Producten';
-
+		$this->pageTitle = __('Producten', true);
 		if($this->data['cat_id'] != null){
 			$cat_id = $this->data['cat_id'];
 		}else if($cat != null){
 			$cat_id = $cat;
 		}else{
-			$c = $this->Category->find('first', array('Category.id' => 'ASC'));
-			$cat_id = $c['Category']['id'];
+			$cat_id = $this->Category->findLatestID();
 		}
 
-		//$this->paginate = array('order' => array('Product.position' => 'ASC'), 'limit' => AMOUNT_ON_PAGE);
 		$this->Category->recursive = 2;
 		$category = $this->Category->read(null, $cat_id);
 				
@@ -195,22 +191,25 @@ class AdminController extends AppController {
 		$this->setTab('products');
 	}
 	
+	
+	function trash(){
+		$this->pageTitle = __('Prullenbak', true);
+		$this->paginate = array('conditions' => array('Product.hidden' => '1'),'order' => array('Product.created' => 'DESC'), 'limit' => AMOUNT_ON_PAGE);		
+		$this->set('products', $this->paginate('Product'));
+ 		$this->set('amount', $this->Product->totalAmount(true));
+		$this->setTab('products');		
+	}
 
 	function addproduct() {
 		
-		$this->data['Product']['name'] = "Product naam";
-			
+		$this->data['Product']['name'] = __("Product naam", true);
+		$this->data['Product']['hidden'] = '1';	
+		$this->data['Product']['concept'] = '1';
 		if ($this->Product->save($this->data)) {
-			$id = $this->Product->getLastInsertId();
-			
-			$this->CategoriesProduct->create();
-			$this->da['CategoriesProduct']['category_id'] = '1';
-			$this->da['CategoriesProduct']['product_id'] = $id;
-			$this->CategoriesProduct->save($this->da);
-			
+			$id = $this->Product->getLastInsertId();			
 			Header('Location: '.HOME.'/admin/editproduct/'. $id);
 		} else {
-			$this->Session->setFlash($this->data['Product']['name'].' kon niet worden bewaard!');
+			$this->Session->setFlash($this->data['Product']['name'].' '. __('kon niet worden bewaard!', true));
 			Header('Location: '.HOME.'/admin/projects');
 		}
 
@@ -219,7 +218,7 @@ class AdminController extends AppController {
 	
 	function editproduct($id){
 		
-		$this->pageTitle = 'Product bewerken';
+		$this->pageTitle = __('Product bewerken', true);
 
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid Product', true));
@@ -227,6 +226,7 @@ class AdminController extends AppController {
 		}
 		
 		$this->set('categories', $this->Category->find('all', array('conditions' => array('Category.parent_id' => 0))));
+		$this->set('tags', $this->Tag->find('all'));
 		$this->set('catkids', $this->Category->find('all', array('conditions' => array('Category.parent_id != ' => 0))));
 		$product = $this->Product->read(null, $id);
 		$a = 0;
@@ -281,6 +281,7 @@ class AdminController extends AppController {
 	//created a seperate save function to keep the edit function a bit cleaner:
 	function saveProduct($id){
 		
+		
 		// PRICES:
 		if(!empty($this->data['Product']['price'])){
 			$this->data['Product']['price'] = str_replace(',','.', $this->data['Product']['price']);	
@@ -310,11 +311,19 @@ class AdminController extends AppController {
 				
 		//HIDDEN / VISIBLE
 		if(empty($this->data['Product']['save'])){
-			$this->data['Product']['hidden'] = "0";
+			$this->data['Product']['concept'] = "0";
 		}else if(empty($this->data['Product']['publish'])){
-			$this->data['Product']['hidden'] = "1";
-		}	
+			$this->data['Product']['concept'] = "1";
+		}
+		$this->data['Product']['hidden'] = '0';	
 		
+		
+		//Available:
+		if(empty($this->data['Product']['available'])){
+			$this->data['Product']['available'] = '0';
+		}else{
+			$this->data['Product']['available'] = '1';
+		}
 				
 		//SAVE EVERYTHING:
 		
@@ -342,20 +351,32 @@ class AdminController extends AppController {
 			if(!empty($this->data['ProdCats'])){
 				$prodcats = $this->data['ProdCats'];
 			}
-						
+			
+			$prodtags = array();
+			if(!empty($this->data['ProdTags'])){
+				$prodtags = $this->data['ProdTags'];
+			}else{
+				$this->CategoriesProduct->create();
+				$this->da['CategoriesProduct']['category_id'] = '1';
+				$this->da['CategoriesProduct']['product_id'] = $id;
+				$this->CategoriesProduct->save($this->da);
+			}
+			
+			$this->saveTags($prodtags, $id);
+			
 			if($this->saveCategories($prodcats, $id)){
 				if($this->Session->check('catnum')){
 					$cat_id = $this->Session->read('catnum');
-					$this->Session->del('catnum');
+					$this->Session->delete('catnum');
 				}else{
 					$cat_id = '1';
 				}
 				
-				$this->Session->setFlash($prodname.' is bewaard!');
+				$this->Session->setFlash($prodname.' '. __('is bewaard!', true));
 				Header('Location: '.HOME.'/admin/products/'. $cat_id);
 			}else{
-				$this->Session->setFlash('Er ging iets mis bij het opslaan... probeer later nog eens');
-				Header('Location: '.HOME.'/admin/products/1');
+				$this->Session->setFlash(__('Er ging iets mis bij het opslaan... probeer later nog eens', true));
+				Header('Location: '.HOME.'/admin/products/');
 			}
 			
 		
@@ -368,7 +389,7 @@ class AdminController extends AppController {
 			$vid = $this->VideosProduct->find('first', array('conditions'=>array('VideosProduct.product_id' => $product_id, 'VideosProduct.video_id' => $id)));
 			if(!empty($vid)){
 				$vid_id = $vid['VideosProduct']['id'];
-				$this->VideosProduct->del($vid_id);
+				$this->VideosProduct->delete($vid_id);
 			}
 		}else if($type == 'photo'){
 			$phot = $this->PhotosProduct->find('first',
@@ -378,7 +399,7 @@ class AdminController extends AppController {
 
 			if(!empty($phot)){
 				$phot_id = $phot['PhotosProduct']['id'];
-				$this->PhotosProduct->del($phot_id);
+				$this->PhotosProduct->delete($phot_id);
 			}
 		}
 	}
@@ -420,7 +441,7 @@ class AdminController extends AppController {
 			
 				if(!empty($meta)){
 					$meta_id = $meta['MetavaluesProduct']['id'];
-					$this->MetavaluesProduct->del($meta_id);
+					$this->MetavaluesProduct->delete($meta_id);
 				}
 			}
 		endif;
@@ -443,14 +464,36 @@ class AdminController extends AppController {
 				$this->Extravalue->save($this->extra);
 			}else if($field['blank'] == "false" && empty($field['value'])){
 				//remove value:
-				$this->Extravalue->del($field['id']);
+				$this->Extravalue->delete($field['id']);
 			}
 		}
 	}
 	
 	
+	function saveTags($tagproducts, $id){
+		
+		$tagprod = $this->TagsProduct->find('all', array('conditions' => array('TagsProduct.product_id' => $id)));
+		
+		if(!empty($tagprod)){
+			foreach($tagprod as $cp){
+				$this->TagsProduct->delete($cp['TagsProduct']['id']);
+			}
+		}
+		
+		if(!empty($tagproducts)){
+			foreach($tagproducts as $cp){
+				$this->TagsProduct->create();
+				$this->ba['TagsProduct']['product_id'] = $id;
+				$this->ba['TagsProduct']['tag_id'] = $cp;
+				$this->TagsProduct->save($this->ba);
+			}
+		}		
+		return true;
+	}
+	
 	function saveCategories($catproducts, $id){
 		
+		$this->Product->recursive = -1;
 		$product = $this->Product->read(null, $id);
 		if($product['Product']['parent_id'] == '0'):
 			$catprod = $this->CategoriesProduct->find('all', array('conditions' => array('CategoriesProduct.product_id' => $id)));
@@ -464,8 +507,7 @@ class AdminController extends AppController {
 			if(!empty($catprod)){
 				foreach($catprod as $cp){
 					$positions[$cp['CategoriesProduct']['category_id']] = $cp['CategoriesProduct']['position'];
-					//$positions[] = $cp['CategoriesProduct']['position'];
-					$this->CategoriesProduct->del($cp['CategoriesProduct']['id']);
+					$this->CategoriesProduct->delete($cp['CategoriesProduct']['id']);
 				}
 			}
 		
@@ -517,7 +559,6 @@ class AdminController extends AppController {
 		
 			$i = 1;
 			foreach($products as $prod){
-				//$this->CategoriesProduct->contain('');
 				$catprod = $this->CategoriesProduct->find('first', array('conditions' => array('CategoriesProduct.category_id' => $cat, 'CategoriesProduct.product_id' => $prod)));
 				$this->d['CategoriesProduct']['id'] = $catprod['CategoriesProduct']['id'];
 				$this->d['CategoriesProduct']['position'] = $i;
@@ -531,22 +572,86 @@ class AdminController extends AppController {
 	
 		
 	
-	function deleteproduct($id = null) {
+	function deleteproduct($id = null, $cat_id = null) {
 		if (!$id) {
-			$this->Session->setFlash('Dit product kon niet worden gevonden.');
-			Header('Location: '.HOME.'/admin/products/');
-		}
-		if ($this->Product->del($id)) {
-			$this->Session->setFlash('Het product is verwijderd.');
-			Header('Location: '.HOME.'/admin/products/');
+			$this->Session->setFlash(__('Dit product kon niet worden gevonden.', true));
+			Header('Location: '.HOME.'/admin/products/'.$cat_id);
+		}else{
+			$this->data['Product']['id'] = $id;
+			$this->data['Product']['hidden'] = '1';
+			if($this->Product->save($this->data)){
+				$this->Session->setFlash(__('Het product is verwijderd.', true));
+				Header('Location: '.HOME.'/admin/products/'.$cat_id);
+				exit();
+			}else{
+				$this->Session->setFlash(__('Dit product kon niet worden weggegooid.', true));
+				Header('Location: '.HOME.'/admin/products/'.$cat_id);
+			}
 		}
 		$this->setTab('products');
 	}
 	
 	
+	function permanentdelete($id = null){
+		if (!$id) {
+			$this->Session->setFlash(__('Dit product kon niet worden gevonden.', true));
+			Header('Location: '.HOME.'/admin/products/');
+		}else{
+		
+			$pictures = $this->PhotosProduct->find('all', array('conditions' => array('PhotosProduct.product_id' => $id)));
+			$videos = $this->VideosProduct->find('all', array('conditions' => array('VideosProduct.product_id' => $id)));
+			$tags = $this->TagsProduct->find('all', array('conditions' => array('TagsProduct.product_id' => $id)));
+			$categories = $this->CategoriesProduct->find('all', array('conditions' => array('CategoriesProduct.product_id' => $id)));
+		
+			foreach($pictures as $pic){
+				$this->PhotosProduct->delete($pic['PhotosProduct']['id']);
+			}
+			
+			foreach($videos as $pic){
+				$this->VideosProduct->delete($pic['VideosProduct']['id']);
+			}
+			
+			foreach($tags as $pic){
+				$this->TagsProduct->delete($pic['TagsProduct']['id']);
+			}
+			
+			foreach($categories as $pic){
+				$this->CategoriesProduct->del($pic['CategoriesProduct']['id']);
+			}
+					
+			if ($this->Product->delete($id)) {
+				$this->Session->setFlash(__('Het product is verwijderd.', true));
+				Header('Location: '.HOME.'/admin/trash/');
+			}
+		}
+		$this->setTab('products');
+	}
+	
+	
+	function undeleteproduct($id = null, $cat_id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Dit product kon niet worden gevonden.', true));
+			Header('Location: '.HOME.'/admin/products/'.$cat_id);
+		}else{
+			$this->data['Product']['id'] = $id;
+			$this->data['Product']['hidden'] = '0';
+			if($this->Product->save($this->data)){
+				$this->Session->setFlash(__('Het product is teruggezet.', true));
+				Header('Location: '.HOME.'/admin/products/'.$cat_id);
+				exit();
+			}else{
+				$this->Session->setFlash(__('Dit product kon niet worden teruggezet.', true));
+				Header('Location: '.HOME.'/admin/products/'.$cat_id);
+			}
+		}
+		$this->setTab('products');
+	}
+	
+	
+	
 	function productoptions(){
 		
-		$this->pageTitle = 'Keuzelijsten';
+		$this->pageTitle = __('Keuzelijsten', true);
 		
 		$this->set('metaterms',$this->Metaterm->find('all'));
 		$this->setTab('products');		
@@ -555,15 +660,15 @@ class AdminController extends AppController {
 	
 	function addoption(){
 		
-		$this->pageTitle = 'Keuzelijst toevoegen';
+		$this->pageTitle = __('Keuzelijst toevoegen', true);
 
 		if (!empty($this->data)) {
 			$this->Metaterm->create();
 			if ($this->Metaterm->save($this->data)) {
-				$this->Session->setFlash('"'.$this->data['Metaterm']['plural'].'" zijn bewaard!');
+				$this->Session->setFlash('"'.$this->data['Metaterm']['plural'].'"'.' '. __('zijn bewaard!', true));
 				Header('Location: '.HOME.'/admin/productoptions/');
 			} else {
-				$this->Session->setFlash('"'.$this->data['Metaterm']['plural'].'" konden niet worden bewaard!');
+				$this->Session->setFlash('"'.$this->data['Metaterm']['plural'].'"'.' '.__('konden niet worden bewaard!', true));
 			}
 		}
 		
@@ -573,15 +678,15 @@ class AdminController extends AppController {
 
 	function editoption($id){
 		
-		$this->pageTitle = 'Keuzelijst bewerken';
+		$this->pageTitle = __('Keuzelijst bewerken', true);
 		
 		if(!empty($id)){
 						
 			if($this->Metaterm->save($this->data)){
-				$this->Session->setFlash('"'.$this->data['Metaterm']['plural'].'" zijn bewaard!');
+				$this->Session->setFlash('"'.$this->data['Metaterm']['plural'].'"'.' '. __('zijn bewaard!', true));
 				Header('Location: '.HOME.'/admin/productoptions/');
 			}else{
-				$this->Session->setFlash('"'.$this->data['Metaterm']['plural'].'" konden niet worden bewaard!');
+				$this->Session->setFlash('"'.$this->data['Metaterm']['plural'].'"'.' '. __('konden niet worden bewaard!', true));
 				Header('Location: '.HOME.'/admin/editoption/'.$id);
 			}
 		}
@@ -591,7 +696,7 @@ class AdminController extends AppController {
 	function deleteoption($id){
 		
 		if(!$id){
-			$this->Session->setFlash('Deze keuzelijst bestaat niet!');
+			$this->Session->setFlash(__('Deze keuzelijst bestaat niet!', true));
 			Header('Location: '.HOME.'/admin/productoptions/');
 		}else{
 			
@@ -603,12 +708,12 @@ class AdminController extends AppController {
 					$this->MetavaluesProduct->del($val['MetavaluesProduct']['id']);
 				}
 				
-				$this->Metavalue->del($value['id']);
+				$this->Metavalue->delete($value['id']);
 			}
 			
 			
 			
-			$this->Metaterm->del($id);
+			$this->Metaterm->delete($id);
 			Header('Location: '.HOME.'/admin/productoptions/');
 		}
 		
@@ -617,17 +722,17 @@ class AdminController extends AppController {
 	
 	function addvalue($id){
 		
-		$this->pageTitle = 'Keuze toevoegen';
+		$this->pageTitle = __('Keuze toevoegen', true);
 
 		if (!empty($this->data)) {
 			$this->Metavalue->create();
 			
 			if($this->data['Metavalue']['name'] != 'Waarde naam' && $this->data['Metavalue']['value'] != 'Waarde'){	
 				if ($this->Metavalue->save($this->data)) {
-					$this->Session->setFlash('"'.$this->data['Metavalue']['name'].'" is bewaard!');
+					$this->Session->setFlash('"'.$this->data['Metavalue']['name'].'"'.' '. __('is bewaard!', true));
 					Header('Location: '.HOME.'/admin/productoptions/');
 				} else {
-					$this->Session->setFlash('"'.$this->data['Metavalue']['name'].'" kon niet worden bewaard!');
+					$this->Session->setFlash('"'.$this->data['Metavalue']['name'].'"'.' '. __('kon niet worden bewaard!', true));
 				}
 			}
 		}else{
@@ -637,16 +742,16 @@ class AdminController extends AppController {
 	
 	function editvalue($id){
 	
-		$this->pageTitle = 'Keuze bewerken';
+		$this->pageTitle = __('Keuze bewerken', true);
 		
 		if(!empty($id)){
 			if(!empty($this->data)){
 			
 				if($this->Metavalue->save($this->data)){
-					$this->Session->setFlash('"'.$this->data['Metavalue']['name'].'" is bewaard!');
+					$this->Session->setFlash('"'.$this->data['Metavalue']['name'].'"'.' '. __('is bewaard!', true));
 					Header('Location: '.HOME.'/admin/productoptions/');
 				}else{
-					$this->Session->setFlash('"'.$this->data['Metavalue']['name'].'" kon niet worden bewaard!');
+					$this->Session->setFlash('"'.$this->data['Metavalue']['name'].'"'.' '. __('kon niet worden bewaard!', true));
 					Header('Location: '.HOME.'/admin/editvalue/'.$id);
 				}
 			}else{
@@ -658,19 +763,19 @@ class AdminController extends AppController {
 	
 	function deletevalue($id = null) {
 		if (!$id) {
-			$this->Session->setFlash('Deze optie kon niet worden gevonden.');
+			$this->Session->setFlash(__('Deze optie kon niet worden gevonden.', true));
 			Header('Location: '.HOME.'/admin/productoptions/');
 		}
-		if ($this->Metavalue->del($id)) {
+		if ($this->Metavalue->delete($id)) {
 			
 			$values = $this->MetavaluesProduct->find('all', array('conditions' => array('MetavaluesProduct.metavalue_id' => $id)));
 			if(!empty($values)):	
 				foreach($values as $value){
 					$value_id = $value['MetavaluesProduct']['id'];
-					$this->MetavaluesProduct->del($value_id);
+					$this->MetavaluesProduct->delete($value_id);
 				}
 			endif;			
-			$this->Session->setFlash('De optie is verwijderd.');
+			$this->Session->setFlash(__('De optie is verwijderd.', true));
 			Header('Location: '.HOME.'/admin/productoptions/');
 		}
 		$this->setTab('products');
@@ -679,21 +784,21 @@ class AdminController extends AppController {
 	
 	function extrafields(){
 		
-		$this->pageTitle = 'Extra velden';
+		$this->pageTitle = __('Extra velden', true);
 		$this->set('extrafields', $this->Extraterm->find('all'));
 		
 	}
 	
 	function addextrafield(){
-		$this->pageTitle = 'Extra veld toevoegen';
+		$this->pageTitle = __('Extra veld toevoegen', true);
 		
 		if (!empty($this->data)) {
 			$this->Extraterm->create();
 			if ($this->Extraterm->save($this->data)) {
-				$this->Session->setFlash('"'.$this->data['Extraterm']['name'].'" is bewaard!');
+				$this->Session->setFlash('"'.$this->data['Extraterm']['name'].'"'.' '. __('is bewaard!', true));
 				Header('Location: '.HOME.'/admin/extrafields/');
 			} else {
-				$this->Session->setFlash('"'.$this->data['Extraterm']['name'].'" kon niet worden bewaard!');
+				$this->Session->setFlash('"'.$this->data['Extraterm']['name'].'"'.' '. __('kon niet worden bewaard!', true));
 			}
 		}
 		
@@ -703,16 +808,16 @@ class AdminController extends AppController {
 	
 	function editextrafield($id){
 		
-		$this->pageTitle = 'Extra veld bewerken';
+		$this->pageTitle = __('Extra veld bewerken', true);
 		
 		if(!empty($id)){
 			if(!empty($this->data)){
 			
 				if($this->Extraterm->save($this->data)){
-					$this->Session->setFlash('"'.$this->data['Extraterm']['name'].'" is bewaard!');
+					$this->Session->setFlash('"'.$this->data['Extraterm']['name'].'"'.' '. __('is bewaard!', true));
 					Header('Location: '.HOME.'/admin/extrafields/');
 				}else{
-					$this->Session->setFlash('"'.$this->data['Extraterm']['name'].'" kon niet worden bewaard!');
+					$this->Session->setFlash('"'.$this->data['Extraterm']['name'].'"'.' '. __('kon niet worden bewaard!', true));
 					Header('Location: '.HOME.'/admin/editextrafields/'.$id);
 				}
 			}else{
@@ -724,7 +829,7 @@ class AdminController extends AppController {
 	
 	function deleteextrafield($id = null) {
 		if (!$id) {
-			$this->Session->setFlash('Het veld kon niet worden gevonden.');
+			$this->Session->setFlash(__('Het veld kon niet worden gevonden.', true));
 			Header('Location: '.HOME.'/admin/extrafields/');
 		}
 		
@@ -735,8 +840,8 @@ class AdminController extends AppController {
 		}
 		
 		//delete term:
-		if ($this->Extraterm->del($id)) {			
-			$this->Session->setFlash('Het veld is verwijderd.');
+		if ($this->Extraterm->delete($id)) {			
+			$this->Session->setFlash(__('Het veld is verwijderd.', true));
 			Header('Location: '.HOME.'/admin/extrafields/');
 		}
 		$this->setTab('products');
@@ -746,7 +851,7 @@ class AdminController extends AppController {
 	
 	/*
 	//
-	//		CATEGORY FUNCTIONS:
+	//		CATEGORY & TAG FUNCTIONS:
 	//
 	*/
 	
@@ -754,23 +859,23 @@ class AdminController extends AppController {
 	
 	function categories(){
 		
-		$this->pageTitle = 'Categorieën';
+		$this->pageTitle = __('Categorie&euml;n', true);
 		
 		$this->set('categories', $this->Category->find('all', array('conditions' => array('Category.parent_id' => '0'))));
 	}
 	
 	function addcategory(){
 		
-		$this->pageTitle = 'Categorie toevoegen';
+		$this->pageTitle = __('Categorie toevoegen', true);
 		$this->set('categories', $this->Category->find('all', array('conditions' => array('Category.parent_id' => '0'))));
 		
 		if (!empty($this->data)) {
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
-				$this->Session->setFlash('"'.$this->data['Category']['name'].'" is bewaard!');
+				$this->Session->setFlash('"'.$this->data['Category']['name'].'"'.' '. __('is bewaard!', true));
 				Header('Location: '.HOME.'/admin/categories/');
 			} else {
-				$this->Session->setFlash('"'.$this->data['Category']['name'].'" kon niet worden bewaard!');
+				$this->Session->setFlash('"'.$this->data['Category']['name'].'"'.' '. __('kon niet worden bewaard!', true));
 			}
 		}
 		
@@ -793,10 +898,9 @@ class AdminController extends AppController {
 	}
 		
 	
-	
 	function editcategory($id){
 		
-		$this->pageTitle = 'Categorie bewerken';
+		$this->pageTitle = __('Categorie bewerken', true);
 		$this->set('categories', $this->Category->find('all', array('conditions' => array('Category.parent_id' => '0'))));
 		
 		
@@ -804,10 +908,10 @@ class AdminController extends AppController {
 			if(!empty($this->data)){
 			
 				if($this->Category->save($this->data)){
-					$this->Session->setFlash('"'.$this->data['Category']['name'].'" is bewaard!');
+					$this->Session->setFlash('"'.$this->data['Category']['name'].'"'.' '. __('is bewaard!', true));
 					Header('Location: '.HOME.'/admin/categories/');
 				}else{
-					$this->Session->setFlash('"'.$this->data['Category']['name'].'" kon niet worden bewaard!');
+					$this->Session->setFlash('"'.$this->data['Category']['name'].'"'.' '. __('kon niet worden bewaard!', true));
 					Header('Location: '.HOME.'/admin/editcategory/'.$id);
 				}
 			}else{
@@ -821,18 +925,78 @@ class AdminController extends AppController {
 		
 		$cps = $this->CategoriesProduct->find('all', array('conditions' => array('CategoriesProduct.category_id' => $id)));
 		foreach($cps as $c){
-			$this->CategoriesProduct->del($c['CategoriesProduct']['id']);
+			$this->CategoriesProduct->delete($c['CategoriesProduct']['id']);
 		}
 		
 		if (!$id) {
-			$this->Session->setFlash('Deze categorie kon niet worden gevonden.');
+			$this->Session->setFlash(__('Deze categorie kon niet worden gevonden.', true));
 			Header('Location: '.HOME.'/admin/categories/');
 		}
-		if ($this->Category->del($id)) {			
-			$this->Session->setFlash('De categorie is verwijderd.');
+		if ($this->Category->delete($id)) {			
+			$this->Session->setFlash(__('De categorie is verwijderd.', true));
 			Header('Location: '.HOME.'/admin/categories/');
 		}
 		$this->setTab('products');
+	}
+	
+	
+	function addtags($names, $product_id){
+		$this->layout = '';
+		$tags = explode(',', $names);
+		$html = '';
+		
+		if(!empty($tags)){
+			foreach($tags as $tag){
+				if($tag != '' && $tag != null){
+					if($this->Tag->isUnique('name', $tag, null)){
+						$this->Tag->create();
+						$this->d = array();
+						$this->d['Tag'] = array();
+						$tag = str_replace('_', '', str_replace(',', '', $tag));
+						$this->d['Tag']['name'] = $tag;
+						$this->d['Tag']['created'] = date('Y-m-d H:i:s');
+						$this->Tag->save($this->d);
+						
+						$tagid = $this->Tag->getLastInsertID();
+						$html .= '<div class="catspan" id="tagcontainer_'.$tagid.'"><div class="catselection">';
+						$html .= '<span class="deletetag" id="tag_'.$tagid.'"></span><p style="display:inline;font-weight:bold">';
+						$html .= $tag.'</div></div>';
+					}else{
+						$this->Tag->recursive = -1;
+						$t = $this->Tag->find('first', array('conditions' => array('Tag.name' => $tag)));
+						$tagid = $t['Tag']['id'];
+						$html .= '<div class="catspan" id="tagcontainer_'.$tagid.'"><div class="catselection">';
+						$html .= '<span class="deletetag" id="tag_'.$tagid.'"></span><p style="display:inline;font-weight:bold">';
+						$html .= $t['Tag']['name'].'</div></div>';
+
+					}
+			
+					$this->TagsProduct->create();
+					$this->da = array();
+					$this->da['TagsProduct'] = array();
+					$this->da['TagsProduct']['product_id'] = $product_id;
+					$this->da['TagsProduct']['tag_id'] = $tagid;
+					$this->TagsProduct->save($this->da);
+				}
+			}
+		}
+		
+		$this->set('output', $html);
+	}
+	
+	function deletetag($tag_id, $product_id){
+		$this->layout = '';
+		$this->TagsProduct->recursive = -1;
+		$tags = $this->TagsProduct->find('all', array('conditions' => array('TagsProduct.tag_id' => $tag_id, 'TagsProduct.product_id' => $product_id)));
+		if(!empty($tags)){
+			foreach($tags as $tag){
+				$this->TagsProduct->delete($tag['TagsProduct']['id']);
+			}
+			$output = 'succeed';
+		}else{
+			$output = 'error';
+		}
+		$this->set('output', $output);
 	}
 	
 	
@@ -846,7 +1010,6 @@ class AdminController extends AppController {
 	*/
 
 	function media($videos = false){
-		//$this->set('mediaitems', $this->Photo->find('all'));	
 		$this->pageTitle = 'Media';	
 		$this->set('movie', $videos);
 		
@@ -880,23 +1043,33 @@ class AdminController extends AppController {
 			$explode = explode('http://', $embed);
 			$explode2 = explode('/', $explode[1]);
 			$videoService = $explode2[0];
+			
+			
 			//youtube:
 			if($videoService == 'www.youtube.com'){
 				$this->data['Video']['type'] = 'youtube';
-				preg_match('/youtube\.com\/v\/([\w\-]+)/', $embed, $match);
-				$this->data['Video']['file_id'] = $match[1];
+				
+				//<iframe width="420" height="315" src="http://www.youtube.com/embed/SFhKMEU_LJw" frameborder="0" allowfullscreen></iframe>
+				$first = explode('http://www.youtube.com/embed/', $embed);
+				$second = explode('"', $first[1]);
+				$theid = $second[0];
+				$this->data['Video']['file_id'] = $theid;
 				if(THUMB_SIZE <= 120){
-					$this->data['Video']['thumb'] = "http://img.youtube.com/vi/".$match[1]."/2.jpg";
+					$this->data['Video']['thumb'] = "http://img.youtube.com/vi/".$theid."/2.jpg";
 				}else{
-					$this->data['Video']['thumb'] = "http://img.youtube.com/vi/".$match[1]."/0.jpg";
+					$this->data['Video']['thumb'] = "http://img.youtube.com/vi/".$theid."/0.jpg";
 				}
 			//vimeo:	
-			}else if($videoService == 'vimeo.com'){
+			}else if($videoService == 'vimeo.com' || $videoService == 'player.vimeo.com'){
+				
 				$this->data['Video']['type'] ='vimeo';
-				$explode3 = explode('clip_id=', $explode2[1]);
-				$explode4 = explode('&', $explode3[1]);
-				$this->data['Video']['file_id'] = $explode4[0];
-				$file_id = $explode4[0];
+				
+				
+				$first = explode('http://player.vimeo.com/video/', $embed);
+				$second = explode('?', $first[1]);
+				$theid = $second[0];
+				$this->data['Video']['file_id'] = $theid;
+				$file_id = $theid;
 				
 				$hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/$file_id.php"));
 				if(THUMB_SIZE <= 100){
@@ -906,24 +1079,25 @@ class AdminController extends AppController {
 				}else if(THUMB_SIZE > 200){
 					$this->data['Video']['thumb'] = $hash[0]['thumbnail_large'];
 				}
+								
 			}else{
 				$videoServiceValid = false;
 			}
 		
 			if($videoServiceValid == true){
 				if($this->Video->save($this->data)){
-					$this->Session->setFlash('De video "'.$this->data['Video']['title'].'" is toegevoegd!');
+					$this->Session->setFlash(__('De video', true).' "'.$this->data['Video']['title'].'"'.' '. __('is toegevoegd!', true));
 					Header('Location: '.HOME.'/admin/media/true');
 				}else{
-					$this->Session->setFlash('De video "'.$this->data['Video']['title'].'" kon niet worden toegevoegd!');
+					$this->Session->setFlash(__('De video', true).' "'.$this->data['Video']['title'].'"'.' '. __('kon niet worden toegevoegd!', true));
 				}
 			}else{
-				// Service is not valid
+				$this->Session->setFlash(__('Deze videoservice wordt niet ondersteund. Gebruik Youtube of Vimeo.',true));
 			}
 		}
 		
 		//no data:
-		$this->pageTitle = 'Media toevoegen';
+		$this->pageTitle = __('Media toevoegen', true);
 		$this->set('type', $type);
 		$this->setTab('media');
 	}
@@ -931,7 +1105,7 @@ class AdminController extends AppController {
 	
 	function editmedia($id, $type = 'photo'){
 		
-		$this->pageTitle = 'Media bewerken';
+		$this->pageTitle = __('Media bewerken');
 		
 		if($type == 'photo'){
 			
@@ -941,10 +1115,10 @@ class AdminController extends AppController {
 					$this->generateNewThumbnail($this->data);
 				}
 				if($this->Photo->save($this->data)){
-					$this->Session->setFlash('De foto "'.$this->data['Photo']['name'].'" is bewerkt!');
+					$this->Session->setFlash('De foto "'.$this->data['Photo']['name'].'"'.' '. __('is bewerkt!', true));
 					Header('Location: '.HOME.'/admin/media/');
 				}else{
-					$this->Session->setFlash('De foto "'.$this->data['Photo']['name'].'" kon niet worden bewerkt!');
+					$this->Session->setFlash('De foto "'.$this->data['Photo']['name'].'"'.' '. __('kon niet worden bewerkt!', true));
 				}
 			}
 		
@@ -953,10 +1127,10 @@ class AdminController extends AppController {
 		}else if($type == 'video'){
 			if(!empty($this->data)){
 				if($this->Video->save($this->data)){
-					$this->Session->setFlash('De video "'.$this->data['Video']['title'].'" is bewerkt!');
+					$this->Session->setFlash('De video "'.$this->data['Video']['title'].'"'.' '. __('is bewerkt!', true));
 					Header('Location: '.HOME.'/admin/media/true');
 				}else{
-					$$this->Session->setFlash('De video "'.$this->data['Video']['title'].'" kon niet worden bewerkt!');
+					$$this->Session->setFlash('De video "'.$this->data['Video']['title'].'"'.' '. __('kon niet worden bewerkt!', true));
 				}
 			}
 			$this->set('video', $this->Video->read(null, $id));
@@ -970,7 +1144,7 @@ class AdminController extends AppController {
 	
 	function deletephoto($id){
 		if(!$id){
-			$this->Session->setFlash('Deze foto bestaat niet!');
+			$this->Session->setFlash(__('Deze foto bestaat niet!', true));
 			Header('Location: '.HOME.'/admin/media/');
 		}else{
 			
@@ -981,7 +1155,7 @@ class AdminController extends AppController {
 			
 			$links = $this->PhotosProduct->find('all', array('conditions'=> array('PhotosProduct.photo_id' => $id)));
 			foreach($links as $link){
-				$this->PhotosProduct->del($link['PhotosProduct']['id']);
+				$this->PhotosProduct->delete($link['PhotosProduct']['id']);
 			}
 			
 			$products = $this->Product->find('all', array('conditions' => array('Product.photo_id' => $id)));
@@ -991,7 +1165,7 @@ class AdminController extends AppController {
 				$this->Product->save($this->prod);
 			}
 			
-			$this->Photo->del($id);			
+			$this->Photo->delete($id);			
 						
 		}			
 	}
@@ -999,61 +1173,22 @@ class AdminController extends AppController {
 	
 	function deletevideo($id){
 		if(!$id){
-			$this->Session->setFlash('Deze video bestaat niet!');
+			$this->Session->setFlash(__('Deze video bestaat niet!', true));
 			Header('Location: '.HOME.'/admin/media/true');
 		}else{
 			
 			$links = $this->VideosProduct->find('all', array('conditions'=> array('VideosProduct.video_id' => $id)));
 			foreach($links as $link){
-				$this->VideosProduct->del($link['VideosProduct']['id']);
+				$this->VideosProduct->delete($link['VideosProduct']['id']);
 			}
 			
-			if($this->Video->del($id)) {			
-				$this->Session->setFlash('De video is verwijderd.');
+			if($this->Video->delete($id)) {			
+				$this->Session->setFlash(__('De video is verwijderd.', true));
 				Header('Location: '.HOME.'/admin/media/true');
 			}			
 		}			
 		
-	}
-	
-	function generateNewThumbnail($data){
-		$w = $data['Photo']['W'];
-		$h = $data['Photo']['H'];
-		$x = $data['Photo']['X'];
-		$y = $data['Photo']['Y'];
-		
-		$image = $this->Photo->read(null, $data['Photo']['id']);
-	
-		$targ_w = $targ_h = THUMB_SIZE;
-		$quality = 70;
-
-		$src = HOME . $image['Photo']['large'];
-		$thumb = WWW_ROOT . $image['Photo']['thumb'];
-		$type = strtolower(substr($image['Photo']['large'],-3));
-		/*
-		if(file_exists($thumb)){
-			unlink($thumb);
-		}*/
-		
-		if($type == 'png'){
-			$quality = 9;
-			$img_r = imagecreatefrompng($src);
-			$dst_r = imagecreatetruecolor($targ_w, $targ_h);
-			
-			imagealphablending($dst_r, false);
-			imagesavealpha($dst_r, true);
-			imagecopyresampled($dst_r,$img_r,0,0,$x,$y,$targ_w,$targ_h,$w,$h);
-			imagepng($dst_r, $thumb, $quality);
-		}else if($type == 'jpg' || $type == 'jpeg'){
-			$img_r = imagecreatefromjpeg($src);
-			$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
-
-			imagecopyresampled($dst_r,$img_r,0,0,$x,$y,$targ_w,$targ_h,$w,$h);
-			imagejpeg($dst_r, $thumb ,$quality);
-		}
-	}
-	
-	
+	}	
 	
 	function medialibrary($id, $autoclose = null){
 		$product = $this->Product->read(null, $id);
@@ -1112,6 +1247,8 @@ class AdminController extends AppController {
 			$object = $this->Metavalue->read(null, $id);
 		}else if($type == 'category'){
 			$object = $this->Category->read(null, $id);	
+		}else if($type == 'tag'){
+			//$object = $this->Tag->read(null, $id);
 		}else{
 			$type = 'product';
 			$object = $this->Product->read(null, $id);			
@@ -1132,6 +1269,10 @@ class AdminController extends AppController {
 			$this->data['Product']['photo_id'] = $id;
 			$this->data['Product']['id'] = $object;
 			$this->Product->save($this->data);
+		}else if($type == 'page'){
+			$this->data['Staticpage']['photo_id'] = $id;
+			$this->data['Staticpage']['id'] = $object;
+			$this->Staticpage->save($this->data);
 		}
 		
 		$this->set('url', $this->Photo->read(null, $id));
@@ -1159,7 +1300,7 @@ class AdminController extends AppController {
 	
 	function news(){
 		
-		$this->pageTitle = 'Nieuws';
+		$this->pageTitle = __('Nieuws', true);
 		$this->paginate = array('order' => array('Post.created' => 'DESC'), 'limit' => AMOUNT_ON_PAGE);		
 		$this->set('posts', $this->paginate('Post'));
  		$this->set('amount', $this->Post->findCount());
@@ -1168,7 +1309,7 @@ class AdminController extends AppController {
 	
 	function addpost(){
 
-		$this->data['Post']['title'] = 'Nieuw bericht';
+		$this->data['Post']['title'] = __('Nieuw bericht', true);
 		$this->data['Post']['hidden'] = '1';
 		$this->data['Post']['created'] = date('Y-m-d H:i:s');
 	
@@ -1178,12 +1319,12 @@ class AdminController extends AppController {
 			Header('Location: '.HOME.'/admin/editpost/'.$id);
 			exit();
 		}else{
-			$this->Session->setFlash('Het bericht kon niet worden bewaard!');
+			$this->Session->setFlash(__('Het bericht kon niet worden bewaard!', true));
 			Header('Location: '.HOME.'/news/');
 			exit();
 		}
 
-		$this->pageTitle = 'Nieuw bericht';
+		$this->pageTitle = __('Nieuw bericht', true);
 
 		if (!empty($this->data)) {
 			$this->Post->create();
@@ -1199,10 +1340,10 @@ class AdminController extends AppController {
 			$this->data['Post']['pagetitle'] = $this->data['Post']['title'];
 			
 			if ($this->Post->save($this->data)) {
-				$this->Session->setFlash($this->data['Post']['title'].' is bewaard!');
+				$this->Session->setFlash($this->data['Post']['title'].' '. __('is bewaard!', true));
 				Header('Location: '.HOME.'/admin/news/');
 			} else {
-				$this->Session->setFlash($this->data['Post']['title'].' kon niet worden bewaard!');
+				$this->Session->setFlash($this->data['Post']['title'].' '. __('kon niet worden bewaard!', true));
 			}
 		}
 		
@@ -1211,7 +1352,7 @@ class AdminController extends AppController {
 	
 	function editpost($id){
 		
-		$this->pageTitle = 'Bewerk bericht';
+		$this->pageTitle = __('Bewerk bericht', true);
 
 		if (!empty($this->data)) {
 			
@@ -1232,10 +1373,10 @@ class AdminController extends AppController {
 			$this->data['Post']['edited'] = date('Y-m-d H:i:s');
 			
 			if ($this->Post->save($this->data)) {
-				$this->Session->setFlash($this->data['Post']['title'].' is bewaard!');
+				$this->Session->setFlash($this->data['Post']['title'].' '. __('is bewaard!', true));
 				Header('Location: '.HOME.'/admin/news/');
 			} else {
-				$this->Session->setFlash($this->data['Post']['title'].' kon niet worden bewaard!');
+				$this->Session->setFlash($this->data['Post']['title'].' '. __('kon niet worden bewaard!', true));
 			}
 
 		}
@@ -1250,11 +1391,11 @@ class AdminController extends AppController {
 	function deletepost($id){
 		
 		if (!$id) {
-			$this->Session->setFlash('Deze post kon niet worden gevonden.');
+			$this->Session->setFlash(__('Deze post kon niet worden gevonden.', true));
 			Header('Location: '.HOME.'/admin/news/');
 		}
 		if ($this->Post->del($id)) {
-			$this->Session->setFlash('De post is verwijderd.');
+			$this->Session->setFlash(__('De post is verwijderd.', true));
 			Header('Location: '.HOME.'/admin/news/');
 		}
 		$this->setTab('news');
@@ -1269,7 +1410,7 @@ class AdminController extends AppController {
 	*/
 	
 	function pages(){
-		$this->pageTitle = 'Pagina\'s';
+		$this->pageTitle = __('Pagina\'s', true);
 		$this->paginate = array('limit' => AMOUNT_ON_PAGE, 'page' => 1, 'order'=>array('Staticpage.created'=>'DESC')); 
 		
 		$this->set('pages', $this->paginate('Staticpage'));	
@@ -1278,7 +1419,7 @@ class AdminController extends AppController {
 	}
 	
 	function addpage(){
-		$this->data['Staticpage']['title'] = 'Nieuwe pagina';
+		$this->data['Staticpage']['title'] = __('Nieuwe pagina', true);
 		$this->data['Staticpage']['hidden'] = '1';
 		$this->data['Staticpage']['menu'] = '';
 		$this->Staticpage->create();
@@ -1287,7 +1428,7 @@ class AdminController extends AppController {
 			Header('Location: '.HOME.'/admin/editpage/'.$id);
 			exit();
 		}else{
-			$this->Session->setFlash('De pagina kon niet worden bewaard!');
+			$this->Session->setFlash(__('De pagina kon niet worden bewaard!', true));
 			Header('Location: '.HOME.'/pages/');
 			exit();
 		}
@@ -1295,7 +1436,7 @@ class AdminController extends AppController {
 
 	
 	function editpage($id){
-		$this->pageTitle = 'Bewerk pagina';
+		$this->pageTitle = __('Bewerk pagina', true);
 		$this->setTab('page');
 		
 		if (!empty($this->data)) {
@@ -1335,10 +1476,10 @@ class AdminController extends AppController {
 			
 			
 			if ($this->Staticpage->save($this->data)) {
-				$this->Session->setFlash($this->data['Staticpage']['title'].' is bewaard!');
+				$this->Session->setFlash($this->data['Staticpage']['title'].' '. __('is bewaard!', true));
 				Header('Location: '.HOME.'/admin/pages/');
 			} else {
-				$this->Session->setFlash($this->data['Staticpage']['title'].' kon niet worden bewaard!');
+				$this->Session->setFlash($this->data['Staticpage']['title'].' '. __('kon niet worden bewaard!', true));
 			}
 
 		}
@@ -1352,11 +1493,11 @@ class AdminController extends AppController {
 	
 	function deletepage($id){
 		if (!$id) {
-			$this->Session->setFlash('Deze pagina kon niet worden gevonden.');
+			$this->Session->setFlash(__('Deze pagina kon niet worden gevonden.', true));
 			Header('Location: '.HOME.'/admin/pages/');
 		}
 		if ($this->Staticpage->del($id)) {
-			$this->Session->setFlash('De pagina is verwijderd.');
+			$this->Session->setFlash(__('De pagina is verwijderd.', true));
 			Header('Location: '.HOME.'/admin/pages/');
 		}
 		$this->setTab('page');
@@ -1371,7 +1512,7 @@ class AdminController extends AppController {
 	
 	
 	function orders(){
-		$this->pageTitle = 'Orders';
+		$this->pageTitle = __('Orders', true);
 	   	$this->paginate = array('limit' => AMOUNT_ON_PAGE, 'page' => 1, 'order'=>array('Order.created'=>'DESC')); 		
 		$orders = $this->paginate('Order');
 		
@@ -1387,7 +1528,7 @@ class AdminController extends AppController {
 	
 	
 	function vieworder($id){
-		$this->pageTitle = 'Bekijk order';
+		$this->pageTitle = __('Bekijk order', true);
 		
 		$order = $this->Order->read(null, $id);
 		$this->set('order', $order);
@@ -1401,7 +1542,7 @@ class AdminController extends AppController {
 	
 	
 	function printorder($id){
-		$this->pageTitle = 'Print order';
+		$this->pageTitle = __('Print order', true);
 		
 		$this->layout = 'print';
 		
@@ -1421,19 +1562,19 @@ class AdminController extends AppController {
 		if($order['Order']['paid'] == '0'){
 			$this->data['Order']['paid'] = '1';
 			if($this->Order->save($this->data)){
-				$this->Session->setFlash('De order is betaald.');
+				$this->Session->setFlash(__('De order is betaald.', true));
 				Header('Location: '.HOME.'/admin/orders/');
 			}else{
-				$this->Session->setFlash('Er is iets mis gegaan!');
+				$this->Session->setFlash(__('Er is iets mis gegaan!', true));
 				Header('Location: '.HOME.'/admin/orders/');
 			}
 		}else{
 			$this->data['Order']['paid'] = '0';
 			if($this->Order->save($this->data)){
-				$this->Session->setFlash('De order is gevlagd als niet betaald.');
+				$this->Session->setFlash(__('De order is gevlagd als niet betaald.', true));
 				Header('Location: '.HOME.'/admin/orders/');
 			}else{
-				$this->Session->setFlash('Er is iets mis gegaan!');
+				$this->Session->setFlash(__('Er is iets mis gegaan!', true));
 				Header('Location: '.HOME.'/admin/orders/');
 			}
 			
@@ -1451,7 +1592,7 @@ class AdminController extends AppController {
 	*/
 	
 	function finance($kwartaal = null, $jaar = null){
-		$this->pageTitle = 'In & Uit';
+		$this->pageTitle = __('In & Uit', true);
 		
 		$this->setTab('finance');
 	
@@ -1512,7 +1653,7 @@ class AdminController extends AppController {
 	
 	
 	function sales(){
-		$this->pageTitle = 'Verkopen';
+		$this->pageTitle = __('Verkopen', true);
 		
 		$products = $this->Product->find('all');
 		$orders = $this->Order->find('all', array('conditions'=>array('Order.paid' => '1')));
@@ -1541,7 +1682,7 @@ class AdminController extends AppController {
 			if ($this->Cost->save($this->data)) {
 				Header('Location:'.HOME.'/admin/costbevestiging/');
 			} else {
-				$this->set('error', 'Er is iets mis gegaan. De inkoop kon niet worden bewaard.');
+				$this->set('error', __('Er is iets mis gegaan. De inkoop kon niet worden bewaard.', true));
 			}
 		}		
 		$this->setTab('finance');
@@ -1560,7 +1701,7 @@ class AdminController extends AppController {
 
 
 	function users(){
-		$this->pageTitle = 'Gebruikers';
+		$this->pageTitle = __('Gebruikers', true);
 
 		$users = $this->Admin->find('all');		
 		$this->set('users', $users);
@@ -1569,7 +1710,7 @@ class AdminController extends AppController {
 	
 	
 	function adduser(){
-		$this->pageTitle = 'Gebruiker toevoegen';
+		$this->pageTitle = __('Gebruiker toevoegen', true);
 		
 		if(!empty($this->data)){
 			
@@ -1577,19 +1718,18 @@ class AdminController extends AppController {
 			$this->data['Admin']['wachtwoord'] = Security::hash($this->data['Admin']['wachtwoord']);
 			
 			if($this->Admin->save($this->data)){
-				$this->Session->setFlash('Gebruiker '. $this->data['Admin']['naam'] .' aangemaakt');		
+				$this->Session->setFlash('Gebruiker '. $this->data['Admin']['naam'].' '. __('aangemaakt', true));		
 				Header('Location: '.HOME.'/admin/users');
 			}else{
-				$this->Session->setFlash('Gebruiker '. $this->data['Admin']['naam'] .' kon niet worden aangemaakt, probeer het later nog eens');		
+				$this->Session->setFlash('Gebruiker '. $this->data['Admin']['naam'].' '. __('kon niet worden aangemaakt, probeer het later nog eens', true));		
 				Header('Location: '.HOME.'/admin/users');
 			}
-			
 		}
 	}
 	
 	
 	function edituser($id){
-		$this->pageTitle = 'Gebruiker bewerken';
+		$this->pageTitle = __('Gebruiker bewerken', true);
 		$admin = $this->Admin->read(null, $id);
 		
 		if(!empty($this->data)){
@@ -1599,10 +1739,10 @@ class AdminController extends AppController {
 				$this->data['Admin']['wachtwoord'] = $admin['Admin']['wachtwoord'];
 			}
 			if($this->Admin->save($this->data)){
-				$this->Session->setFlash('Gebruiker '. $this->data['Admin']['naam'] .' is bewerkt');		
+				$this->Session->setFlash('Gebruiker '. $this->data['Admin']['naam'].' '. __('is bewerkt', true));		
 				Header('Location: '.HOME.'/admin/users');
 			}else{
-				$this->Session->setFlash('Gebruiker '. $this->data['Admin']['naam'] .' kon niet worden bewerkt, probeer het later nog eens');		
+				$this->Session->setFlash('Gebruiker '. $this->data['Admin']['naam'].' '. __('kon niet worden bewerkt, probeer het later nog eens', true));		
 				Header('Location: '.HOME.'/admin/users');
 			}
 		}
@@ -1613,19 +1753,19 @@ class AdminController extends AppController {
 	function deleteuser($id){
 		
 		if(!empty($id)){
-			$this->Admin->del($id);
-			$this->Session->setFlash('Gebruiker verwijderd.');		
+			$this->Admin->delete($id);
+			$this->Session->setFlash(__('Gebruiker verwijderd.', true));		
 			Header('Location: '.HOME.'/admin/users');
 		}else{
-			$this->Session->setFlash('Gebruiker kon niet worden verwijderd.');		
+			$this->Session->setFlash(__('Gebruiker kon niet worden verwijderd.', true));		
 			Header('Location: '.HOME.'/admin/users');
 		}
 	}
 
 	function login() {
-		$this->pageTitle = 'Inloggen';
+		$this->pageTitle = __('Inloggen', true);
 		$this->layout = 'login';
-		$this->set('type', 'Inloggen alstublieft...');
+		$this->set('type', __('Inloggen alstublieft...', true));
 			
 		if (!empty($this->data)){
 
@@ -1634,7 +1774,7 @@ class AdminController extends AppController {
 
 			// build some basic session information to remember this user as 'logged-in'.
 			$this->Session->write('admin', $someone['Admin']);	
-			$this->Session->setFlash('Welkom terug, '. $someone['Admin']['naam']);		
+			$this->Session->setFlash(__('Welkom terug, ', true). $someone['Admin']['naam']);		
 			Header('Location: '.HOME.'/admin/index');
 
 		}
@@ -1649,18 +1789,17 @@ class AdminController extends AppController {
 		
 		$someone = $this->Admin->find('first', array('conditions' => array('Admin.naam' => $username)));
 		if(empty($someone)){
-			$message = 'Deze gebruiker bestaat niet.';
+			$message = __('Deze gebruiker bestaat niet.', true);
 		}else{
-
 			if(Security::hash($password) != $someone['Admin']['wachtwoord']){
-				$message = 'Uw wachtwoord is niet juist.';
+				$message = __('Uw wachtwoord is niet juist.', true);
 			}else{
 				$message = 'login_okay';
 			}
 		}
 		
 		if($username == '' || $password == ''){
-			$message = 'U heeft een of meerdere velden niet ingevuld.';
+			$message = __('U heeft een of meerdere velden niet ingevuld.', true);
 		}
 		
 		
@@ -1676,9 +1815,9 @@ class AdminController extends AppController {
 	
 	
 	function passwordforgot() {
-		$this->pageTitle = 'Wachtwoord vergeten';
+		$this->pageTitle = __('Wachtwoord vergeten', true);
 		$this->layout = 'login';
-		$this->set('type', 'Wachtwoord vergeten');
+		$this->set('type', __('Wachtwoord vergeten', true));
 		
 		 if(!empty($this->data)) {
 			
@@ -1699,7 +1838,7 @@ class AdminController extends AppController {
 
 		            $this->Email->to = $user['Admin']['email']; 
 					$this->Email->from = 'noreply@'.strtolower(WEBSITE_TITLE).'.nl';
-		            $this->Email->subject = 'Uw nieuwe wachtwoord.'; 
+		            $this->Email->subject = __('Uw nieuwe wachtwoord.', true); 
 
 					if($this->Email->send()){ 
 						Header('location: '.HOME.'/admin/confirm/');
@@ -1718,13 +1857,13 @@ class AdminController extends AppController {
 		$user = $this->Admin->find('first', array('conditions' => array('Admin.email' => $mail)));
 		
 		if(empty($user)){
-			$message = 'Dit e-mailadres komt niet voor in de database';
+			$message = __('Dit e-mailadres komt niet voor in de database', true);
 		}else{
 			$message = 'email_okay';
 		}
 		
 		if($mail == null){
-			$message = 'U hebt niks ingevuld!';
+			$message = __('U hebt niks ingevuld!', true);
 		}
 		
 		$this->set('message', $message);
@@ -1784,10 +1923,10 @@ class AdminController extends AppController {
 			$this->data['Plugin']['active'] = '1';
 			
 			if($this->Plugin->save($this->data)){
-				$this->Session->setFlash('De plugin is geactiveerd!');
+				$this->Session->setFlash(__('De plugin is geactiveerd!', true));
 				Header('Location: '.HOME.'/admin/plugins');
 			}else{
-				$this->Session->setFlash('Er ging iets fout! Probeer het later nog eens...');
+				$this->Session->setFlash(__('Er ging iets fout! Probeer het later nog eens...', true));
 				Header('Location: '.HOME.'/admin/plugins');
 			}
 		}
@@ -1805,10 +1944,10 @@ class AdminController extends AppController {
 			$this->data['Plugin']['active'] = '0';
 			
 			if($this->Plugin->save($this->data)){
-				$this->Session->setFlash('De plugin is gedeactiveerd!');
+				$this->Session->setFlash(__('De plugin is gedeactiveerd!', true));
 				Header('Location: '.HOME.'/admin/plugins');
 			}else{
-				$this->Session->setFlash('Er ging iets fout! Probeer het later nog eens...');
+				$this->Session->setFlash(__('Er ging iets fout! Probeer het later nog eens...', true));
 				Header('Location: '.HOME.'/admin/plugins');
 			}
 		}
@@ -1869,11 +2008,11 @@ class AdminController extends AppController {
 			}
 			
 			//then delete the database reference:
-			if($this->Plugin->del($id)){
-				$this->Session->setFlash('De plugin is verwijderd!');
+			if($this->Plugin->delete($id)){
+				$this->Session->setFlash(__('De plugin is verwijderd!', true));
 				Header('Location: '.HOME.'/admin/plugins');
 			}else{
-				$this->Session->setFlash('Er ging iets fout! Probeer het later nog eens...');
+				$this->Session->setFlash(__('Er ging iets fout! Probeer het later nog eens...', true));
 				Header('Location: '.HOME.'/admin/plugins');
 			}
 		}
@@ -1956,16 +2095,9 @@ class AdminController extends AppController {
 	*/
 		
 	
-	function settings(){
-		/*
-		$admin = $this->Session->read('admin');
-		if($admin['id'] != '3'){
-			Header('Location: '.HOME.'/admin/nosettings');
-			exit();
-		}*/
+	function settings(){		
 		
-		$this->pageTitle = 'Instellingen';
-		
+		$this->pageTitle = __('Instellingen', true);
 		$this->setTab('settings');
 		
 		if(!empty($this->data)){
@@ -1973,9 +2105,9 @@ class AdminController extends AppController {
 			$advanced = false;
 			$captcha = false;
 			$sendcost = false;
+			$afterwards = false;
 			$keys = array_keys($this->data['Setting']);
 			$i = 0;
-			
 			foreach($this->data['Setting'] as $key){
 				$this->setting['Setting']['id'] = $keys[$i];
 				if($keys[$i] == '11'){
@@ -1993,7 +2125,13 @@ class AdminController extends AppController {
 					$key = str_replace(',','.', $key);
 					$key = str_replace('€','', $key);
 					$this->setting['Setting']['pair'] = str_replace(' ','', $key);
-				}
+				}elseif($keys[$i] == '25'){
+					$this->setting['Setting']['pair'] = 'true';
+					$afterwards = true;
+				}elseif($keys[$i] == '26'){
+					$this->setting['Setting']['pair'] = $key;
+					Configure::write('Config.language', $key);
+				}				
 				
 				
 				else{
@@ -2022,7 +2160,13 @@ class AdminController extends AppController {
 				$this->Setting->save($this->setting);
 			}
 			
-			$this->Session->setFlash('De gegevens zijn bewerkt.');
+			if($afterwards == false){
+				$this->setting['Setting']['id'] = 25;
+				$this->setting['Setting']['pair'] = 'false';
+				$this->Setting->save($this->setting);
+			}
+			
+			$this->Session->setFlash(__('De gegevens zijn bewerkt.', true));
 		}
 		
 		$this->set('settings', $this->Setting->find('all', array('order' => 'Setting.id ASC')));
@@ -2046,8 +2190,6 @@ class AdminController extends AppController {
 	function closeBox(){
 		$this->layout = '';
 	}
-	
-
 
 }
 ?>

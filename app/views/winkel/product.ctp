@@ -1,8 +1,9 @@
 <?php
+
 	$sizes = getimagesize(HOME . $product['Image']['large']);
 	$width = $sizes[0];
-?>
 
+?>
 
 <div id="mainimage">
 	<?php if($width < 330):?>
@@ -32,19 +33,10 @@
 		<?php
 			
 			$prijs = $product['Product']['price'] + ($product['Product']['price'] * $product['Product']['vat']);
-			if($product['Product']['discount'] > 0){
-				$discount = 1 - $product['Product']['discount'];
-				$prijs = $prijs * $discount;
-			}
+		
 		?>
-		<td style="width:270px" valign="top">Prijs:</td>
-		<td style="width:300px">
-			<b class="big"><?php echo $number->currency($prijs, 'EUR')?>
-			<?php if($product['Product']['discount'] > 0):?>
-			<br/><small class="discountamount">(<?php echo $product['Product']['discount'] * 100?>% Korting)</small>	
-			<?php endif;?>
-			</b>
-		</td>
+		<td style="width:270px" valign="bottom">Prijs:</td>
+		<td><b class="big"><?php echo $number->currency($prijs, 'EUR')?></b></td>
 	</tr>
 	<?php else: ?>
 	<tr>

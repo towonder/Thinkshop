@@ -61,7 +61,6 @@
 	$hookFiles = $Folder->findRecursive('routes.php');
 
 	foreach($hookFiles as $hookFile):
-		//list($plugin) = explode(DS, substr($hookFile, strlen(APP.'plugins'.DS)));
 		require($hookFile);
 	endforeach;
 

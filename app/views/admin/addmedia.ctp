@@ -58,9 +58,9 @@ function submitMovie(){
 
 
 <?php if($type == 'photo'):?>
-<h2>Nieuwe Foto's</h2>
+<h2><?php __('Nieuwe Foto\'s')?></h2>
 <?php else: ?>
-<h2>Nieuwe Video</h2>
+<h2><?php __('Nieuwe Video')?></h2>
 <?php endif;?>
 
 <?php if($type == 'photo'):?>
@@ -80,7 +80,7 @@ function submitMovie(){
 	</tr>
 	<tr>
 		<td style="text-align:left">
-			<a href="#" class="pill giant button" style="padding-top:5px;padding-bottom:5px;margin-left:400px;" onClick="$('#photoInput').uploadifyUpload();" id="uploadbtn">Upload afbeeldingen</a>
+			<a href="#" class="pill giant button" style="padding-top:5px;padding-bottom:5px;margin-left:400px;" onClick="$('#photoInput').uploadifyUpload();" id="uploadbtn"><?php __('Upload afbeeldingen')?></a>
 		</td>
 	</tr>
 </table>
@@ -96,7 +96,7 @@ function submitMovie(){
 <!-- VIDEO: -->
 <table>
 	<tr>
-		<td><input type="text" name="data[Video][title]" class="semi_text" id="videotitle" value="Video titel" onclick="doSmartEmpty('#videotitle', 'Video titel');"></td>
+		<td><input type="text" name="data[Video][title]" class="semi_text" id="videotitle" value="<?php __('Video titel')?>" onclick="doSmartEmpty('#videotitle', '<?php __('Video titel')?>');"></td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
@@ -105,7 +105,7 @@ function submitMovie(){
 		<td style="text-align:center">
 			<div  class="description_text" style="width:100%">Embed code:</div>
 			<textarea name="data[File][info]" class="embedArea"></textarea><br/>
-			<small>(op dit moment kunt u alleen Youtube en Vimeo video's embedden)</small>
+			<small>(<?php __('op dit moment kunt u alleen Youtube en Vimeo video\'s embedden')?>)</small>
 		</td>
 	</tr>
 	<tr>
@@ -113,7 +113,7 @@ function submitMovie(){
 	</tr>
 	<tr>
 		<td style="text-align:right">
-			<a href="#" class="pill giant button" onClick="submitMovie()">Voeg toe</a>
+			<a href="#" class="pill giant button" onClick="submitMovie()"><?php __('Voeg toe')?></a>
 		</td>
 	</tr>
 </table>

@@ -12,7 +12,6 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version			Thinkshop 2.2 - Hendrix
 
 */
 
@@ -68,13 +67,12 @@ class AppController extends Controller {
 	   //Loading model on the fly
 		$this->loadModel('Setting');
 	   	//Fetching All params
-	   	$settings_array = $this->Setting->find('all');
+	   	$settings_array = $this->Setting->find('all', array('conditions' => array('Setting.load_on_start' => '1')));
 	
 		//Create a global for every setting:
 		foreach($settings_array as $key=>$value){
 			$constant = $value['Setting']['key'];
 			$val = $value['Setting']['pair'];
-		
 			if(!defined($constant)){
 				eval("DEFINE(\$constant, \$val);");
 			}
@@ -89,9 +87,10 @@ class AppController extends Controller {
 		// in case you forget to place page variables:
 		$this->set('pageheader','');
 		$this->setPage('page', null, 'auto');	
-		
+		Configure::write('Config.language', LANGUAGE);
 		$this->fetchMenuAddons();	
 	}
+	
 	
 	
 	function fetchMenuAddons(){
@@ -161,13 +160,7 @@ class AppController extends Controller {
 				}
 				
 				
-				cache($cachePath, serialize($hookFiles));
-				/*
-				uses('Folder');
-				$Folder =& new Folder(APP.'plugins');
-				$hookFiles = $Folder->findRecursive($type.'.php');
-				cache($cachePath, serialize($hookFiles));
-				*/
+				cache($cachePath, serialize($hookFiles));				
 			}else{
 				$hookFiles = unserialize($hookFiles);
 			}
@@ -191,7 +184,6 @@ class AppController extends Controller {
 			}
 		}else{
 			//files are cached:
-			
 			foreach($hookPlugins as $plugin):
 				if(preg_match('/'.$pluginFilter.'/iUs', $plugin)){
 					$hookFunction = $plugin.$hook.'Hook';
@@ -348,16 +340,16 @@ class AppController extends Controller {
 				
 				}else{
 					//thumb + medium uploads didn't work
-					$error = 'Het genereren van de thumbnails lukt niet (waarschijnlijk een probleem met PHP safe-mode)';
+					$error = __('Het genereren van de thumbnails lukt niet (waarschijnlijk een probleem met PHP safe-mode)', true);
 				}
 			
 			}else{
 				// no upload
-				$error = 'Upload slaagt niet (waarschijnlijk een probleem met PHP safe-mode)';				
+				$error = __('Upload slaagt niet (waarschijnlijk een probleem met PHP safe-mode)', true);				
 			}
 		}else{
 			//no files
-			$error = 'Dit zijn geen geldige bestanden';
+			$error = __('Dit zijn geen geldige bestanden', true);
 		}
 		
 		$this->set('error', $error);
@@ -448,7 +440,6 @@ class AppController extends Controller {
 				$products[$i]['Product']['price'] = $product['Product']['price'];
 				$products[$i]['Product']['vat'] = $product['Product']['vat'];
 				$products[$i]['Product']['sendcost'] = $product['Product']['sendcost'];
-				$products[$i]['Product']['discount'] = $prod['OrdersProducts']['discount'];
 			
 				if($product['Product']['parent_id'] != '0'){
 					$parent = $this->Product->read(null, $product['Product']['parent_id']);
@@ -478,6 +469,7 @@ class AppController extends Controller {
 				$product = $this->Product->read(null, $prod['OrdersProducts']['product_id']);
 				$products[$i]['price'] = $product['Product']['price'];
 				$products[$i]['vat'] = $product['Product']['vat'];
+				$products[$i]['discount'] = $product['Product']['discount'];
 				$products[$i]['sendcost'] = $product['Product']['sendcost'];
 				
 				$i++;

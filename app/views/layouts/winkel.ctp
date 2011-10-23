@@ -12,7 +12,6 @@
  * @copyright		To Wonder Multimedia
  * @link			http://www.getthinkshop.com Thinkshop Project
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version			Thinkshop 2.2 - Hendrix
 
 */
 ?>
@@ -147,5 +146,7 @@
 	    <script src="<?php echo HOME; ?>/js/pngfix/dd_belatedpng.js"></script>
 	    <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
 	  <![endif]-->	
+	
+	<!-- This webshop is powered by Thinkshop version <?php echo VERSION?>, <?php echo VERSION_NAME?>. Created by To Wonder multimedia :: to-wonder.com -->
 </body>
 </html>

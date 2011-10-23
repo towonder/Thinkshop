@@ -1,5 +1,5 @@
 <div class="productform">
-<h2><img src="<?php echo HOME?>/img/icons/plugins.png"/>  Plugins</h2>
+<h2><img src="<?php echo HOME?>/img/icons/plugins.png"/>  <?php __('Plugins')?></h2>
 </div>
 
 <div class="tabs">
@@ -19,9 +19,9 @@
 	<?php endif; ?>
 	
 	<tr class="tablehead">
-		<td width="200px"><p>Naam</p></td>
-		<td width="100px"><p>Actief</p></td>
-		<td width="300px"><p>Acties</p></td>
+		<td width="200px"><p><?php __('Naam')?></p></td>
+		<td width="100px"><p><?php __('Actief')?></p></td>
+		<td width="300px"><p><?php __('Acties')?></p></td>
 	</tr>	
 	<tr class="altrow">
 		<td colspan="4">&nbsp;</td>
@@ -47,35 +47,35 @@
 		</td>
 		<td>
 			<?php if($plugin['Plugin']['active'] == 0):?>
-				Inactief
+				<?php __('Inactief')?>
 			<?php else: ?>
-				Actief.
+				<?php __('Actief')?>
 			<?php endif; ?>
 		</td>
 		<td>
 			<?php if($plugin['Plugin']['active'] == 0):?>
 				<div class="activate">
 					<a href="<?php echo HOME?>/admin/activateplugin/<?php echo $plugin['Plugin']['id']?>">
-						<small>Activeer</small>
+						<small><?php __('Activeer')?></small>
 					</a>
 				</div>
 			<?php else: ?>
 				<div class="deactivate">
 					<a href="<?php echo HOME?>/admin/deactivateplugin/<?php echo $plugin['Plugin']['id']?>">
-						<small>De-Activeer</small>
+						<small><?php __('De-Activeer')?></small>
 					</a>
 				</div>
 			<?php endif; ?>
 
 			<div class="settings">
 				<a href="<?php echo HOME .'/'. $plugin['Plugin']['settingspath']?>">
-					<small>Instellingen</small>
+					<small><?php __('Instellingen')?></small>
 				</a>
 			</div>
 
 			<div class="delete" style="margin-left:15px">
 				<a href="<?php echo HOME?>/admin/deleteplugin/<?php echo $plugin['Plugin']['id']?>">
-					<small>Verwijder</small>
+					<small><?php __('Verwijder')?></small>
 				</a>
 			</div>
 		</td>

@@ -22,35 +22,35 @@
 </script>
 
 <div class="productform">
-<h2><img src="<?php echo HOME?>/img/icons/products.png"/> Producten	<a href="<?php echo HOME?>/admin/addproduct/"class="pill add button"><span class="icon plus"></span>Nieuw product</a></h2>
+<h2><img src="<?php echo HOME?>/img/icons/products.png"/> <?php __('Producten')?>	<a href="<?php echo HOME?>/admin/addproduct/"class="pill add button"><span class="icon plus"></span><?php __('Nieuw product')?></a></h2>
 </div>
 
 <table cellpadding="0" cellspacing="0" class="productstable" style="margin-bottom:0px">
 	<tr class="tablehead">
 		<td width="200px"><h3><?php echo $category['Category']['name']?></h3></td>
 		<?php if(count($categories) > 5):?>
-		<td style="text-align:right"><small><p>Selecteer categorie:</p></small></td>
-		<td width="250">
+		<td style="text-align:right"><small><p><?php __('Selecteer categorie')?>:</p></small></td>
+		<td width="200px">
 		<?php else: ?>
 		<td style="text-align:right;padding-right:20px" colspan="2">	
 		<?php endif; ?>
 			
 			<form name="selectCat" action="<?php echo HOME?>/admin/products/" method="post" id="EditForm">
-				<select name="data[cat_id]">
+				<small><?php __('Categorie:')?></small>
+				<select name="data[cat_id]" id="CatSelector">
 					<?php foreach($categories as $cat):?>
 						<option value="<?php echo $cat['Category']['id']?>" <?php if($cat['Category']['id'] == $category['Category']['id']){ echo 'selected'; }?>>
 							<?php echo $cat['Category']['name']?>
 						</option>
 					<?php endforeach?>
 				</select>
-				<a href="#" class="pill button" onClick="submitForm()">Selecteer</a>
 			</form>
 		</td>	
 	</tr>
 	<tr>
 		<th width="130px"></th>
-		<th>Productnaam:</th>
-		<th width="200px">Acties:</th>
+		<th><?php __('Productnaam')?>:</th>
+		<th width="250px"><?php __('Acties')?>:</th>
 	</tr>
 	<tr class="altrow">
 		<td colspan="3">&nbsp;</td>
@@ -83,15 +83,15 @@
 			<?php endif;?>
 				</td>
 		
-		<?php if($product['Product']['hidden'] == 1):?>
-			<td style="text-align:left;"><?php echo $product['Product']['name']?> <small><b> - Concept</b></small></td>
+		<?php if($product['Product']['concept'] == 1):?>
+			<td style="text-align:left;"><?php echo $product['Product']['name']?> <small><b> - <?php __('Concept')?></b></small></td>
 		<?php else: ?>
 			<td style="text-align:left;"><?php echo $product['Product']['name']?></td>
 		<?php endif;?>
 				<td width="250px">
-				<div class="pin" title="Slepen om positie te veranderen"><small>Positie</small></div>
-				<div class="edit"><small><a href="<?php echo HOME?>/admin/editproduct/<?php echo $product['Product']['id']?>">Bewerk</a></small></div>
-				<div class="delete"><small><a href="<?php echo HOME?>/admin/deleteproduct/<?php echo $product['Product']['id']?>">Verwijder</a></small></div>
+				<div class="pin" title="Slepen om positie te veranderen"><small><?php __('Positie')?></small></div>
+				<div class="edit"><small><a href="<?php echo HOME?>/admin/editproduct/<?php echo $product['Product']['id']?>"><?php __('Bewerk')?></a></small></div>
+				<div class="delete"><small><a href="<?php echo HOME?>/admin/deleteproduct/<?php echo $product['Product']['id']?>/<?php echo $category['Category']['id']?>"><?php __('Verwijder')?></a></small></div>
 				</td>
 			</tr>
 		
@@ -105,7 +105,7 @@
 			<tr <?php echo $class?> id="child">
 				<td></td>
 				<td colspan="3" class="varianten">
-					Varianten:
+					<?php __('Varianten')?>:
 				</td>
 			</tr>		
 			<?php foreach($product['Children'] as $child):?>
@@ -115,8 +115,8 @@
 				<td class="variant"><?php echo $child['name']?></td>
 				<td>
 					<div class="menuspacer"></div>
-					<div class="edit"><small><a href="<?php echo HOME?>/admin/editproduct/<?php echo $child['id']?>">Bewerk</a></small></div>
-					<div class="delete"><small><a href="<?php echo HOME?>/admin/deleteproduct/<?php echo $child['id']?>">Verwijder</a></small></div>
+					<div class="edit"><small><a href="<?php echo HOME?>/admin/editproduct/<?php echo $child['id']?>"><?php __('Bewerk')?></a></small></div>
+					<div class="delete"><small><a href="<?php echo HOME?>/admin/deleteproduct/<?php echo $child['id']?>"><?php __('Verwijder')?></a></small></div>
 				</td>
 			</tr>
 			<?php endforeach?>
@@ -131,10 +131,10 @@
 	<?php else:?>
 	<table cellspacing="0" cellpadding="0">	
 	<tr class="altrow">
-		<td colspan="3" style="text-align:center; padding-top:10px; padding-top:10px">In deze categorie staan nog geen producten.</td>
+		<td colspan="3" style="text-align:center; padding-top:10px; padding-top:10px"><?php __('In deze categorie staan nog geen producten')?>.</td>
 	</tr>
 	<tr class="altrow">
-		<td colspan="3" style="text-align:center; padding-top:10px; padding-top:10px"><a href="<?php echo HOME?>/admin/addproduct/">Voeg nieuw product toe »</a></td>
+		<td colspan="3" style="text-align:center; padding-top:10px; padding-top:10px"><a href="<?php echo HOME?>/admin/addproduct/"><?php __('Voeg nieuw product toe')?> &raquo;</a></td>
 	</tr>
 	<tr class="altrow">
 		<td colspan="3" style="text-align:center; padding-top:10px; padding-top:10px">&nbsp;</td>

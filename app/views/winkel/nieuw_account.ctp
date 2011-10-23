@@ -98,7 +98,7 @@ function doSmartEmpty(id){
 	</tr>
 	<tr>
 		<td colspan="2" style="text-align:right;padding-right:20px">
-			<input type="submit" name="Aanmelden" value="Aanmelden">
+			<input type="submit" name="Aanmelden">
 		</td>
 	</tr>
 </table>
